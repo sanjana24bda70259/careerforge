@@ -1,0 +1,2 @@
+.practice-filters{display:flex;gap:10px;margin:-10px 0 16px}.practice-filters input,.practice-filters select{border:1px solid #d1d5db;border-radius:7px;background:#fff;color:#111827;padding:9px 10px;font-size:12px}.practice-filters input{flex:1;min-width:180px}.practice-filters select{width:116px}.filter-empty{color:#6b7280;font-size:12px;line-height:1.5;padding:8px}.difficulty.hard{color:#b91c1c}
+@media(max-width:560px){.practice-filters{flex-wrap:wrap}.practice-filters input{flex-basis:100%}.practice-filters select{flex:1}}
