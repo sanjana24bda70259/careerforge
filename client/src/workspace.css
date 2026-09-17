@@ -1,0 +1,97 @@
+.workspace-shell { --ws-ink: #202b27; --ws-muted: #727871; --ws-line: #e1e5dc; --ws-green: #244f41; min-height: 100vh; background: #f6f7f2; color: var(--ws-ink); }
+.workspace-shell a { color: inherit; }
+.workspace-shell :where(a, button, summary):focus-visible { outline: 3px solid #78a994; outline-offset: 4px; }
+.workspace-shell button:disabled { cursor: wait; opacity: .65; }
+.ws-skip { position: fixed; top: -70px; left: 20px; z-index: 50; padding: 12px 18px; background: white; border-radius: 8px; }
+.ws-skip:focus { top: 12px; }
+.ws-header { height: 84px; padding: 0 max(28px, calc((100vw - 1180px) / 2)); display: flex; align-items: center; gap: 40px; border-bottom: 1px solid var(--ws-line); background: #fafbf7; }
+.ws-brand { display: flex; align-items: center; font-size: 19px; font-weight: 700; letter-spacing: -.8px; white-space: nowrap; }
+.ws-brandmark { display: grid; place-items: center; height: 34px; width: 34px; margin-right: 10px; background: var(--ws-green); color: #e4f1ba; border-radius: 11px; }
+.ws-brand-dot { color: #7f9861; }
+.ws-breadcrumb { color: #868b82; font-size: 11px; }
+.ws-breadcrumb span { margin: 0 12px; color: #c3c8be; }
+.ws-breadcrumb b { color: #51594f; font-weight: 500; }
+.ws-account { position: relative; margin-left: auto; z-index: 30; }
+.ws-account summary { display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none; font-size: 12px; }
+.ws-account summary::-webkit-details-marker { display: none; }
+.ws-account summary > svg { width: 14px; }
+.ws-avatar { display: grid; place-items: center; height: 34px; width: 34px; border: 3px solid white; box-shadow: 0 0 0 1px #d9ded2; border-radius: 50%; background: #e7ecd9; color: #38533c; font-weight: 600; }
+.ws-account-menu { position: absolute; top: 48px; right: 0; width: 180px; padding: 7px; background: white; border: 1px solid var(--ws-line); box-shadow: 0 12px 38px #21372a16; border-radius: 13px; }
+.ws-account-menu a, .ws-account-menu button { display: block; padding: 11px 13px; width: 100%; text-align: left; border: 0; border-radius: 7px; background: transparent; font-size: 12px; color: var(--ws-ink); }
+.ws-account-menu a:hover, .ws-account-menu button:hover { background: #f1f4ec; }
+.workspace-shell .ws-main { width: min(1236px, 100%); padding: 46px 28px 150px; margin: auto; outline: none; }
+.ws-welcome { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-bottom: 35px; }
+.ws-eyebrow { display: block; font-size: 9px; font-weight: 600; letter-spacing: .16em; color: #7e8876; }
+.ws-welcome h1 { margin: 12px 0 10px; font-size: clamp(27px, 3.3vw, 39px); font-weight: 500; letter-spacing: -1.6px; line-height: 1.2; }
+.ws-welcome h1 > span { color: #729363; }
+.ws-welcome p { font-size: 12px; color: var(--ws-muted); margin: 0; line-height: 1.8; }
+.ws-date { color: #626d60; font-size: 10px; padding: 10px 14px; border: 1px solid var(--ws-line); border-radius: 30px; white-space: nowrap; }
+.ws-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); background: #ffffffa8; border: 1px solid var(--ws-line); border-radius: 17px; margin-bottom: 25px; overflow: hidden; }
+.ws-stat { display: flex; align-items: center; gap: 17px; min-height: 124px; padding: 23px 28px; position: relative; transition: background .18s; }
+.ws-stat:hover { background: #eef3e8; }
+.ws-stat + .ws-stat:before { content: ''; position: absolute; left: 0; top: 27px; bottom: 27px; width: 1px; background: var(--ws-line); }
+.ws-stat-icon { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 13px; background: #edf1e8; color: #627b57; flex-shrink: 0; }
+.ws-stat > div { display: grid; gap: 5px; }
+.ws-stat > div > span { font-size: 11px; color: #767d73; }
+.ws-stat strong { font-size: 31px; font-weight: 500; line-height: 1.1; letter-spacing: -1px; font-variant-numeric: tabular-nums; }
+.ws-stat small { font-size: 9px; color: #838a7c; }
+.ws-stat > svg { margin-left: auto; width: 14px; color: #909c86; }
+.ws-focus-grid { display: grid; grid-template-columns: 1.23fr 1fr; gap: 24px; }
+.ws-focus { position: relative; isolation: isolate; overflow: hidden; border-radius: 20px; padding: 30px 35px 22px; background: #203f34; color: #fcfff7; min-height: 348px; }
+.ws-focus-top { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1; }
+.ws-focus-top > svg { color: #c5dca1; width: 23px; height: 23px; }
+.ws-focus-label { color: #d3e4bb; display: flex; align-items: center; gap: 9px; font-size: 9px; font-weight: 500; letter-spacing: .14em; }
+.ws-focus-label > span { background: #d2e8a8; border-radius: 50%; width: 5px; height: 5px; box-shadow: 0 0 0 4px #d2e8a812; }
+.ws-focus h2 { font-size: clamp(30px, 3.3vw, 43px); font-weight: 500; letter-spacing: -1.8px; line-height: 1.15; margin: 23px 0 15px; position: relative; z-index: 1; }
+.ws-focus > p { color: #b6c7bc; font-size: 12px; line-height: 1.8; margin: 0 0 24px; position: relative; z-index: 1; }
+.workspace-shell .ws-primary { display: inline-flex; gap: 25px; align-items: center; color: #213b2c; background: #d9ebb7; padding: 13px 18px; border-radius: 9px; font-size: 12px; font-weight: 600; position: relative; z-index: 1; transition: background .2s, transform .2s; }
+.ws-primary:hover { background: #eaf9cf; transform: translateY(-2px); }
+.ws-primary svg { width: 17px; }
+.ws-focus-bottom { display: flex; justify-content: space-between; gap: 20px; font-size: 9px; color: #a2b6a5; border-top: 1px solid #ffffff17; padding-top: 16px; margin-top: 29px; position: relative; z-index: 1; }
+.ws-orbits { width: 260px; height: 260px; position: absolute; right: -90px; top: 58px; transform: rotate(-23deg); opacity: .6; z-index: 0; }
+.ws-orbits i { position: absolute; inset: 0; border: 1px solid #b8d19a25; border-radius: 50%; }
+.ws-orbits i:nth-child(2) { inset: 30px; }
+.ws-orbits i:nth-child(3) { inset: 60px; }
+.ws-orbits i:nth-child(4) { inset: 90px; background: #b8d19a0a; }
+.ws-shortcuts { padding: 27px 26px 15px; background: #fffefa; border: 1px solid var(--ws-line); border-radius: 20px; }
+.ws-card-heading h2 { font-size: 21px; font-weight: 500; letter-spacing: -.6px; margin: 9px 0 17px; }
+.ws-shortcut { display: flex; align-items: center; gap: 13px; padding: 18px 0; border-bottom: 1px solid #edf0e7; }
+.ws-shortcut-icon { width: 37px; height: 37px; border-radius: 10px; display: grid; place-items: center; background: #f3f4ee; color: #657653; flex-shrink: 0; }
+.ws-shortcut b { font-size: 12px; font-weight: 500; }
+.ws-shortcut small { display: block; margin-top: 5px; font-size: 10px; color: #82877c; line-height: 1.5; }
+.ws-shortcut > svg { margin-left: auto; width: 15px; color: #7a8671; flex-shrink: 0; transition: transform .2s; }
+.ws-shortcut:hover > svg { transform: translateX(4px); }
+.ws-shortcut:hover b { color: #50773c; }
+.ws-daily { display: flex; justify-content: space-between; gap: 10px; align-items: center; padding: 18px 0 3px; font-size: 11px; color: #536944 !important; }
+.ws-daily span { display: flex; align-items: center; gap: 10px; }
+.ws-daily svg { width: 16px; }
+.ws-home-footer { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-top: 23px; font-size: 10px; color: #8b9186; }
+.ws-home-footer > span, .ws-home-footer a { display: inline-flex; align-items: center; gap: 8px; }
+.ws-home-footer a:hover { color: #345a41; }
+.ws-home-footer svg { width: 14px; }
+.ws-footer-dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: #95a480; }
+.ws-dock-wrap { position: fixed; z-index: 20; bottom: max(22px, env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); width: max-content; max-width: calc(100% - 24px); }
+.ws-dock { display: flex; align-items: center; gap: 5px; padding: 8px; border: 1px solid #ffffff; border-radius: 20px; background: #fffffff0; backdrop-filter: blur(20px); box-shadow: 0 8px 36px #263b261a, 0 0 0 1px #dce1d580; }
+.ws-dock-item { border: 0; border-radius: 12px; background: transparent; color: #7b8373 !important; display: flex; flex-direction: column; gap: 7px; align-items: center; justify-content: center; width: 73px; height: 59px; font-size: 9px; font-weight: 500; transition: color .15s, background .15s; }
+.ws-dock-item:hover { background: #f1f5eb; color: #234e37 !important; }
+.ws-dock-item.active, .ws-dock-item.is-open { background: #e9efdF; color: #355535 !important; }
+.ws-dock-item svg { width: 19px; height: 19px; }
+.ws-dock-divider { height: 26px; width: 1px; background: #e7ebdf; margin: 0 3px; }
+.ws-dock-help { color: #6a8254 !important; }
+.ws-launcher { position: absolute; width: 360px; max-width: calc(100vw - 28px); bottom: calc(100% + 14px); left: 50%; transform: translateX(-50%); border-radius: 19px; padding: 21px 16px 12px; background: #fffffc; border: 1px solid var(--ws-line); box-shadow: 0 16px 60px #1f362c26; max-height: calc(100dvh - 135px); overflow-y: auto; }
+.ws-launcher-head { display: flex; justify-content: space-between; align-items: center; padding: 0 9px 13px; border-bottom: 1px solid #edf0e7; margin-bottom: 7px; }
+.ws-launcher-head h2 { margin: 5px 0 0; font-size: 20px; font-weight: 500; }
+.ws-launcher-head button { border: 0; background: #f3f5ed; color: #6e7c63; border-radius: 50%; width: 30px; height: 30px; display: grid; place-items: center; }
+.ws-launcher-head button svg { width: 15px; }
+.ws-tool { display: flex; gap: 12px; align-items: center; padding: 13px 9px; border-radius: 10px; }
+.ws-tool:hover, .ws-tool.active { background: #f0f4e9; }
+.ws-tool-icon { display: grid; place-items: center; width: 33px; height: 33px; color: #788969; }
+.ws-tool b { font-size: 12px; font-weight: 600; }
+.ws-tool small { display: block; font-size: 10px; color: #89917f; margin-top: 5px; }
+.ws-tool > svg { width: 14px; margin-left: auto; color: #91a080; }
+.ws-error { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; margin-bottom: 20px; border-radius: 10px; border: 1px solid #eacbb3; background: #fff8ef; font-size: 12px; line-height: 1.6; color: #87522d; }
+.ws-error button { background: none; border: 1px solid #d7b494; border-radius: 6px; padding: 6px 10px; white-space: nowrap; color: inherit; }
+@media (min-width: 1500px) { .workspace-shell .ws-home { padding-top: 60px; } .ws-focus { min-height: 380px; } }
+@media (max-width: 900px) { .ws-header { gap: 24px; } .ws-breadcrumb { display: none; } .ws-stat { padding: 20px 17px; gap: 12px; } .ws-stat-icon { width: 32px; height: 32px; } .ws-stat > svg { display: none; } .ws-focus-grid { gap: 18px; grid-template-columns: 1fr 1fr; } .ws-focus { padding: 25px; } .ws-shortcuts { padding: 24px 20px 15px; } .ws-shortcut { gap: 10px; } .ws-shortcut small { max-width: 170px; } }
+@media (max-width: 650px) { .ws-header { height: 70px; padding: 0 22px; } .ws-brand { font-size: 17px; } .ws-account-name { display: none; } .workspace-shell .ws-main { padding: 30px 20px 140px; } .ws-welcome { margin-bottom: 24px; align-items: flex-start; } .ws-welcome h1 { font-size: 30px; } .ws-date { display: none; } .ws-welcome p { max-width: 300px; } .ws-stat { padding: 18px 13px; min-height: 124px; align-items: flex-start; } .ws-stat-icon { display: none; } .ws-stat > div > span { font-size: 10px; line-height: 1.6; min-height: 30px; } .ws-stat strong { font-size: 25px; } .ws-stat small { font-size: 8px; line-height: 1.5; } .ws-focus-grid { grid-template-columns: 1fr; } .ws-focus h2 { font-size: 36px; } .ws-focus { min-height: 350px; padding: 28px; } .ws-shortcut small { max-width: none; } .ws-home-footer { align-items: flex-start; font-size: 9px; flex-wrap: wrap; gap: 14px; } .ws-dock { padding: 6px; gap: 2px; border-radius: 17px; } .ws-dock-item { width: clamp(42px, 12vw, 64px); height: 55px; font-size: 8px; gap: 6px; } .ws-dock-divider { margin: 0 2px; } .ws-dock-item svg { width: 18px; height: 18px; } .ws-error { align-items: flex-start; } }
+@media (prefers-reduced-motion: reduce) { .workspace-shell *, .workspace-shell *::before { transition: none !important; scroll-behavior: auto !important; } }
