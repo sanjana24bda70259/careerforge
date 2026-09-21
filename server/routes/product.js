@@ -59,7 +59,7 @@ router.get('/analytics', async (req, res, next) => {
       CareerRecord.countDocuments({ userId: req.user.id, type: 'interview' }),
       CareerRecord.countDocuments({ userId: req.user.id, type: 'mock_attempt' })
     ]);
-    res.json({ success: true, data: { dsa: { solved, attempted, accuracy: attempted ? Math.round((solved / attempted) * 100) : 0 }, jobs: jobRecords, interviews, mockTests: mocks }, message: 'Analytics retrieved successfully.' });
+    res.json({ success: true, data: { dsa: { solved, attempted, accuracy: null, accuracyNote: 'DSA completion is not treated as a scored accuracy value.' }, jobs: jobRecords, interviews, mockTests: mocks }, message: 'Analytics retrieved successfully.' });
   } catch (error) { next(error); }
 });
 router.get('/companies', (_, res) => res.json({ success: true, data: { companies }, message: 'Companies retrieved successfully.' }));

@@ -16,6 +16,8 @@ import questsRoutes from './routes/quests.js';
 import careerRoutes from './routes/career.js';
 import learningRoutes from './routes/learning.js';
 import aiRoutes from './routes/ai.js';
+import skillsRoutes from './routes/skills.js';
+import placementRoutes from './routes/placement.js';
 import adminRoutes from './routes/admin.js';
 import productRoutes from './routes/product.js';
 
@@ -25,6 +27,11 @@ app.use(helmet());
 app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:5173' }));
 app.use(express.json({ limit: '100kb' }));
 app.use('/api', rateLimit({ windowMs: 15 * 60 * 1000, max: 250, standardHeaders: true, legacyHeaders: false }));
+app.get('/', (_, res) => res.json({
+  success: true,
+  data: { service: 'CareerForge API', apiHealth: '/api/health', frontend: process.env.CLIENT_URL || 'http://localhost:5173' },
+  message: 'CareerForge API is running. Open the frontend URL to use the application.'
+}));
 app.get('/api/health', (_, res) => res.status(app.locals.databaseReady ? 200 : 503).json({
   success: app.locals.databaseReady,
   data: { status: app.locals.databaseReady ? 'ok' : 'degraded' },
@@ -40,6 +47,8 @@ app.use('/api/quests', requireDatabase, requireAuth, questsRoutes);
 app.use('/api/career', requireDatabase, requireAuth, careerRoutes);
 app.use('/api/learning', requireDatabase, requireAuth, learningRoutes);
 app.use('/api/ai', requireDatabase, requireAuth, aiRoutes);
+app.use('/api/skills', requireDatabase, requireAuth, skillsRoutes);
+app.use('/api/placement', requireDatabase, requireAuth, placementRoutes);
 app.use('/api/admin', requireDatabase, requireAuth, adminRoutes);
 app.use('/api', requireDatabase, requireAuth, productRoutes);
 app.use('/api', (_, res) => res.status(404).json({ success: false, error: 'Route not found', message: 'The requested API route does not exist.' }));

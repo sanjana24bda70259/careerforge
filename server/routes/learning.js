@@ -6,6 +6,7 @@ import { FormulaBookmark } from '../models/FormulaBookmark.js';
 import { aptitudeCategories, aptitudeQuestions, aptitudeTopics, formulaCatalog } from '../services/aptitudeCatalog.js';
 import { advancedCategories, advancedMocks, advancedQuestionById, advancedTopics, questionsForAdvancedTopic, questionsForDailyChallenge, questionsForMock } from '../services/advancedAptitudeCatalog.js';
 import { companies, csTopics } from '../services/learningCatalog.js';
+import { recordSkillEvidence, scheduleRevision } from '../services/skillGraphService.js';
 
 const router = Router();
 const foundationTopic = id => aptitudeTopics.find(topic => topic.id === id);
@@ -145,6 +146,29 @@ router.post('/aptitude/attempt', async (req, res, next) => {
     if (!topic || !questions || !Array.isArray(req.body.answers)) return res.status(400).json({ success: false, error: 'Invalid attempt', message: 'Submit answers for an available aptitude assessment.' });
     const scoring = scoreAttempt(questions, req.body.answers); const submittedAt = new Date();
     const attempt = await AptitudeAttempt.create({ userId: req.user.id, track, testType, topicId, category: track === 'advanced' && testType === 'topic' ? topic.group : null, mode: req.body.mode === 'timed' ? 'timed' : 'practice', questionIds: questions.map(question => question.id), ...scoring, startedAt: req.body.startedAt && !Number.isNaN(Date.parse(req.body.startedAt)) ? new Date(req.body.startedAt) : null, submittedAt, timeTakenSeconds: safeDuration(req.body.timeTakenSeconds) });
+    const answersByQuestion = new Map(scoring.answers.map(answer => [answer.questionId, answer]));
+    const topicLabel = topic.name || topicId;
+    await recordSkillEvidence({
+      userId: req.user.id, skillId: `aptitude:${topicId}`, label: topicLabel, domain: 'aptitude',
+      attempted: scoring.attempted, correct: scoring.correct, incorrect: scoring.incorrect, timeTakenSeconds: attempt.timeTakenSeconds || 0
+    });
+    const evidenceTasks = [];
+    for (const question of questions) {
+      const submitted = answersByQuestion.get(question.id);
+      if (!Number.isInteger(submitted?.answer)) continue;
+      const correct = submitted.answer === question.correctAnswer;
+      const focusId = question.formulaIds?.[0] || question.formulaId || topicId;
+      const focusLabel = question.tags?.[0] || question.formulaIds?.[0] || question.formulaId || topicLabel;
+      evidenceTasks.push(recordSkillEvidence({
+        userId: req.user.id, skillId: `aptitude:${focusId}`, label: focusLabel, domain: 'aptitude',
+        attempted: 1, correct: correct ? 1 : 0, incorrect: correct ? 0 : 1, timeTakenSeconds: submitted.timeTakenSeconds || 0
+      }));
+      if (!correct) evidenceTasks.push(scheduleRevision({
+        userId: req.user.id, skillId: `aptitude:${focusId}`, label: focusLabel, domain: 'aptitude', sourceType: 'aptitude_question', sourceId: question.id,
+        prompt: question.question || question.text || `Review ${focusLabel} before retrying this aptitude question.`, dueInDays: 1
+      }));
+    }
+    await Promise.all(evidenceTasks);
     res.status(201).json({ success: true, data: { attempt: attemptResponse(attempt, topic, questions) }, message: 'Aptitude attempt submitted and scored successfully.' });
   } catch (error) { next(error); }
 });

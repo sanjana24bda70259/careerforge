@@ -2,10 +2,12 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { api } from '../services/api.js';
 import '../workspace.css';
+import '../workspaceRefresh.css';
+import '../workspaceSolid.css';
 
 const groups = [
   { name: 'Learn', icon: 'book', items: [['DSA roadmap', '/dsa', 'Build your coding foundations'], ['Aptitude', '/aptitude', 'Sharpen your problem solving'], ['CS fundamentals', '/cs', 'Review the core concepts']] },
-  { name: 'Practice', icon: 'code', items: [['Daily challenge', '/daily-challenge', 'Your daily preparation plan'], ['Problems', '/problems', 'Put your coding skills to work'], ['Mock tests', '/mock-tests', 'Prepare for the real assessment']] },
+  { name: 'Practice', icon: 'code', items: [['Daily challenge', '/daily-challenge', 'Your daily preparation plan'], ['Problems', '/problems', 'Put your coding skills to work'], ['Mock tests', '/mock-tests', 'Prepare for the real assessment'], ['Placement route', '/placement', 'Track real placement evidence']] },
   { name: 'Career', icon: 'case', items: [['Resume', '/resume', 'Tell your story clearly'], ['Projects', '/projects', 'Show what you can build'], ['Jobs', '/jobs', 'Keep your opportunities in one place'], ['Interviews', '/interviews', 'Practise your answers']] },
   { name: 'Progress', icon: 'chart', items: [['Pending work', '/backlogs', 'Pick up what needs attention'], ['Analytics', '/analytics', 'See your preparation progress'], ['Weekly review', '/weekly-review', 'Reflect and plan your next steps']] }
 ];
@@ -86,6 +88,40 @@ export function WorkspaceLayout({ user, children }) {
   </div>;
 }
 
+function DashboardProgress() {
+  const [overview, setOverview] = useState(null);
+  const [revisions, setRevisions] = useState([]);
+  const [error, setError] = useState('');
+  const [working, setWorking] = useState('');
+  const [loading, setLoading] = useState(true);
+  const load = async () => {
+    setError('');
+    try {
+      const [skillData, revisionData] = await Promise.all([api.skillGraph(), api.dueSkillRevisions()]);
+      setOverview(skillData); setRevisions(revisionData.revisions);
+    } catch (err) { setError(err.message); }
+    finally { setLoading(false); }
+  };
+  useEffect(() => { void load(); }, []);
+  const complete = async (revision, recalled) => {
+    setWorking(`${revision._id}:${recalled}`);
+    try { await api.completeRevision(revision._id, recalled); await load(); }
+    catch (err) { setError(err.message); }
+    finally { setWorking(''); }
+  };
+  const skills = (overview?.skills || []).filter(skill => skill.evidenceCount > 0 || skill.status === 'needs_revision').slice(0, 6);
+  const assessed = (overview?.skills || []).filter(skill => skill.graded > 0).length;
+  return <section className="ws-progress-home" aria-label="Your progress and next actions">
+    <div className="ws-progress-heading"><div><span className="ws-eyebrow">YOUR PROGRESS</span><h2>Evidence, not a made-up score.</h2><p>See what your real practice says, then take one useful next step.</p></div><div className="ws-progress-counts"><span><b>{loading ? '—' : assessed}</b> assessed skills</span><span><b>{loading ? '—' : overview?.dueRevisionCount || 0}</b> due revisions</span></div></div>
+    {error && <div className="ws-progress-error">Couldn’t load progress: {error}</div>}
+    <div className="ws-progress-grid">
+      <section className="ws-progress-card ws-progress-actions"><span className="ws-eyebrow">NEXT BEST ACTIONS</span><h3>Keep the loop moving</h3>{loading ? <p className="ws-progress-loading">Loading your recorded practice…</p> : (overview?.nextActions || []).map(action => <Link to={action.href} key={`${action.kind}-${action.title}`}><span>{action.kind === 'revision' ? '↻' : '→'}</span><div><b>{action.title}</b><small>{action.detail}</small></div></Link>)}</section>
+      <section className="ws-progress-card ws-progress-map"><div className="ws-progress-card-head"><div><span className="ws-eyebrow">SKILL MAP</span><h3>Recorded signals</h3></div><Link to="/skills">View all</Link></div>{loading ? <p className="ws-progress-loading">Loading your recorded practice…</p> : skills.length ? skills.map(skill => <article key={skill.skillId}><div><b>{skill.label}</b><small>{skill.domain.toUpperCase()} · {skill.graded ? `${skill.graded} graded · ${skill.accuracy}% accuracy` : skill.completed ? `${skill.completed} completion${skill.completed === 1 ? '' : 's'} recorded` : `${skill.interviewResponses || 0} saved response${skill.interviewResponses === 1 ? '' : 's'}`}</small></div><span className={`ws-progress-status ${skill.status}`}>{skill.status === 'needs_revision' ? 'Needs revision' : skill.status === 'supported' ? 'Supported' : 'Building evidence'}</span></article>) : <div className="ws-progress-empty"><b>No evidence yet</b><p>Complete a scored aptitude set or record a DSA problem. Real signals will show here.</p><Link to="/aptitude">Start practice →</Link></div>}</section>
+    </div>
+    {revisions.length > 0 && <section className="ws-progress-card ws-revisions"><div className="ws-progress-card-head"><div><span className="ws-eyebrow">SMART REVISION</span><h3>Due now</h3></div><span>{revisions.length} due</span></div>{revisions.map(revision => <article key={revision._id}><div><b>{revision.label}</b><p>{revision.prompt || 'Revisit this concept before moving on.'}</p></div><div><button className="ws-revision-secondary" disabled={Boolean(working)} onClick={() => void complete(revision, false)}>{working === `${revision._id}:false` ? 'Saving…' : 'Need another pass'}</button><button className="ws-revision-primary" disabled={Boolean(working)} onClick={() => void complete(revision, true)}>{working === `${revision._id}:true` ? 'Saving…' : 'I recalled it'}</button></div></article>)}</section>}
+  </section>;
+}
+
 export function WorkspaceDashboard({ user }) {
   const [data, setData] = useState(null);
   const [error, setError] = useState('');
@@ -126,6 +162,7 @@ export function WorkspaceDashboard({ user }) {
       </section>
       <section className="ws-shortcuts"><div className="ws-card-heading"><span className="ws-eyebrow">KEEP IT SIMPLE</span><h2>Where to next?</h2></div>{shortcuts.map(([icon, title, description, path]) => <Link className="ws-shortcut" to={path} key={path}><span className="ws-shortcut-icon"><Icon name={icon} /></span><span><b>{title}</b><small>{description}</small></span><Icon name="arrow" /></Link>)}<Link to="/daily-challenge" className="ws-daily"><span><Icon name="spark" /> Explore today’s challenge</span><Icon name="arrow" /></Link></section>
     </div>
+    <DashboardProgress />
     <footer className="ws-home-footer"><span><span className="ws-footer-dot" /> Your pace. Your progress.</span><Link to="/weekly-review">Take a moment to reflect <Icon name="arrow" /></Link></footer>
   </WorkspaceLayout>;
 }

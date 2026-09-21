@@ -45,11 +45,18 @@ export const api = {
   },
   saveAttempt: (problemId, status, usedHint = false, submission = {}) => request(`/problems/${problemId}/attempt`, { method: 'POST', body: JSON.stringify({ status, usedHint, ...submission }) }),
   dueRevisions: () => request('/revisions/due'),
-  completeRevision: (revisionId) => request(`/revisions/${revisionId}/complete`, { method: 'POST' }),
+  completeRevision: (revisionId, recalled = true) => request(`/revisions/${revisionId}/complete`, { method: 'POST', body: JSON.stringify({ recalled }) }),
+  skillGraph: () => request('/skills/overview'),
+  skillActions: () => request('/skills/next-actions'),
+  dueSkillRevisions: () => request('/skills/revisions/due'),
+  placementOverview: () => request('/placement/overview'),
+  startPlacementSimulation: () => request('/placement/start', { method: 'POST' }),
   todayQuest: () => request('/quests/today'),
   updateQuestTask: (taskId, completed) => request(`/quests/today/tasks/${taskId}`, { method: 'PATCH', body: JSON.stringify({ completed }) })
   ,records: (type) => request(`/career/${type}`)
   ,createRecord: (type, data) => request(`/career/${type}`, { method: 'POST', body: JSON.stringify({ data }) })
+  ,updateRecord: (type, recordId, data) => request(`/career/${encodeURIComponent(type)}/${encodeURIComponent(recordId)}`, { method: 'PATCH', body: JSON.stringify({ data }) })
+  ,deleteRecord: (type, recordId) => request(`/career/${encodeURIComponent(type)}/${encodeURIComponent(recordId)}`, { method: 'DELETE' })
   ,aptitude: () => request('/learning/aptitude')
   ,aptitudeQuestions: (topic) => request(`/learning/aptitude/${encodeURIComponent(topic)}/questions`)
   ,saveAptitudeAttempt: (body) => request('/learning/aptitude/attempt', { method: 'POST', body: JSON.stringify(body) })
@@ -69,5 +76,6 @@ export const api = {
   ,csTopics: () => request('/learning/cs')
   ,companies: () => request('/learning/companies')
   ,backlogs: () => request('/backlogs')
-  ,coach: (message) => request('/ai/coach', { method: 'POST', body: JSON.stringify({ message }) })
+  ,coach: (payload) => request('/ai/coach', { method: 'POST', body: JSON.stringify(typeof payload === 'string' ? { message: payload } : payload) })
+  ,interview: (body) => request('/ai/interview', { method: 'POST', body: JSON.stringify(body) })
 };

@@ -3,6 +3,7 @@ import { DSAProgress } from '../models/DSAProgress.js';
 import { ProblemProgress } from '../models/ProblemProgress.js';
 import { dsaDiagnosticQuestions, dsaTopics, topicForSkill } from '../services/dsaCatalog.js';
 import { dsaPracticeCatalog, dsaPracticeProgressId, questionsForTopic } from '../services/dsaPracticeCatalog.js';
+import { recordSkillEvidence, scheduleRevision } from '../services/skillGraphService.js';
 
 const router = Router();
 const sendPracticeQuestions = async (req, res, next, topicId) => {
@@ -74,6 +75,13 @@ router.post('/topics/:topicId/questions/:questionId/solve', async (req, res, nex
       ProblemProgress.countDocuments({ userId: req.user.id, status: 'solved', problemId: { $in: questionsForTopic(topic.id).map(item => dsaPracticeProgressId(topic.id, item.id)) } }),
       Promise.resolve(questionsForTopic(topic.id).length)
     ]);
+    if (!alreadySolved) {
+      await recordSkillEvidence({ userId: req.user.id, skillId: `dsa:${topic.id}`, label: topic.name, domain: 'dsa', completed: 1 });
+      await scheduleRevision({
+        userId: req.user.id, skillId: `dsa:${topic.id}`, label: topic.name, domain: 'dsa', sourceType: 'dsa_problem', sourceId: problemId,
+        prompt: `Revisit ${question.title} and explain the ${question.tags?.join(', ') || topic.name} approach.`, dueInDays: 1
+      });
+    }
     res.json({ success: true, data: { progress, alreadySolved, solvedCount, questionCount }, message: alreadySolved ? 'This question was already marked as solved.' : 'Question marked as solved.' });
   } catch (error) { next(error); }
 });
@@ -92,6 +100,9 @@ router.post('/topics/:topicId/diagnostic', async (req, res, next) => {
     const score = Math.round((answers.filter(answer => questions.find(question => question.id === answer.questionId)?.answer === answer.answer).length / questions.length) * 100);
     const status = score >= 80 ? 'proficient' : score >= 60 ? 'needs_practice' : 'not_started';
     const progress = await DSAProgress.findOneAndUpdate({ userId: req.user.id, topicId: topic.id }, { status, mastery: score, diagnosticScore: score, lastPracticedAt: new Date() }, { upsert: true, new: true, setDefaultsOnInsert: true });
+    const correct = answers.filter(answer => questions.find(question => question.id === answer.questionId)?.answer === answer.answer).length;
+    const attempted = answers.filter(answer => questions.some(question => question.id === answer.questionId && Number.isInteger(answer.answer))).length;
+    await recordSkillEvidence({ userId: req.user.id, skillId: `dsa:${topic.id}`, label: topic.name, domain: 'dsa', attempted, correct, incorrect: Math.max(0, attempted - correct) });
     res.json({ success: true, data: { progress }, message: 'Diagnostic result saved successfully.' });
   } catch (error) { next(error); }
 });
