@@ -8,7 +8,7 @@ import { evidenceSummary } from '../services/skillGraphService.js';
 
 const roundDefinitions = [
   { id: 'aptitude', title: 'Round 1 — Aptitude', href: '/learning/aptitude/advanced/mocks', empty: 'Complete a timed aptitude mock to record assessment evidence.' },
-  { id: 'coding', title: 'Round 2 — Coding OA', href: '/problems', empty: 'Solve coding problems to build practice evidence. A scored OA is not inferred from completions.' },
+  { id: 'coding', title: 'Round 2 — Coding OA', href: '/dsa', empty: 'Solve CareerForge DSA problems to build practice evidence. A scored OA is not inferred from completions.' },
   { id: 'cs', title: 'Round 3 — CS Fundamentals', href: '/cs', empty: 'A scored CS assessment has not been recorded yet.' },
   { id: 'technical', title: 'Round 4 — Technical Interview', href: '/interviews', empty: 'Submit a technical interview answer to record this round.' },
   { id: 'hr', title: 'Round 5 — HR Interview', href: '/interviews', empty: 'Submit an HR interview answer to record this round.' }

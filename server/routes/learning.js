@@ -5,8 +5,11 @@ import { AptitudeQuestionBookmark } from '../models/AptitudeQuestionBookmark.js'
 import { FormulaBookmark } from '../models/FormulaBookmark.js';
 import { aptitudeCategories, aptitudeQuestions, aptitudeTopics, formulaCatalog } from '../services/aptitudeCatalog.js';
 import { advancedCategories, advancedMocks, advancedQuestionById, advancedTopics, questionsForAdvancedTopic, questionsForDailyChallenge, questionsForMock } from '../services/advancedAptitudeCatalog.js';
-import { companies, csTopics } from '../services/learningCatalog.js';
+import { companies } from '../services/learningCatalog.js';
 import { recordSkillEvidence, scheduleRevision } from '../services/skillGraphService.js';
+import { CsTopicProgress } from '../models/CsTopicProgress.js';
+import { CsQuizAttempt } from '../models/CsQuizAttempt.js';
+import { csFundamentals, csSubjectById, csTopicById, withoutQuizAnswers } from '../services/csFundamentalsCatalog.js';
 
 const router = Router();
 const foundationTopic = id => aptitudeTopics.find(topic => topic.id === id);
@@ -31,6 +34,13 @@ const questionSetForAttempt = ({ track, topicId, testType, assessmentId }) => {
   return questionsForAdvancedTopic(topicId);
 };
 const safeDuration = value => Number.isFinite(Number(value)) && Number(value) >= 0 && Number(value) <= 86400 ? Math.round(Number(value)) : null;
+const csProgressView = progress => ({
+  learned: Boolean(progress?.learnedAt), learnedAt: progress?.learnedAt || null,
+  revisedAt: progress?.revisedAt || null, revisionCount: progress?.revisionCount || 0,
+  quizAttempts: progress?.quizAttempts || 0,
+  quizAccuracy: progress?.quizTotal ? Math.round(progress.quizCorrect / progress.quizTotal * 100) : null,
+  lastQuizAt: progress?.lastQuizAt || null
+});
 const scoreAttempt = (questions, rawAnswers) => {
   const answersByQuestion = new Map((Array.isArray(rawAnswers) ? rawAnswers : []).filter(answer => typeof answer?.questionId === 'string').map(answer => [answer.questionId, Number.isInteger(answer.answer) && answer.answer >= 0 && answer.answer < 4 ? answer.answer : null]));
   const submitted = new Map((Array.isArray(rawAnswers) ? rawAnswers : []).filter(answer => typeof answer?.questionId === 'string').map(answer => [answer.questionId, safeDuration(answer.timeTakenSeconds)]));
@@ -182,7 +192,80 @@ router.get('/aptitude/attempts/:attemptId', async (req, res, next) => {
     res.json({ success: true, data: { attempt: attemptResponse(attempt, topic, questions), review }, message: 'Attempt review retrieved successfully.' });
   } catch (error) { next(error); }
 });
-router.get('/cs', (_, res) => res.json({ success: true, data: { topics: csTopics }, message: 'CS fundamentals retrieved successfully.' }));
+router.get('/cs', async (req, res, next) => {
+  try {
+    const progress = await CsTopicProgress.find({ userId: req.user.id }).lean();
+    const byKey = new Map(progress.map(item => [`${item.subjectId}:${item.topicId}`, item]));
+    const subjects = csFundamentals.map(subject => ({
+      id: subject.id, name: subject.name, description: subject.description, topicCount: subject.topics.length,
+      learnedCount: subject.topics.filter(item => byKey.get(`${subject.id}:${item.id}`)?.learnedAt).length,
+      quizAttempts: subject.topics.reduce((sum, item) => sum + (byKey.get(`${subject.id}:${item.id}`)?.quizAttempts || 0), 0),
+      topics: subject.topics.map(item => ({ id: item.id, title: item.title, progress: csProgressView(byKey.get(`${subject.id}:${item.id}`)) }))
+    }));
+    res.json({ success: true, data: { subjects }, message: 'CS Fundamentals retrieved successfully.' });
+  } catch (error) { next(error); }
+});
+
+router.get('/cs/:subjectId', async (req, res, next) => {
+  try {
+    const subject = csSubjectById(req.params.subjectId);
+    if (!subject) return res.status(404).json({ success: false, error: 'Subject not found', message: 'The requested CS Fundamentals subject does not exist.' });
+    const progress = await CsTopicProgress.find({ userId: req.user.id, subjectId: subject.id }).lean();
+    const byTopic = new Map(progress.map(item => [item.topicId, item]));
+    const safeSubject = withoutQuizAnswers(subject);
+    res.json({ success: true, data: { subject: { ...safeSubject, topics: safeSubject.topics.map(item => ({ ...item, progress: csProgressView(byTopic.get(item.id)) })) } }, message: `${subject.name} learning content retrieved successfully.` });
+  } catch (error) { next(error); }
+});
+
+router.post('/cs/:subjectId/topics/:topicId/learn', async (req, res, next) => {
+  try {
+    const subject = csSubjectById(req.params.subjectId); const topicItem = csTopicById(req.params.subjectId, req.params.topicId);
+    if (!subject || !topicItem) return res.status(404).json({ success: false, error: 'Topic not found', message: 'The requested CS Fundamentals topic does not exist.' });
+    let progress = await CsTopicProgress.findOne({ userId: req.user.id, subjectId: subject.id, topicId: topicItem.id });
+    const firstLearning = !progress?.learnedAt;
+    if (!progress) progress = new CsTopicProgress({ userId: req.user.id, subjectId: subject.id, topicId: topicItem.id });
+    progress.learnedAt = progress.learnedAt || new Date();
+    await progress.save();
+    if (firstLearning) await recordSkillEvidence({ userId: req.user.id, skillId: `cs:${subject.id}:${topicItem.id}`, label: `${subject.name}: ${topicItem.title}`, domain: 'cs', completed: 1 });
+    res.json({ success: true, data: { progress: csProgressView(progress) }, message: firstLearning ? 'Learning progress recorded.' : 'This topic is already marked learned.' });
+  } catch (error) { next(error); }
+});
+
+router.post('/cs/:subjectId/topics/:topicId/revised', async (req, res, next) => {
+  try {
+    const subject = csSubjectById(req.params.subjectId); const topicItem = csTopicById(req.params.subjectId, req.params.topicId);
+    if (!subject || !topicItem) return res.status(404).json({ success: false, error: 'Topic not found', message: 'The requested CS Fundamentals topic does not exist.' });
+    const progress = await CsTopicProgress.findOneAndUpdate(
+      { userId: req.user.id, subjectId: subject.id, topicId: topicItem.id },
+      { $set: { revisedAt: new Date() }, $inc: { revisionCount: 1 } },
+      { upsert: true, new: true, setDefaultsOnInsert: true }
+    );
+    await scheduleRevision({ userId: req.user.id, skillId: `cs:${subject.id}:${topicItem.id}`, label: `${subject.name}: ${topicItem.title}`, domain: 'cs', sourceType: 'cs_revision', sourceId: `${subject.id}:${topicItem.id}`, prompt: `Review ${topicItem.title} and explain its key tradeoffs.`, dueInDays: 7 });
+    res.json({ success: true, data: { progress: csProgressView(progress) }, message: 'Revision recorded. It does not change your quiz results.' });
+  } catch (error) { next(error); }
+});
+
+router.post('/cs/:subjectId/topics/:topicId/quiz', async (req, res, next) => {
+  try {
+    const subject = csSubjectById(req.params.subjectId); const topicItem = csTopicById(req.params.subjectId, req.params.topicId);
+    if (!subject || !topicItem || !Array.isArray(req.body?.answers)) return res.status(400).json({ success: false, error: 'Invalid quiz submission', message: 'Submit answers for an available CS Fundamentals topic.' });
+    const answersByQuestion = new Map(req.body.answers.filter(answer => typeof answer?.questionId === 'string').map(answer => [answer.questionId, Number.isInteger(answer.answer) ? answer.answer : null]));
+    const answers = topicItem.quiz.map(question => ({ questionId: question.id, answer: answersByQuestion.get(question.id) ?? null }));
+    const attempted = answers.filter(answer => Number.isInteger(answer.answer)).length;
+    const correct = answers.filter(answer => topicItem.quiz.find(question => question.id === answer.questionId)?.correctAnswer === answer.answer).length;
+    const incorrect = attempted - correct;
+    const quizAttempt = await CsQuizAttempt.create({ userId: req.user.id, subjectId: subject.id, topicId: topicItem.id, answers, attempted, correct, incorrect });
+    const progress = await CsTopicProgress.findOneAndUpdate(
+      { userId: req.user.id, subjectId: subject.id, topicId: topicItem.id },
+      { $set: { lastQuizAt: new Date() }, $inc: { quizAttempts: 1, quizCorrect: correct, quizTotal: attempted } },
+      { upsert: true, new: true, setDefaultsOnInsert: true }
+    );
+    await recordSkillEvidence({ userId: req.user.id, skillId: `cs:${subject.id}:${topicItem.id}`, label: `${subject.name}: ${topicItem.title}`, domain: 'cs', attempted, correct, incorrect });
+    if (incorrect) await scheduleRevision({ userId: req.user.id, skillId: `cs:${subject.id}:${topicItem.id}`, label: `${subject.name}: ${topicItem.title}`, domain: 'cs', sourceType: 'cs_quiz', sourceId: `${subject.id}:${topicItem.id}`, prompt: `Review the missed ${topicItem.title} quiz concepts before another attempt.`, dueInDays: 1 });
+    const review = topicItem.quiz.map(question => ({ id: question.id, prompt: question.prompt, options: question.options, selectedAnswer: answersByQuestion.get(question.id) ?? null, correctAnswer: question.correctAnswer, explanation: question.explanation }));
+    res.status(201).json({ success: true, data: { attempt: { id: String(quizAttempt._id), attempted, correct, incorrect, total: topicItem.quiz.length }, progress: csProgressView(progress), review }, message: 'CS quiz submitted and scored successfully.' });
+  } catch (error) { next(error); }
+});
 router.get('/companies', (_, res) => res.json({ success: true, data: { companies }, message: 'Companies retrieved successfully.' }));
 router.get('/resources', (_, res) => res.json({ success: true, data: { resources: [] }, message: 'Resources retrieved successfully. Add verified resources through the admin workflow.' }));
 export default router;

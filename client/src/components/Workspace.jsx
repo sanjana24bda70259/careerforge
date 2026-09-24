@@ -6,10 +6,10 @@ import '../workspaceRefresh.css';
 import '../workspaceSolid.css';
 
 const groups = [
-  { name: 'Learn', icon: 'book', items: [['DSA roadmap', '/dsa', 'Build your coding foundations'], ['Aptitude', '/aptitude', 'Sharpen your problem solving'], ['CS fundamentals', '/cs', 'Review the core concepts']] },
-  { name: 'Practice', icon: 'code', items: [['Daily challenge', '/daily-challenge', 'Your daily preparation plan'], ['Problems', '/problems', 'Put your coding skills to work'], ['Mock tests', '/mock-tests', 'Prepare for the real assessment'], ['Placement route', '/placement', 'Track real placement evidence']] },
-  { name: 'Career', icon: 'case', items: [['Resume', '/resume', 'Tell your story clearly'], ['Projects', '/projects', 'Show what you can build'], ['Jobs', '/jobs', 'Keep your opportunities in one place'], ['Interviews', '/interviews', 'Practise your answers']] },
-  { name: 'Progress', icon: 'chart', items: [['Pending work', '/backlogs', 'Pick up what needs attention'], ['Analytics', '/analytics', 'See your preparation progress'], ['Weekly review', '/weekly-review', 'Reflect and plan your next steps']] }
+  { name: 'Learn', icon: 'book', items: [['DSA', '/dsa', 'Roadmap, topics and CareerForge coding workspace'], ['Aptitude', '/aptitude', 'Quantitative, logical, verbal and DI practice'], ['CS Fundamentals', '/cs', 'Notes, revision and separate knowledge checks'], ['Cheatsheets', '/cheatsheets', 'Patterns, complexity and code templates']] },
+  { name: 'Practice', icon: 'code', items: [['Aptitude mock tests', '/mock-tests?type=aptitude', 'Timed original aptitude assessments'], ['DSA mock tests', '/mock-tests?type=dsa', 'Timed coding assessments when the secure judge is connected'], ['Placement mock tests', '/mock-tests?type=placement', 'Mixed preparation assessments'], ['Company-style assessments', '/mock-tests?type=company', 'Original formats without fictional company claims'], ['Interview prep', '/interviews', 'Practise structured answers and follow-up questions']] },
+  { name: 'Career', icon: 'case', items: [['Resume', '/resume', 'Tell your story clearly'], ['Projects', '/projects', 'Show what you can build'], ['Applications', '/jobs', 'Keep your opportunities in one place']] },
+  { name: 'Workspace', icon: 'chart', items: [['My day', '/dashboard', 'Today’s activity-based preparation plan'], ['Mistake Notebook', '/mistakes', 'Save and review real mistakes'], ['Revision', '/backlogs', 'Pick up what needs attention'], ['Bookmarks', '/bookmarks', 'Saved cheatsheets and revision material'], ['Analytics', '/analytics', 'See your preparation progress'], ['Weekly review', '/weekly-review', 'Reflect and plan your next steps']] }
 ];
 
 function Icon({ name, ...props }) {
@@ -33,6 +33,7 @@ function Icon({ name, ...props }) {
 
 function groupActive(name, pathname) {
   if (name === 'Learn' && pathname.startsWith('/learning/')) return true;
+  if (name === 'Practice' && pathname === '/mock-tests') return true;
   return groups.find(group => group.name === name)?.items.some(([, path]) => pathname === path || pathname.startsWith(path + '/'));
 }
 
@@ -43,7 +44,7 @@ export function WorkspaceLayout({ user, children }) {
   const accountRef = useRef(null);
   const selectedGroup = groups.find(group => group.name === openGroup);
   const isHome = pathname === '/dashboard';
-  const pageName = isHome ? 'Overview' : groups.flatMap(group => group.items).find(([, path]) => pathname === path)?.[0] || (pathname.startsWith('/learning/') ? 'Learning workspace' : pathname === '/help' ? 'AI Help' : 'Settings');
+  const pageName = isHome ? 'Overview' : groups.flatMap(group => group.items).find(([, path]) => pathname === path || pathname === path.split('?')[0])?.[0] || (pathname.startsWith('/learning/') ? 'Learning workspace' : pathname === '/help' ? 'AI Help' : 'Settings');
 
   useEffect(() => { setOpenGroup(null); if (accountRef.current) accountRef.current.open = false; }, [pathname]);
   useEffect(() => {
@@ -86,6 +87,19 @@ export function WorkspaceLayout({ user, children }) {
       </nav>
     </div>
   </div>;
+}
+
+function TodayPlan() {
+  const [plan, setPlan] = useState(null); const [loading, setLoading] = useState(true); const [error, setError] = useState(''); const [working, setWorking] = useState('');
+  const load = async () => { setLoading(true); setError(''); try { const data = await api.todayPlan(); setPlan(data.plan); } catch (err) { setError(err.message); } finally { setLoading(false); } };
+  useEffect(() => { void load(); }, []);
+  const update = async (taskId, action) => { setWorking(`${taskId}:${action}`); setError(''); try { const data = action === 'replace' ? await api.replaceTodayPlanTask(taskId) : action === 'reschedule' ? await api.rescheduleTodayPlanTask(taskId, window.prompt('Move this task to which date? Use YYYY-MM-DD.') || '') : await api.updateTodayPlanTask(taskId, action); setPlan(data.plan); } catch (err) { setError(err.message); } finally { setWorking(''); } };
+  const start = async () => { setWorking('start'); try { const data = await api.startTodayPlan(); setPlan(data.plan); } catch (err) { setError(err.message); } finally { setWorking(''); } };
+  return <section className="ws-today" aria-label="What should I do today">
+    <div className="ws-today-heading"><div><span className="ws-eyebrow">YOUR PLAN FOR TODAY</span><h2>What should I do today?</h2><p>{loading ? 'Building a plan from your saved preparation…' : plan ? `${plan.completedCount} / ${plan.totalCount} completed · ${plan.estimatedMinutes} min still planned` : 'A focused plan from your saved preparation activity.'}</p></div><button className="ws-today-start" disabled={working === 'start' || Boolean(plan?.startedAt)} onClick={() => void start()}>{working === 'start' ? 'Starting…' : plan?.startedAt ? 'Day started' : 'Start My Day'}</button></div>
+    {error && <div className="ws-today-error">{error}<button onClick={() => void load()}>Retry</button></div>}
+    {loading ? <div className="ws-today-loading">Loading activity-based tasks…</div> : plan?.tasks?.length ? <div className="ws-today-list">{plan.tasks.map(task => <article className={`ws-today-task ${task.status}`} key={task.id}><button className="ws-task-check" aria-label={task.status === 'completed' ? 'Restore task' : 'Complete task'} disabled={Boolean(working)} onClick={() => void update(task.id, task.status === 'completed' ? 'planned' : 'completed')}>{task.status === 'completed' ? '✓' : '○'}</button><Link to={task.href}><span>{task.domain.toUpperCase()}</span><b>{task.title}</b><small>{task.detail}</small></Link><div className="ws-task-meta"><b>{task.estimatedMinutes} min</b>{task.status === 'planned' && <details><summary aria-label="Task actions">•••</summary><div><button disabled={Boolean(working)} onClick={() => void update(task.id, 'skipped')}>Skip</button><button disabled={Boolean(working)} onClick={() => void update(task.id, 'reschedule')}>Reschedule</button><button disabled={Boolean(working)} onClick={() => void update(task.id, 'replace')}>Replace</button></div></details>}{task.status === 'skipped' && <button className="ws-task-restore" disabled={Boolean(working)} onClick={() => void update(task.id, 'planned')}>Restore</button>}{task.status === 'rescheduled' && <small>Moved to {task.rescheduledFor}</small>}</div></article>)}</div> : <div className="ws-today-loading">No recommendations could be generated yet. Start one learning activity and try again.</div>}
+  </section>;
 }
 
 function DashboardProgress() {
@@ -146,17 +160,19 @@ export function WorkspaceDashboard({ user }) {
   return <WorkspaceLayout user={user}>
     <div className="ws-welcome"><div><span className="ws-eyebrow">MAKE ROOM FOR PROGRESS</span><h1>{greeting}, {name}<span>.</span></h1><p>A clear mind. A small step. A little closer to your next chapter.</p></div><time className="ws-date" dateTime={new Date().toISOString()}>{new Date().toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })}</time></div>
     {error && <div className="ws-error" role="alert"><span>Couldn’t load your progress. {error}</span><button onClick={() => setReload(value => value + 1)}>Try again</button></div>}
+    <TodayPlan />
     <section className="ws-stats" aria-label="Your progress" aria-busy={loading}>
-      <Link to="/problems" className="ws-stat"><span className="ws-stat-icon"><Icon name="code" /></span><div><span>Problems solved</span><strong>{showStat(stats?.solved)}</strong></div><Icon name="arrow" /></Link>
+      <Link to="/dsa" className="ws-stat"><span className="ws-stat-icon"><Icon name="code" /></span><div><span>Problems solved</span><strong>{showStat(stats?.solved)}</strong></div><Icon name="arrow" /></Link>
       <Link to="/aptitude" className="ws-stat"><span className="ws-stat-icon"><Icon name="target" /></span><div><span>Aptitude accuracy</span><strong>{loading || error || stats?.aptitude?.accuracy == null ? '—' : `${stats.aptitude.accuracy}%`}</strong><small>{!loading && !error && stats?.aptitude?.accuracy == null ? 'Start a set to see your score' : !loading && !error ? `${stats?.aptitude?.attempted ?? 0} questions attempted` : loading ? 'Loading your progress' : 'Progress unavailable'}</small></div><Icon name="arrow" /></Link>
       <Link to="/mock-tests" className="ws-stat"><span className="ws-stat-icon"><Icon name="check" /></span><div><span>Mock tests completed</span><strong>{showStat(stats?.mockTests)}</strong></div><Icon name="arrow" /></Link>
+      <Link to="/cs" className="ws-stat"><span className="ws-stat-icon"><Icon name="book" /></span><div><span>CS topics learned</span><strong>{showStat(stats?.csTopicsLearned)}</strong><small>{!loading && !error && !stats?.csTopicsLearned ? 'Start with one core concept' : 'Recorded learning activity'}</small></div><Icon name="arrow" /></Link>
     </section>
     <div className="ws-focus-grid">
       <section className="ws-focus">
         <div className="ws-focus-top"><span className="ws-focus-label"><span /> YOUR NEXT MOVE</span><Icon name="spark" /></div>
         <h2>Big ambitions.<br />Small, daily steps.</h2>
         <p>You don’t have to do everything today.<br />Start with one problem. Make it count.</p>
-        <Link className="ws-primary" to="/problems">Start practising <Icon name="arrow" /></Link>
+        <Link className="ws-primary" to="/dsa">Start practising <Icon name="arrow" /></Link>
         <div className="ws-focus-bottom"><span>Consistency is your advantage.</span><span aria-hidden="true">01 — ∞</span></div>
         <div className="ws-orbits" aria-hidden="true"><i /><i /><i /><i /></div>
       </section>

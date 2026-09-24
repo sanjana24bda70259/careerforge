@@ -2,9 +2,10 @@ import { Router } from 'express';
 import { CareerRecord } from '../models/CareerRecord.js';
 import { ProblemProgress } from '../models/ProblemProgress.js';
 import { Revision } from '../models/Revision.js';
-import { dsaTopics } from '../services/dsaCatalog.js';
 import { companies } from '../services/learningCatalog.js';
-import { buildCoachReply } from '../services/coachService.js';
+import { buildCopilotReply, CopilotProviderError } from '../services/copilotService.js';
+import { getCopilotContext } from '../services/copilotContext.js';
+import { detectCopilotIntent } from '../services/copilotIntent.js';
 
 const router = Router();
 const mapping = {
@@ -66,10 +67,16 @@ router.get('/companies', (_, res) => res.json({ success: true, data: { companies
 router.get('/resources', (_, res) => res.json({ success: true, data: { resources: [] }, message: 'No verified resources have been added yet.' }));
 router.post('/ai/roadmap', async (req, res, next) => {
   try {
-    const solved = await ProblemProgress.countDocuments({ userId: req.user.id, status: 'solved' });
-    const nextTopics = dsaTopics.slice(Math.min(Math.floor(solved / 5), dsaTopics.length - 3), Math.min(Math.floor(solved / 5) + 3, dsaTopics.length)).map(topic => topic.name);
-    const reply = buildCoachReply({ message: req.body.message || 'What should I do next?', profile: req.user.profile, stats: { solved } });
-    res.json({ success: true, data: { ...reply, nextTopics, estimatedWeeks: Math.max(4, Math.ceil((dsaTopics.length * 6 - solved) / Math.max((req.user.profile.weeklyStudyHours || 8), 1))) }, message: 'Personalized roadmap generated successfully.' });
+    const message = typeof req.body?.message === 'string' && req.body.message.trim() ? req.body.message.trim() : `Roadmap for ${req.user.profile?.targetRole || 'Software Engineer'}`;
+    const intent = detectCopilotIntent({ message, history: [] });
+    const context = await getCopilotContext({ userId: req.user.id, profile: req.user.profile || {}, intent: intent === 'ROADMAP_REQUEST' ? intent : 'ROADMAP_REQUEST' });
+    try {
+      const reply = await buildCopilotReply({ message, intent: 'ROADMAP_REQUEST', context, history: [], profile: req.user.profile || {} });
+      res.json({ success: true, data: reply, message: 'Personalized roadmap generated successfully.' });
+    } catch (error) {
+      if (error instanceof CopilotProviderError) return res.status(503).json({ success: false, error: 'Copilot temporarily unavailable', message: 'CareerForge Copilot is temporarily unavailable. Please retry.', code: 'COPILOT_UNAVAILABLE', retryable: true });
+      throw error;
+    }
   } catch (error) { next(error); }
 });
 export default router;

@@ -2,9 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, Navigate, NavLink, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { api } from './services/api.js';
 import { WorkspaceLayout, WorkspaceDashboard } from './components/Workspace.jsx';
-import { AnalyticsPanel, CsFundamentalsPanel, InterviewsPanel, JobsPanel, ProjectsPanel, ResumePanel, SettingsPanel, WeeklyReviewPanel } from './components/CareerPanels.jsx';
+import { AnalyticsPanel, InterviewsPanel, JobsPanel, ProjectsPanel, ResumePanel, SettingsPanel, WeeklyReviewPanel } from './components/CareerPanels.jsx';
 import { AiHelpPanel } from './components/AiHelpPanel.jsx';
 import { PlacementSimulatorPanel, SkillGraphPanel } from './components/SkillGraphPanel.jsx';
+import { Cheatsheets, DsaDashboard, DsaProblemSolver, DsaTopic, PracticeHub } from './components/DsaLearning.jsx';
+import { CsFundamentalsPanel, CsSubjectPanel, MistakeNotebookPanel } from './components/PhaseOnePanels.jsx';
 import './dsaPractice.css';
 import './dsaPracticeFilters.css';
 import './aptitude.css';
@@ -227,10 +229,11 @@ function PlacementMocks({ user }) {
 }
 
 function AdvancedCollection({ user, type }) {
-  const navigate = useNavigate(); const [items, setItems] = useState([]); const [error, setError] = useState(''); const isMistakes = type === 'mistakes';
+  const navigate = useNavigate(); const [items, setItems] = useState([]); const [error, setError] = useState(''); const [savedMistakes, setSavedMistakes] = useState({}); const isMistakes = type === 'mistakes';
   const load = () => (isMistakes ? api.advancedMistakes() : api.advancedSavedQuestions()).then(data => setItems(isMistakes ? data.mistakes : data.questions)).catch(err => setError(err.message)); useEffect(() => { void load(); }, [isMistakes]);
   const title = isMistakes ? 'Mistake Book' : 'Saved Questions'; const empty = isMistakes ? 'No mistakes yet. Submit an Advanced Aptitude assessment to build your revision list.' : 'No saved questions yet. Save difficult Advanced questions to revisit them here.';
-  return <Layout user={user}><Link className="back-link" to="/learning/aptitude/advanced">← Back to Advanced Aptitude</Link><PageHeader title={title}>{isMistakes ? 'Incorrect answers are retained as useful history, even after a later retry.' : 'Questions you chose to revisit.'}</PageHeader>{error && <p className="api-error">{error}</p>}{!error && !items.length && <section className="empty-panel"><h2>{title} is empty</h2><p>{empty}</p><Button onClick={() => navigate('/learning/aptitude/advanced')}>Start Advanced Practice</Button></section>}<section className="collection-list">{items.map((question, index) => <article key={`${question.id}-${index}`}><span className="overline">{question.topic.replaceAll('-', ' ')} · Level {question.level}</span><h2>{question.question}</h2>{isMistakes && <><p>Your answer: {question.options[question.selectedAnswer]}</p><p>Correct answer: {question.options[question.correctAnswer]}</p><p><b>Solution:</b> {question.explanation}</p></>}<div><Button secondary onClick={() => navigate(`/learning/aptitude/advanced/${question.topic}`)}>Retry Question Set</Button>{question.formulaIds?.[0] && <Button secondary onClick={() => navigate(`/learning/aptitude/formulas?formula=${question.formulaIds[0]}`)}>Open Formula</Button>}</div></article>)}</section></Layout>;
+  const saveMistake = async question => { try { await api.createMistake({ source: 'aptitude', questionId: question.id, question: question.question, topic: question.topic.replaceAll('-', ' '), category: `Level ${question.level}`, userAnswer: question.selectedAnswer === null || question.selectedAnswer === undefined ? 'Unanswered' : question.options[question.selectedAnswer], correctAnswer: question.options[question.correctAnswer], reason: 'Concept Gap' }); setSavedMistakes(current => ({ ...current, [question.id]: true })); } catch (err) { setError(err.message); } };
+  return <Layout user={user}><Link className="back-link" to="/learning/aptitude/advanced">← Back to Advanced Aptitude</Link><PageHeader title={title}>{isMistakes ? 'Incorrect answers are retained as useful history, even after a later retry.' : 'Questions you chose to revisit.'}</PageHeader>{error && <p className="api-error">{error}</p>}{!error && !items.length && <section className="empty-panel"><h2>{title} is empty</h2><p>{empty}</p><Button onClick={() => navigate('/learning/aptitude/advanced')}>Start Advanced Practice</Button></section>}<section className="collection-list">{items.map((question, index) => <article key={`${question.id}-${index}`}><span className="overline">{question.topic.replaceAll('-', ' ')} · Level {question.level}</span><h2>{question.question}</h2>{isMistakes && <><p>Your answer: {question.options[question.selectedAnswer]}</p><p>Correct answer: {question.options[question.correctAnswer]}</p><p><b>Solution:</b> {question.explanation}</p></>}<div><Button secondary onClick={() => navigate(`/learning/aptitude/advanced/${question.topic}`)}>Retry Question Set</Button>{question.formulaIds?.[0] && <Button secondary onClick={() => navigate(`/learning/aptitude/formulas?formula=${question.formulaIds[0]}`)}>Open Formula</Button>}{isMistakes && <Button secondary disabled={savedMistakes[question.id]} onClick={() => void saveMistake(question)}>{savedMistakes[question.id] ? 'Saved to Notebook' : 'Add to Mistake Notebook'}</Button>}</div></article>)}</section></Layout>;
 }
 
 function FormulaCalculator({ formula }) {
@@ -270,9 +273,13 @@ export default function App() {
     <Route path="/register" element={<Auth mode="register" setUser={setUser} />} />
     <Route path="/onboarding" element={<Protected user={user}><Onboarding user={user} setUser={setUser} /></Protected>} />
     <Route path="/dashboard" element={secure(Dashboard)} />
-    <Route path="/dsa" element={secure(Dsa)} />
-    <Route path="/learning/dsa/:topic" element={secure(DsaPractice)} />
-    <Route path="/problems" element={secure(Problems)} />
+    <Route path="/dsa" element={secure(DsaDashboard)} />
+    <Route path="/learning/dsa/:topic/problems/:problemId" element={secure(DsaProblemSolver)} />
+    <Route path="/learning/dsa/:topic" element={secure(DsaTopic)} />
+    <Route path="/learning/cs/:subjectId" element={secure(CsSubjectPanel)} />
+    <Route path="/cheatsheets" element={secure(Cheatsheets)} />
+    <Route path="/bookmarks" element={secure(props => <Cheatsheets {...props} bookmarksOnly />)} />
+    <Route path="/problems" element={secure(DsaDashboard)} />
     <Route path="/daily-challenge" element={secure(Daily)} />
     <Route path="/aptitude" element={secure(Aptitude)} />
     <Route path="/learning/aptitude/formulas" element={secure(FormulaHub)} />
@@ -290,8 +297,9 @@ export default function App() {
     <Route path="/interviews" element={secure(InterviewsPanel)} />
     <Route path="/help" element={secure(AiHelpPanel)} />
     <Route path="/projects" element={secure(ProjectsPanel)} />
-    <Route path="/mock-tests" element={secure(PlacementMocks)} />
+    <Route path="/mock-tests" element={secure(PracticeHub)} />
     <Route path="/cs" element={secure(CsFundamentalsPanel)} />
+    <Route path="/mistakes" element={secure(MistakeNotebookPanel)} />
     <Route path="/analytics" element={secure(AnalyticsPanel)} />
     <Route path="/skills" element={secure(SkillGraphPanel)} />
     <Route path="/placement" element={secure(PlacementSimulatorPanel)} />

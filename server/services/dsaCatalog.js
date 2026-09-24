@@ -1,4 +1,6 @@
 export const dsaTopics = [
+  { id: 'basics', name: 'Basics', group: 'FOUNDATIONS', difficulty: 'Easy', estimatedHours: 5, problems: 8, prerequisites: [] },
+  { id: 'sorting', name: 'Sorting', group: 'FOUNDATIONS', difficulty: 'Easy', estimatedHours: 7, problems: 10, prerequisites: ['basics'] },
   { id: 'arrays', name: 'Arrays', group: 'FOUNDATIONS', difficulty: 'Easy', estimatedHours: 10, problems: 27, prerequisites: [] },
   { id: 'strings', name: 'Strings', group: 'FOUNDATIONS', difficulty: 'Easy', estimatedHours: 8, problems: 20, prerequisites: [] },
   { id: 'hashing', name: 'Hashing', group: 'FOUNDATIONS', difficulty: 'Easy', estimatedHours: 6, problems: 15, prerequisites: ['arrays'] },
@@ -15,7 +17,8 @@ export const dsaTopics = [
   { id: 'greedy', name: 'Greedy', group: 'ALGORITHMIC TECHNIQUES', difficulty: 'Medium', estimatedHours: 7, problems: 15, prerequisites: ['arrays'] },
   { id: 'graphs', name: 'Graphs', group: 'ALGORITHMIC TECHNIQUES', difficulty: 'Hard', estimatedHours: 14, problems: 25, prerequisites: ['trees'] },
   { id: 'dynamic-programming', name: 'Dynamic Programming', group: 'ALGORITHMIC TECHNIQUES', difficulty: 'Hard', estimatedHours: 16, problems: 25, prerequisites: ['recursion'] },
-  { id: 'bit-manipulation', name: 'Bit Manipulation', group: 'ALGORITHMIC TECHNIQUES', difficulty: 'Medium', estimatedHours: 6, problems: 12, prerequisites: ['arrays'] }
+  { id: 'bit-manipulation', name: 'Bit Manipulation', group: 'ALGORITHMIC TECHNIQUES', difficulty: 'Medium', estimatedHours: 6, problems: 12, prerequisites: ['arrays'] },
+  { id: 'advanced-problems', name: 'Advanced Problems', group: 'ADVANCED PRACTICE', difficulty: 'Hard', estimatedHours: 14, problems: 8, prerequisites: ['dynamic-programming', 'graphs'] }
 ];
 
 export const dsaProblems = [

@@ -13,6 +13,28 @@ const question = (topic, id, title, difficulty, tags, slug = null) => ({
 const catalog = (topic, entries) => entries.map(([id, title, difficulty, tags, slug]) => question(topic, id, title, difficulty, tags, slug));
 
 export const dsaPracticeCatalog = {
+  basics: catalog('basics', [
+    ['complexity-basics', 'Analyse a Simple Loop', 'Easy', 'Basics|Complexity'],
+    ['input-output-basics', 'Read and Transform Input', 'Easy', 'Basics|Implementation'],
+    ['count-digits', 'Count Digits', 'Easy', 'Basics|Math'],
+    ['reverse-number', 'Reverse an Integer', 'Easy', 'Basics|Math'],
+    ['palindrome-number', 'Palindrome Number', 'Easy', 'Basics|Math', 'palindrome-number'],
+    ['gcd-basics', 'Greatest Common Divisor', 'Easy', 'Basics|Euclidean Algorithm'],
+    ['armstrong-number', 'Armstrong Number Check', 'Easy', 'Basics|Math'],
+    ['sum-divisors', 'Sum of Divisors', 'Easy', 'Basics|Math']
+  ]),
+  sorting: catalog('sorting', [
+    ['selection-sort', 'Selection Sort', 'Easy', 'Sorting|Selection Sort'],
+    ['bubble-sort', 'Bubble Sort', 'Easy', 'Sorting|Bubble Sort'],
+    ['insertion-sort', 'Insertion Sort', 'Easy', 'Sorting|Insertion Sort'],
+    ['merge-sort', 'Merge Sort', 'Medium', 'Sorting|Divide and Conquer'],
+    ['quick-sort', 'Quick Sort', 'Medium', 'Sorting|Partition'],
+    ['sort-colors-sorting', 'Sort Colors', 'Medium', 'Sorting|Dutch National Flag', 'sort-colors'],
+    ['counting-sort', 'Counting Sort', 'Medium', 'Sorting|Counting'],
+    ['merge-overlapping-intervals-sort', 'Merge Overlapping Intervals', 'Medium', 'Sorting|Intervals'],
+    ['sort-by-frequency', 'Sort Items by Frequency', 'Medium', 'Sorting|Hash Map'],
+    ['inversion-count', 'Count Inversions', 'Hard', 'Sorting|Merge Sort']
+  ]),
   arrays: catalog('arrays', [
     ['array-traversal', 'Array Traversal', 'Easy', 'Array|Traversal'],
     ['maximum-element', 'Largest Element in an Array', 'Easy', 'Array|One Pass'],
@@ -360,6 +382,16 @@ export const dsaPracticeCatalog = {
     ['divide-integers', 'Divide Two Integers', 'Medium', 'Bit Manipulation|Math', 'divide-two-integers'],
     ['bitmask-subsets', 'Subsets Using Bitmasks', 'Medium', 'Bit Manipulation|Backtracking'],
     ['minimum-bit-flips', 'Minimum Bit Flips to Convert Number', 'Easy', 'Bit Manipulation|XOR', 'minimum-bit-flips-to-convert-number']
+  ]),
+  'advanced-problems': catalog('advanced-problems', [
+    ['lru-cache-advanced', 'LRU Cache', 'Hard', 'Advanced|Design|Hash Map', 'lru-cache'],
+    ['median-data-stream', 'Find Median from Data Stream', 'Hard', 'Advanced|Two Heaps', 'find-median-from-data-stream'],
+    ['word-ladder-advanced', 'Word Ladder', 'Hard', 'Advanced|Graph|BFS', 'word-ladder'],
+    ['regular-expression-matching', 'Regular Expression Matching', 'Hard', 'Advanced|Dynamic Programming', 'regular-expression-matching'],
+    ['serialize-tree', 'Serialize and Deserialize Binary Tree', 'Hard', 'Advanced|Trees|Design', 'serialize-and-deserialize-binary-tree'],
+    ['all-one-data-structure', 'All O(1) Data Structure Design', 'Hard', 'Advanced|Design|Hash Map'],
+    ['minimum-window-subsequence', 'Minimum Window Subsequence', 'Hard', 'Advanced|Dynamic Programming|Two Pointers'],
+    ['critical-connections', 'Critical Connections in a Network', 'Hard', 'Advanced|Graph|Tarjan']
   ])
 };
 

@@ -8,7 +8,14 @@ const problemProgressSchema = new mongoose.Schema({
   usedHint: { type: Boolean, default: false },
   language: { type: String, maxlength: 40 },
   latestCode: { type: String, maxlength: 50000 },
+  timeSpentSeconds: { type: Number, default: 0, min: 0 },
   lastAttemptedAt: Date,
+  lastSubmission: {
+    status: { type: String, default: null },
+    language: { type: String, default: null },
+    submittedAt: { type: Date, default: null },
+    executionTimeMs: { type: Number, default: null }
+  },
   solvedAt: Date
 }, { timestamps: true });
 

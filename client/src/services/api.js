@@ -34,8 +34,22 @@ export const api = {
   me: () => request('/auth/me'),
   profile: (body) => request('/profile', { method: 'PUT', body: JSON.stringify(body) }),
   dashboard: () => request('/dashboard'),
+  todayPlan: () => request('/dashboard/today-plan'),
+  startTodayPlan: () => request('/dashboard/today-plan/start', { method: 'POST' }),
+  updateTodayPlanTask: (taskId, status) => request(`/dashboard/today-plan/tasks/${encodeURIComponent(taskId)}`, { method: 'PATCH', body: JSON.stringify({ status }) }),
+  rescheduleTodayPlanTask: (taskId, dateKey) => request(`/dashboard/today-plan/tasks/${encodeURIComponent(taskId)}/reschedule`, { method: 'POST', body: JSON.stringify({ dateKey }) }),
+  replaceTodayPlanTask: (taskId) => request(`/dashboard/today-plan/tasks/${encodeURIComponent(taskId)}/replace`, { method: 'POST' }),
   roadmap: () => request('/dsa/roadmap'),
   dsaPractice: (topicId) => request(`/dsa/topics/${encodeURIComponent(topicId)}/questions`),
+  dsaTopicResources: (topicId) => request(`/dsa/topics/${encodeURIComponent(topicId)}/resources`),
+  dsaProblem: (topicId, questionId) => request(`/dsa/topics/${encodeURIComponent(topicId)}/questions/${encodeURIComponent(questionId)}`),
+  runDsaCode: (topicId, questionId, body) => request(`/dsa/topics/${encodeURIComponent(topicId)}/questions/${encodeURIComponent(questionId)}/run`, { method: 'POST', body: JSON.stringify(body) }),
+  submitDsaCode: (topicId, questionId, body) => request(`/dsa/topics/${encodeURIComponent(topicId)}/questions/${encodeURIComponent(questionId)}/submit`, { method: 'POST', body: JSON.stringify(body) }),
+  dsaCheatsheets: () => request('/dsa/cheatsheets'),
+  dsaBookmarks: () => request('/dsa/bookmarks'),
+  bookmarkDsaCheatsheet: (cheatsheetId) => request(`/dsa/cheatsheets/${encodeURIComponent(cheatsheetId)}/bookmark`, { method: 'POST' }),
+  removeDsaCheatsheetBookmark: (cheatsheetId) => request(`/dsa/cheatsheets/${encodeURIComponent(cheatsheetId)}/bookmark`, { method: 'DELETE' }),
+  reviseDsaCheatsheet: (cheatsheetId) => request(`/dsa/cheatsheets/${encodeURIComponent(cheatsheetId)}/revised`, { method: 'POST' }),
   markDsaQuestionSolved: (topicId, questionId) => request(`/dsa/topics/${encodeURIComponent(topicId)}/questions/${encodeURIComponent(questionId)}/solve`, { method: 'POST' }),
   diagnosticQuestions: (topicId) => request(`/dsa/topics/${topicId}/diagnostic`),
   saveDiagnostic: (topicId, answers) => request(`/dsa/topics/${topicId}/diagnostic`, { method: 'POST', body: JSON.stringify({ answers }) }),
@@ -58,6 +72,15 @@ export const api = {
   ,updateRecord: (type, recordId, data) => request(`/career/${encodeURIComponent(type)}/${encodeURIComponent(recordId)}`, { method: 'PATCH', body: JSON.stringify({ data }) })
   ,deleteRecord: (type, recordId) => request(`/career/${encodeURIComponent(type)}/${encodeURIComponent(recordId)}`, { method: 'DELETE' })
   ,aptitude: () => request('/learning/aptitude')
+  ,csFundamentals: () => request('/learning/cs')
+  ,csSubject: (subjectId) => request(`/learning/cs/${encodeURIComponent(subjectId)}`)
+  ,markCsTopicLearned: (subjectId, topicId) => request(`/learning/cs/${encodeURIComponent(subjectId)}/topics/${encodeURIComponent(topicId)}/learn`, { method: 'POST' })
+  ,markCsTopicRevised: (subjectId, topicId) => request(`/learning/cs/${encodeURIComponent(subjectId)}/topics/${encodeURIComponent(topicId)}/revised`, { method: 'POST' })
+  ,submitCsQuiz: (subjectId, topicId, answers) => request(`/learning/cs/${encodeURIComponent(subjectId)}/topics/${encodeURIComponent(topicId)}/quiz`, { method: 'POST', body: JSON.stringify({ answers }) })
+  ,mistakes: (source = '') => request(`/mistakes${source ? `?source=${encodeURIComponent(source)}` : ''}`)
+  ,createMistake: (body) => request('/mistakes', { method: 'POST', body: JSON.stringify(body) })
+  ,updateMistake: (mistakeId, body) => request(`/mistakes/${encodeURIComponent(mistakeId)}`, { method: 'PATCH', body: JSON.stringify(body) })
+  ,deleteMistake: (mistakeId) => request(`/mistakes/${encodeURIComponent(mistakeId)}`, { method: 'DELETE' })
   ,aptitudeQuestions: (topic) => request(`/learning/aptitude/${encodeURIComponent(topic)}/questions`)
   ,saveAptitudeAttempt: (body) => request('/learning/aptitude/attempt', { method: 'POST', body: JSON.stringify(body) })
   ,aptitudeAttempt: (attemptId) => request(`/learning/aptitude/attempts/${encodeURIComponent(attemptId)}`)
@@ -76,6 +99,12 @@ export const api = {
   ,csTopics: () => request('/learning/cs')
   ,companies: () => request('/learning/companies')
   ,backlogs: () => request('/backlogs')
-  ,coach: (payload) => request('/ai/coach', { method: 'POST', body: JSON.stringify(typeof payload === 'string' ? { message: payload } : payload) })
+  ,copilotStatus: () => request('/copilot/status')
+  ,copilotConversations: () => request('/copilot/conversations')
+  ,createCopilotConversation: (title) => request('/copilot/conversations', { method: 'POST', body: JSON.stringify({ title }) })
+  ,copilotConversation: (conversationId) => request(`/copilot/conversations/${encodeURIComponent(conversationId)}`)
+  ,deleteCopilotConversation: (conversationId) => request(`/copilot/conversations/${encodeURIComponent(conversationId)}`, { method: 'DELETE' })
+  ,copilotChat: (payload) => request('/copilot/chat', { method: 'POST', body: JSON.stringify(typeof payload === 'string' ? { message: payload } : payload) })
+  ,coach: (payload) => request('/copilot/chat', { method: 'POST', body: JSON.stringify(typeof payload === 'string' ? { message: payload } : payload) })
   ,interview: (body) => request('/ai/interview', { method: 'POST', body: JSON.stringify(body) })
 };

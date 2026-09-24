@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { requireAuth } from '../middleware/auth.js';
 
 const router = Router();
-const allowed = ['name', 'college', 'degree', 'branch', 'graduationYear', 'targetRole', 'preferredLanguage', 'weeklyStudyHours', 'skills'];
+const allowed = ['name', 'college', 'degree', 'branch', 'graduationYear', 'targetRole', 'preferredLanguage', 'studyGoal', 'weeklyStudyHours', 'skills'];
 router.put('/', requireAuth, async (req, res, next) => {
   try {
     for (const field of allowed) if (field in req.body) req.user.profile[field] = req.body[field];

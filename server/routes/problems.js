@@ -2,8 +2,6 @@ import { Router } from 'express';
 import { ProblemProgress } from '../models/ProblemProgress.js';
 import { LeetCodeProblem } from '../models/LeetCodeProblem.js';
 import { dsaProblems } from '../services/dsaCatalog.js';
-import { scheduleFirstRevision } from '../services/revisionService.js';
-import { recordSkillEvidence, scheduleRevision } from '../services/skillGraphService.js';
 
 const router = Router();
 router.get('/', async (req, res, next) => {
@@ -46,20 +44,13 @@ router.post('/:problemId/attempt', async (req, res, next) => {
       if (imported) problem = { id: req.params.problemId };
     }
     const { status, usedHint = false, language, code } = req.body;
-    if (!problem || !['attempted', 'solved', 'needs_revision'].includes(status)) return res.status(400).json({ success: false, error: 'Invalid problem attempt', message: 'Provide a valid problem ID and attempt status.' });
+    if (status === 'solved') return res.status(409).json({ success: false, error: 'Manual solve disabled', message: 'A DSA problem is solved only after an accepted CareerForge code submission.' });
+    if (!problem || !['attempted', 'needs_revision'].includes(status)) return res.status(400).json({ success: false, error: 'Invalid problem attempt', message: 'Provide a valid problem ID and attempt status.' });
     const update = { status, usedHint, lastAttemptedAt: new Date() };
     if (typeof language === 'string') update.language = language;
     if (typeof code === 'string') update.latestCode = code;
-    if (status === 'solved') update.solvedAt = new Date();
     const progress = await ProblemProgress.findOneAndUpdate({ userId: req.user.id, problemId: problem.id }, { $set: update, $inc: { attempts: 1 } }, { upsert: true, new: true, setDefaultsOnInsert: true });
-    if (status === 'solved') {
-      await scheduleFirstRevision(req.user.id, problem.id);
-      const topicId = problem.topicId || problem.section || 'general';
-      const label = String(topicId).replace(/[-_]/g, ' ').replace(/\b\w/g, letter => letter.toUpperCase());
-      await recordSkillEvidence({ userId: req.user.id, skillId: `dsa:${topicId}`, label, domain: 'dsa', completed: 1 });
-      await scheduleRevision({ userId: req.user.id, skillId: `dsa:${topicId}`, label, domain: 'dsa', sourceType: 'dsa_problem', sourceId: problem.id, prompt: `Revisit ${problem.title || 'this DSA problem'} and explain your chosen approach.`, dueInDays: 1 });
-    }
-    res.json({ success: true, data: { progress }, message: status === 'solved' ? 'Problem solved. Your first revision is due tomorrow.' : 'Attempt saved successfully.' });
+    res.json({ success: true, data: { progress }, message: 'Attempt saved successfully.' });
   } catch (error) { next(error); }
 });
 export default router;

@@ -20,6 +20,7 @@ import skillsRoutes from './routes/skills.js';
 import placementRoutes from './routes/placement.js';
 import adminRoutes from './routes/admin.js';
 import productRoutes from './routes/product.js';
+import mistakesRoutes from './routes/mistakes.js';
 
 const app = express();
 app.locals.databaseReady = false;
@@ -47,8 +48,10 @@ app.use('/api/quests', requireDatabase, requireAuth, questsRoutes);
 app.use('/api/career', requireDatabase, requireAuth, careerRoutes);
 app.use('/api/learning', requireDatabase, requireAuth, learningRoutes);
 app.use('/api/ai', requireDatabase, requireAuth, aiRoutes);
+app.use('/api/copilot', requireDatabase, requireAuth, aiRoutes);
 app.use('/api/skills', requireDatabase, requireAuth, skillsRoutes);
 app.use('/api/placement', requireDatabase, requireAuth, placementRoutes);
+app.use('/api/mistakes', requireDatabase, requireAuth, mistakesRoutes);
 app.use('/api/admin', requireDatabase, requireAuth, adminRoutes);
 app.use('/api', requireDatabase, requireAuth, productRoutes);
 app.use('/api', (_, res) => res.status(404).json({ success: false, error: 'Route not found', message: 'The requested API route does not exist.' }));
