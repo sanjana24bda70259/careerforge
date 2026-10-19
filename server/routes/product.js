@@ -6,6 +6,7 @@ import { companies } from '../services/learningCatalog.js';
 import { buildCopilotReply, CopilotProviderError } from '../services/copilotService.js';
 import { getCopilotContext } from '../services/copilotContext.js';
 import { detectCopilotIntent } from '../services/copilotIntent.js';
+import { dailyTaskBacklogs, taskDateKey, taskTimeZone } from '../services/dailyTaskService.js';
 
 const router = Router();
 const mapping = {
@@ -46,9 +47,14 @@ for (const resource of Object.keys(mapping)) {
 
 router.get('/backlogs', async (req, res, next) => {
   try {
-    const overdueRevisions = await Revision.find({ userId: req.user.id, dueAt: { $lte: new Date() } }).lean();
-    const backlogs = overdueRevisions.map(item => ({ id: item.id, type: 'revision', priority: 'high', title: 'DSA revision due', dueAt: item.dueAt }));
-    res.json({ success: true, data: { backlogs }, message: 'Backlogs retrieved successfully.' });
+    const today = taskDateKey();
+    const [overdueRevisions, dailyTasks] = await Promise.all([
+      Revision.find({ userId: req.user.id, dueAt: { $lte: new Date() } }).sort({ dueAt: 1 }).lean(),
+      dailyTaskBacklogs(req.user.id, today)
+    ]);
+    const revisions = overdueRevisions.map(item => ({ id: String(item._id), type: 'revision', priority: 'high', title: 'DSA revision due', dueAt: item.dueAt, completed: false }));
+    const backlogs = [...dailyTasks.pending, ...revisions];
+    res.json({ success: true, data: { backlogs, completed: dailyTasks.completed, today, timeZone: taskTimeZone }, message: 'Backlogs retrieved successfully.' });
   } catch (error) { next(error); }
 });
 router.get('/analytics', async (req, res, next) => {

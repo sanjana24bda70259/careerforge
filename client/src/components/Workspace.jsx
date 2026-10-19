@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { api } from '../services/api.js';
+import { DailyTasks } from './TaskLists.jsx';
 import '../workspace.css';
 import '../workspaceRefresh.css';
 import '../workspaceSolid.css';
@@ -9,7 +10,7 @@ const groups = [
   { name: 'Learn', icon: 'book', items: [['DSA', '/dsa', 'Roadmap, topics and CareerForge coding workspace'], ['Aptitude', '/aptitude', 'Quantitative, logical, verbal and DI practice'], ['CS Fundamentals', '/cs', 'Notes, revision and separate knowledge checks'], ['Cheatsheets', '/cheatsheets', 'Patterns, complexity and code templates']] },
   { name: 'Practice', icon: 'code', items: [['Aptitude mock tests', '/mock-tests?type=aptitude', 'Timed original aptitude assessments'], ['DSA mock tests', '/mock-tests?type=dsa', 'Timed coding assessments when the secure judge is connected'], ['Placement mock tests', '/mock-tests?type=placement', 'Mixed preparation assessments'], ['Company-style assessments', '/mock-tests?type=company', 'Original formats without fictional company claims'], ['Interview prep', '/interviews', 'Practise structured answers and follow-up questions']] },
   { name: 'Career', icon: 'case', items: [['Resume', '/resume', 'Tell your story clearly'], ['Projects', '/projects', 'Show what you can build'], ['Applications', '/jobs', 'Keep your opportunities in one place']] },
-  { name: 'Workspace', icon: 'chart', items: [['My day', '/dashboard', 'Today’s activity-based preparation plan'], ['Mistake Notebook', '/mistakes', 'Save and review real mistakes'], ['Revision', '/backlogs', 'Pick up what needs attention'], ['Bookmarks', '/bookmarks', 'Saved cheatsheets and revision material'], ['Analytics', '/analytics', 'See your preparation progress'], ['Weekly review', '/weekly-review', 'Reflect and plan your next steps']] }
+  { name: 'Workspace', icon: 'chart', items: [['My day', '/dashboard', 'Today’s activity-based preparation plan'], ['Daily tasks', '/daily-challenge', 'Your daily to-do list and progress'], ['Mistake Notebook', '/mistakes', 'Save and review real mistakes'], ['Revision', '/backlogs', 'Pick up what needs attention'], ['Bookmarks', '/bookmarks', 'Saved cheatsheets and revision material'], ['Analytics', '/analytics', 'See your preparation progress'], ['Weekly review', '/weekly-review', 'Reflect and plan your next steps']] }
 ];
 
 function Icon({ name, ...props }) {
@@ -152,11 +153,6 @@ export function WorkspaceDashboard({ user }) {
   const hour = new Date().getHours();
   const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
   const name = user?.profile?.name?.trim().split(/\s+/)[0] || 'there';
-  const shortcuts = [
-    ['code', 'Build your coding skills', 'Your DSA roadmap, one topic at a time.', '/dsa'],
-    ['grid', 'Sharpen your aptitude', 'A little reasoning goes a long way.', '/aptitude'],
-    ['clock', 'Pick up pending work', 'Revisit the things that need attention.', '/backlogs']
-  ];
   return <WorkspaceLayout user={user}>
     <div className="ws-welcome"><div><span className="ws-eyebrow">MAKE ROOM FOR PROGRESS</span><h1>{greeting}, {name}<span>.</span></h1><p>A clear mind. A small step. A little closer to your next chapter.</p></div><time className="ws-date" dateTime={new Date().toISOString()}>{new Date().toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })}</time></div>
     {error && <div className="ws-error" role="alert"><span>Couldn’t load your progress. {error}</span><button onClick={() => setReload(value => value + 1)}>Try again</button></div>}
@@ -176,7 +172,7 @@ export function WorkspaceDashboard({ user }) {
         <div className="ws-focus-bottom"><span>Consistency is your advantage.</span><span aria-hidden="true">01 — ∞</span></div>
         <div className="ws-orbits" aria-hidden="true"><i /><i /><i /><i /></div>
       </section>
-      <section className="ws-shortcuts"><div className="ws-card-heading"><span className="ws-eyebrow">KEEP IT SIMPLE</span><h2>Where to next?</h2></div>{shortcuts.map(([icon, title, description, path]) => <Link className="ws-shortcut" to={path} key={path}><span className="ws-shortcut-icon"><Icon name={icon} /></span><span><b>{title}</b><small>{description}</small></span><Icon name="arrow" /></Link>)}<Link to="/daily-challenge" className="ws-daily"><span><Icon name="spark" /> Explore today’s challenge</span><Icon name="arrow" /></Link></section>
+      <DailyTasks compact />
     </div>
     <DashboardProgress />
     <footer className="ws-home-footer"><span><span className="ws-footer-dot" /> Your pace. Your progress.</span><Link to="/weekly-review">Take a moment to reflect <Icon name="arrow" /></Link></footer>

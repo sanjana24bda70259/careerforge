@@ -1,28 +1,43 @@
 import { Router } from 'express';
+import { randomUUID } from 'node:crypto';
 import { DailyQuest } from '../models/DailyQuest.js';
+import { ensureDailyQuest, taskDateKey, taskTimeZone, validTaskDate } from '../services/dailyTaskService.js';
 
 const router = Router();
-const todayKey = () => new Date().toISOString().slice(0, 10);
-const starterTasks = [
-  { id: 'dsa', type: 'DSA', title: 'Two Sum', detail: 'Arrays · Easy', xp: 50 },
-  { id: 'aptitude', type: 'APTITUDE', title: 'Percentages', detail: '10 questions', xp: 20 },
-  { id: 'revision', type: 'REVISION', title: 'Review Binary Search', detail: 'Review notes and one solution', xp: 20 },
-  { id: 'career', type: 'CAREER', title: 'Improve one resume bullet', detail: 'Make a project outcome measurable', xp: 30 }
-];
 router.get('/today', async (req, res, next) => {
   try {
-    const quest = await DailyQuest.findOneAndUpdate({ userId: req.user.id, dateKey: todayKey() }, { $setOnInsert: { tasks: starterTasks } }, { upsert: true, new: true, setDefaultsOnInsert: true });
-    res.json({ success: true, data: { quest }, message: 'Daily quest retrieved successfully.' });
+    const quest = await ensureDailyQuest(req.user.id);
+    res.json({ success: true, data: { quest, timeZone: taskTimeZone }, message: 'Daily tasks retrieved successfully.' });
   } catch (error) { next(error); }
 });
-router.patch('/today/tasks/:taskId', async (req, res, next) => {
+router.post('/today/tasks', async (req, res, next) => {
   try {
-    const quest = await DailyQuest.findOne({ userId: req.user.id, dateKey: todayKey() });
-    const task = quest?.tasks.find(item => item.id === req.params.taskId);
-    if (!task) return res.status(404).json({ success: false, error: 'Task not found', message: 'This daily quest task does not exist.' });
-    task.completed = Boolean(req.body.completed);
-    await quest.save();
-    res.json({ success: true, data: { quest }, message: 'Daily quest updated successfully.' });
+    const title = typeof req.body?.title === 'string' ? req.body.title.trim() : '';
+    if (!title || title.length > 160) return res.status(400).json({ success: false, message: 'Enter a task between 1 and 160 characters.' });
+    const dateKey = taskDateKey();
+    await ensureDailyQuest(req.user.id, dateKey);
+    const task = { id: randomUUID(), type: 'PERSONAL', title, detail: 'Your daily goal', xp: 0, completed: false, completedAt: null };
+    const quest = await DailyQuest.findOneAndUpdate({ userId: req.user.id, dateKey, 'tasks.99': { $exists: false } }, { $push: { tasks: task } }, { new: true, runValidators: true });
+    if (!quest) return res.status(400).json({ success: false, message: 'You can add up to 100 tasks per day.' });
+    res.status(201).json({ success: true, data: { quest, timeZone: taskTimeZone }, message: 'Task added to today’s list.' });
+  } catch (error) { next(error); }
+});
+
+// Date-specific updates preserve the original day, including after midnight.
+// The existing /today/tasks endpoint remains compatible with older clients.
+router.patch('/:dateKey/tasks/:taskId', async (req, res, next) => {
+  try {
+    const dateKey = req.params.dateKey === 'today' ? taskDateKey() : req.params.dateKey;
+    if (!validTaskDate(dateKey) || dateKey > taskDateKey()) return res.status(400).json({ success: false, message: 'Choose today or an earlier task date.' });
+    if (typeof req.body?.completed !== 'boolean') return res.status(400).json({ success: false, message: 'Task completion must be true or false.' });
+    const completed = req.body.completed;
+    const quest = await DailyQuest.findOneAndUpdate(
+      { userId: req.user.id, dateKey, 'tasks.id': req.params.taskId },
+      { $set: { 'tasks.$.completed': completed, 'tasks.$.completedAt': completed ? new Date() : null } },
+      { new: true, runValidators: true }
+    );
+    if (!quest) return res.status(404).json({ success: false, message: 'This daily task does not exist.' });
+    res.json({ success: true, data: { quest, timeZone: taskTimeZone }, message: completed ? 'Task completed.' : 'Task moved back to pending.' });
   } catch (error) { next(error); }
 });
 export default router;
