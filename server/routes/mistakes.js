@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { Router } from 'express';
 import { Mistake } from '../models/Mistake.js';
+import { LearningItem } from '../models/LearningItem.js';
 
 const router = Router();
 const sources = new Set(['dsa', 'aptitude', 'sql', 'cs', 'mock']);
@@ -35,6 +36,7 @@ router.patch('/:mistakeId', async (req, res, next) => {
   try {
     if (!mongoose.isValidObjectId(req.params.mistakeId)) return res.status(404).json({ success: false, error: 'Mistake not found', message: 'This saved mistake does not exist.' });
     const update = {};
+    if (typeof req.body?.resolved === 'boolean') update.resolvedAt = req.body.resolved ? new Date() : null;
     if (typeof req.body?.reason === 'string' && reasons.has(req.body.reason)) update.reason = req.body.reason;
     if (typeof req.body?.note === 'string') update.note = text(req.body.note, 3000);
     if (typeof req.body?.category === 'string') update.category = text(req.body.category, 140) || null;
@@ -49,6 +51,8 @@ router.delete('/:mistakeId', async (req, res, next) => {
     if (!mongoose.isValidObjectId(req.params.mistakeId)) return res.status(404).json({ success: false, error: 'Mistake not found', message: 'This saved mistake does not exist.' });
     const mistake = await Mistake.findOneAndDelete({ _id: req.params.mistakeId, userId: req.user.id });
     if (!mistake) return res.status(404).json({ success: false, error: 'Mistake not found', message: 'This saved mistake does not exist.' });
+    await LearningItem.updateMany({ userId: req.user.id, mistakeId: mistake._id }, { $set: { mistakeId: null } });
+    await LearningItem.deleteOne({ userId: req.user.id, key: `mistake:${mistake._id}` });
     res.json({ success: true, data: {}, message: 'Mistake removed from your notebook.' });
   } catch (error) { next(error); }
 });

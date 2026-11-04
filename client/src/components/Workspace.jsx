@@ -2,6 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { api } from '../services/api.js';
 import { DailyTasks } from './TaskLists.jsx';
+import { useWorkspace } from './WorkspaceContext.jsx';
+import { WorkspaceChrome } from './WorkspaceChrome.jsx';
+import { OverviewInsights } from './WorkspaceFeatures.jsx';
+import { PersonalRoadmap, ExtraPractice } from './PersonalizedHome.jsx';
 import '../workspace.css';
 import '../workspaceRefresh.css';
 import '../workspaceSolid.css';
@@ -38,68 +42,20 @@ function groupActive(name, pathname) {
   return groups.find(group => group.name === name)?.items.some(([, path]) => pathname === path || pathname.startsWith(path + '/'));
 }
 
-export function WorkspaceLayout({ user, children }) {
-  const { pathname } = useLocation();
-  const [openGroup, setOpenGroup] = useState(null);
-  const dockRef = useRef(null);
-  const accountRef = useRef(null);
-  const selectedGroup = groups.find(group => group.name === openGroup);
-  const isHome = pathname === '/dashboard';
-  const pageName = isHome ? 'Overview' : groups.flatMap(group => group.items).find(([, path]) => pathname === path || pathname === path.split('?')[0])?.[0] || (pathname.startsWith('/learning/') ? 'Learning workspace' : pathname === '/help' ? 'AI Help' : 'Settings');
-
-  useEffect(() => { setOpenGroup(null); if (accountRef.current) accountRef.current.open = false; }, [pathname]);
-  useEffect(() => {
-    const dismiss = event => {
-      if (!dockRef.current?.contains(event.target)) setOpenGroup(null);
-      if (!accountRef.current?.contains(event.target) && accountRef.current) accountRef.current.open = false;
-    };
-    const escape = event => {
-      if (event.key !== 'Escape') return;
-      if (openGroup) { setOpenGroup(null); dockRef.current?.querySelector('[aria-expanded="true"]')?.focus(); }
-      if (accountRef.current?.open) { accountRef.current.open = false; accountRef.current.querySelector('summary')?.focus(); }
-    };
-    document.addEventListener('pointerdown', dismiss);
-    document.addEventListener('keydown', escape);
-    return () => { document.removeEventListener('pointerdown', dismiss); document.removeEventListener('keydown', escape); };
-  }, [openGroup]);
-
-  return <div className="workspace-shell">
-    <a className="ws-skip" href="#workspace-content">Skip to content</a>
-    <header className="ws-header">
-      <Link className="ws-brand" to="/dashboard" aria-label="CareerForge home"><span className="ws-brandmark"><Icon name="spark" /></span>CareerForge<span className="ws-brand-dot">.</span></Link>
-      <span className="ws-breadcrumb">Your workspace <span>/</span> <b>{pageName}</b></span>
-      <details className="ws-account" ref={accountRef}>
-        <summary aria-label="Account menu"><span className="ws-avatar">{user?.profile?.name?.[0]?.toUpperCase() || 'S'}</span><span className="ws-account-name">{user?.profile?.name || 'Student'}</span><Icon name="chevron" /></summary>
-        <div className="ws-account-menu"><Link to="/onboarding">Edit profile</Link><Link to="/settings">Settings</Link><button onClick={() => { localStorage.removeItem('careerforge_token'); localStorage.removeItem('careerforge_user'); location.assign('/login'); }}>Sign out</button></div>
-      </details>
-    </header>
-    <main id="workspace-content" tabIndex="-1" className={isHome ? 'ws-main ws-home' : 'ws-main'}>{children}</main>
-    <div className="ws-dock-wrap" ref={dockRef}>
-      {selectedGroup && <section className="ws-launcher" aria-label={`${selectedGroup.name} tools`} id={`ws-${selectedGroup.name.toLowerCase()}`}>
-        <div className="ws-launcher-head"><div><span className="ws-eyebrow">YOUR WORKSPACE</span><h2>{selectedGroup.name}</h2></div><button aria-label="Close navigation" onClick={() => { setOpenGroup(null); dockRef.current?.querySelector('[aria-expanded="true"]')?.focus(); }}><Icon name="close" /></button></div>
-        {selectedGroup.items.map(([name, path, description]) => <NavLink key={path} to={path} onClick={() => setOpenGroup(null)} className="ws-tool"><span className="ws-tool-icon"><Icon name={selectedGroup.icon} /></span><span><b>{name}</b><small>{description}</small></span><Icon name="arrow" /></NavLink>)}
-      </section>}
-      <nav className="ws-dock" aria-label="Main navigation">
-        <NavLink to="/dashboard" className="ws-dock-item" onClick={() => setOpenGroup(null)}><Icon name="home" /><span>Home</span></NavLink>
-        <span className="ws-dock-divider" />
-        {groups.map(group => <button key={group.name} className={`ws-dock-item ${groupActive(group.name, pathname) ? 'active' : ''} ${openGroup === group.name ? 'is-open' : ''}`} aria-expanded={openGroup === group.name} aria-controls={`ws-${group.name.toLowerCase()}`} onClick={() => setOpenGroup(openGroup === group.name ? null : group.name)}><Icon name={group.icon} /><span>{group.name}</span></button>)}
-        <span className="ws-dock-divider" />
-        <NavLink to="/help" className="ws-dock-item ws-dock-help" onClick={() => setOpenGroup(null)}><Icon name="spark" /><span>AI Help</span></NavLink>
-      </nav>
-    </div>
-  </div>;
-}
+export function WorkspaceLayout({ user, children }) { return <WorkspaceChrome user={user}>{children}</WorkspaceChrome>; }
 
 function TodayPlan() {
+  const { data: workspace } = useWorkspace();
   const [plan, setPlan] = useState(null); const [loading, setLoading] = useState(true); const [error, setError] = useState(''); const [working, setWorking] = useState('');
   const load = async () => { setLoading(true); setError(''); try { const data = await api.todayPlan(); setPlan(data.plan); } catch (err) { setError(err.message); } finally { setLoading(false); } };
   useEffect(() => { void load(); }, []);
   const update = async (taskId, action) => { setWorking(`${taskId}:${action}`); setError(''); try { const data = action === 'replace' ? await api.replaceTodayPlanTask(taskId) : action === 'reschedule' ? await api.rescheduleTodayPlanTask(taskId, window.prompt('Move this task to which date? Use YYYY-MM-DD.') || '') : await api.updateTodayPlanTask(taskId, action); setPlan(data.plan); } catch (err) { setError(err.message); } finally { setWorking(''); } };
   const start = async () => { setWorking('start'); try { const data = await api.startTodayPlan(); setPlan(data.plan); } catch (err) { setError(err.message); } finally { setWorking(''); } };
-  return <section className="ws-today" aria-label="What should I do today">
-    <div className="ws-today-heading"><div><span className="ws-eyebrow">YOUR PLAN FOR TODAY</span><h2>What should I do today?</h2><p>{loading ? 'Building a plan from your saved preparation…' : plan ? `${plan.completedCount} / ${plan.totalCount} completed · ${plan.estimatedMinutes} min still planned` : 'A focused plan from your saved preparation activity.'}</p></div><button className="ws-today-start" disabled={working === 'start' || Boolean(plan?.startedAt)} onClick={() => void start()}>{working === 'start' ? 'Starting…' : plan?.startedAt ? 'Day started' : 'Start My Day'}</button></div>
-    {error && <div className="ws-today-error">{error}<button onClick={() => void load()}>Retry</button></div>}
-    {loading ? <div className="ws-today-loading">Loading activity-based tasks…</div> : plan?.tasks?.length ? <div className="ws-today-list">{plan.tasks.map(task => <article className={`ws-today-task ${task.status}`} key={task.id}><button className="ws-task-check" aria-label={task.status === 'completed' ? 'Restore task' : 'Complete task'} disabled={Boolean(working)} onClick={() => void update(task.id, task.status === 'completed' ? 'planned' : 'completed')}>{task.status === 'completed' ? '✓' : '○'}</button><Link to={task.href}><span>{task.domain.toUpperCase()}</span><b>{task.title}</b><small>{task.detail}</small></Link><div className="ws-task-meta"><b>{task.estimatedMinutes} min</b>{task.status === 'planned' && <details><summary aria-label="Task actions">•••</summary><div><button disabled={Boolean(working)} onClick={() => void update(task.id, 'skipped')}>Skip</button><button disabled={Boolean(working)} onClick={() => void update(task.id, 'reschedule')}>Reschedule</button><button disabled={Boolean(working)} onClick={() => void update(task.id, 'replace')}>Replace</button></div></details>}{task.status === 'skipped' && <button className="ws-task-restore" disabled={Boolean(working)} onClick={() => void update(task.id, 'planned')}>Restore</button>}{task.status === 'rescheduled' && <small>Moved to {task.rescheduledFor}</small>}</div></article>)}</div> : <div className="ws-today-loading">No recommendations could be generated yet. Start one learning activity and try again.</div>}
+  if (workspace?.preferences.planningMode === 'custom') return <section id="today-plan" className="feature-card"><span className="ws-eyebrow">YOUR CUSTOM PLAN</span><h2>Your day, planned by you.</h2><p>Your scheduled sessions appear in today’s timeline. Add, edit and complete them in your study calendar.</p><Link className="button" to="/calendar">Plan my study sessions </Link></section>;
+  return <section id="today-plan" className="ws-today" aria-label="What should I do today">
+    <div className="ws-today-heading"><div><span className="ws-eyebrow">{plan?.generatedBy === 'ai' ? 'YOUR AI PLAN FOR TODAY' : 'YOUR PERSONALIZED PLAN'}</span><h2>What should I do today?</h2><p>{loading ? 'Building a plan from your saved preparation…' : plan ? `${plan.completedCount} / ${plan.totalCount} completed · ${plan.questionCount || 0} questions · ${plan.estimatedMinutes} min remaining` : 'A focused plan from your saved preparation activity.'}</p></div><button className="ws-today-start" disabled={working === 'start' || Boolean(plan?.startedAt)} onClick={() => void start()}>{working === 'start' ? 'Starting…' : plan?.startedAt ? 'Day started' : 'Start My Day'}</button></div>
+    {plan && <p className="roadmap-note">{plan.planningNote} {plan.dueRevisionCount > 0 && <Link to="/revisions">{plan.dueRevisionCount} selected revisions due </Link>}</p>}{error && <div className="ws-today-error">{error}<button onClick={() => void load()}>Retry</button></div>}
+    {loading ? <div className="ws-today-loading">Loading activity-based tasks…</div> : plan?.tasks?.length ? <div className="ws-today-list">{plan.tasks.map(task => <article className={`ws-today-task ${task.status}`} key={task.id}><button className="ws-task-check" title={task.kind === 'revision' ? 'Open this revision to record recall' : 'Update task completion'} aria-label={task.status === 'completed' ? 'Restore task' : 'Complete task'} disabled={Boolean(working) || task.kind === 'revision'} onClick={() => void update(task.id, task.status === 'completed' ? 'planned' : 'completed')}>{task.status === 'completed' ? '✓' : '○'}</button><Link to={task.href}><span>{task.domain.toUpperCase()} · {task.kind === 'revision' ? 'YOUR SELECTED REVIEW' : task.kind === 'mistake' ? 'FROM YOUR MISTAKES' : task.kind === 'bookmark' ? 'FROM BOOKMARKS' : task.questionCount ? 'PERSONALIZED PRACTICE' : 'TO DO'}</span><b>{task.title}</b><small>{task.detail}</small></Link><div className="ws-task-meta"><b>{task.estimatedMinutes} min</b>{task.status === 'planned' && <details><summary aria-label="Task actions">•••</summary><div><button disabled={Boolean(working)} onClick={() => void update(task.id, 'skipped')}>Skip</button><button disabled={Boolean(working)} onClick={() => void update(task.id, 'reschedule')}>Reschedule</button><button disabled={Boolean(working)} onClick={() => void update(task.id, 'replace')}>Replace</button></div></details>}{task.status === 'skipped' && <button className="ws-task-restore" disabled={Boolean(working)} onClick={() => void update(task.id, 'planned')}>Restore</button>}{task.status === 'rescheduled' && <small>Moved to {task.rescheduledFor}</small>}</div></article>)}</div> : <div className="ws-today-loading">No recommendations could be generated yet. Start one learning activity and try again.</div>}
   </section>;
 }
 
@@ -130,8 +86,8 @@ function DashboardProgress() {
     <div className="ws-progress-heading"><div><span className="ws-eyebrow">YOUR PROGRESS</span><h2>Evidence, not a made-up score.</h2><p>See what your real practice says, then take one useful next step.</p></div><div className="ws-progress-counts"><span><b>{loading ? '—' : assessed}</b> assessed skills</span><span><b>{loading ? '—' : overview?.dueRevisionCount || 0}</b> due revisions</span></div></div>
     {error && <div className="ws-progress-error">Couldn’t load progress: {error}</div>}
     <div className="ws-progress-grid">
-      <section className="ws-progress-card ws-progress-actions"><span className="ws-eyebrow">NEXT BEST ACTIONS</span><h3>Keep the loop moving</h3>{loading ? <p className="ws-progress-loading">Loading your recorded practice…</p> : (overview?.nextActions || []).map(action => <Link to={action.href} key={`${action.kind}-${action.title}`}><span>{action.kind === 'revision' ? '↻' : '→'}</span><div><b>{action.title}</b><small>{action.detail}</small></div></Link>)}</section>
-      <section className="ws-progress-card ws-progress-map"><div className="ws-progress-card-head"><div><span className="ws-eyebrow">SKILL MAP</span><h3>Recorded signals</h3></div><Link to="/skills">View all</Link></div>{loading ? <p className="ws-progress-loading">Loading your recorded practice…</p> : skills.length ? skills.map(skill => <article key={skill.skillId}><div><b>{skill.label}</b><small>{skill.domain.toUpperCase()} · {skill.graded ? `${skill.graded} graded · ${skill.accuracy}% accuracy` : skill.completed ? `${skill.completed} completion${skill.completed === 1 ? '' : 's'} recorded` : `${skill.interviewResponses || 0} saved response${skill.interviewResponses === 1 ? '' : 's'}`}</small></div><span className={`ws-progress-status ${skill.status}`}>{skill.status === 'needs_revision' ? 'Needs revision' : skill.status === 'supported' ? 'Supported' : 'Building evidence'}</span></article>) : <div className="ws-progress-empty"><b>No evidence yet</b><p>Complete a scored aptitude set or record a DSA problem. Real signals will show here.</p><Link to="/aptitude">Start practice →</Link></div>}</section>
+      <section className="ws-progress-card ws-progress-actions"><span className="ws-eyebrow">NEXT BEST ACTIONS</span><h3>Keep the loop moving</h3>{loading ? <p className="ws-progress-loading">Loading your recorded practice…</p> : (overview?.nextActions || []).map(action => <Link to={action.href} key={`${action.kind}-${action.title}`}><span>{action.kind === 'revision' ? '↻' : ''}</span><div><b>{action.title}</b><small>{action.detail}</small></div></Link>)}</section>
+      <section className="ws-progress-card ws-progress-map"><div className="ws-progress-card-head"><div><span className="ws-eyebrow">SKILL MAP</span><h3>Recorded signals</h3></div><Link to="/skills">View all</Link></div>{loading ? <p className="ws-progress-loading">Loading your recorded practice…</p> : skills.length ? skills.map(skill => <article key={skill.skillId}><div><b>{skill.label}</b><small>{skill.domain.toUpperCase()} · {skill.graded ? `${skill.graded} graded · ${skill.accuracy}% accuracy` : skill.completed ? `${skill.completed} completion${skill.completed === 1 ? '' : 's'} recorded` : `${skill.interviewResponses || 0} saved response${skill.interviewResponses === 1 ? '' : 's'}`}</small></div><span className={`ws-progress-status ${skill.status}`}>{skill.status === 'needs_revision' ? 'Needs revision' : skill.status === 'supported' ? 'Supported' : 'Building evidence'}</span></article>) : <div className="ws-progress-empty"><b>No evidence yet</b><p>Complete a scored aptitude set or record a DSA problem. Real signals will show here.</p><Link to="/aptitude">Start practice </Link></div>}</section>
     </div>
     {revisions.length > 0 && <section className="ws-progress-card ws-revisions"><div className="ws-progress-card-head"><div><span className="ws-eyebrow">SMART REVISION</span><h3>Due now</h3></div><span>{revisions.length} due</span></div>{revisions.map(revision => <article key={revision._id}><div><b>{revision.label}</b><p>{revision.prompt || 'Revisit this concept before moving on.'}</p></div><div><button className="ws-revision-secondary" disabled={Boolean(working)} onClick={() => void complete(revision, false)}>{working === `${revision._id}:false` ? 'Saving…' : 'Need another pass'}</button><button className="ws-revision-primary" disabled={Boolean(working)} onClick={() => void complete(revision, true)}>{working === `${revision._id}:true` ? 'Saving…' : 'I recalled it'}</button></div></article>)}</section>}
   </section>;
@@ -154,15 +110,9 @@ export function WorkspaceDashboard({ user }) {
   const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
   const name = user?.profile?.name?.trim().split(/\s+/)[0] || 'there';
   return <WorkspaceLayout user={user}>
-    <div className="ws-welcome"><div><span className="ws-eyebrow">MAKE ROOM FOR PROGRESS</span><h1>{greeting}, {name}<span>.</span></h1><p>A clear mind. A small step. A little closer to your next chapter.</p></div><time className="ws-date" dateTime={new Date().toISOString()}>{new Date().toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })}</time></div>
+    <div className="ws-welcome"><div><span className="ws-eyebrow">MAKE ROOM FOR PROGRESS</span><h1>{greeting}, {name}<span>.</span></h1></div><time className="ws-date" dateTime={new Date().toISOString()}>{new Date().toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })}</time></div>
     {error && <div className="ws-error" role="alert"><span>Couldn’t load your progress. {error}</span><button onClick={() => setReload(value => value + 1)}>Try again</button></div>}
     <TodayPlan />
-    <section className="ws-stats" aria-label="Your progress" aria-busy={loading}>
-      <Link to="/dsa" className="ws-stat"><span className="ws-stat-icon"><Icon name="code" /></span><div><span>Problems solved</span><strong>{showStat(stats?.solved)}</strong></div><Icon name="arrow" /></Link>
-      <Link to="/aptitude" className="ws-stat"><span className="ws-stat-icon"><Icon name="target" /></span><div><span>Aptitude accuracy</span><strong>{loading || error || stats?.aptitude?.accuracy == null ? '—' : `${stats.aptitude.accuracy}%`}</strong><small>{!loading && !error && stats?.aptitude?.accuracy == null ? 'Start a set to see your score' : !loading && !error ? `${stats?.aptitude?.attempted ?? 0} questions attempted` : loading ? 'Loading your progress' : 'Progress unavailable'}</small></div><Icon name="arrow" /></Link>
-      <Link to="/mock-tests" className="ws-stat"><span className="ws-stat-icon"><Icon name="check" /></span><div><span>Mock tests completed</span><strong>{showStat(stats?.mockTests)}</strong></div><Icon name="arrow" /></Link>
-      <Link to="/cs" className="ws-stat"><span className="ws-stat-icon"><Icon name="book" /></span><div><span>CS topics learned</span><strong>{showStat(stats?.csTopicsLearned)}</strong><small>{!loading && !error && !stats?.csTopicsLearned ? 'Start with one core concept' : 'Recorded learning activity'}</small></div><Icon name="arrow" /></Link>
-    </section>
     <div className="ws-focus-grid">
       <section className="ws-focus">
         <div className="ws-focus-top"><span className="ws-focus-label"><span /> YOUR NEXT MOVE</span><Icon name="spark" /></div>
@@ -174,7 +124,15 @@ export function WorkspaceDashboard({ user }) {
       </section>
       <DailyTasks compact />
     </div>
-    <DashboardProgress />
-    <footer className="ws-home-footer"><span><span className="ws-footer-dot" /> Your pace. Your progress.</span><Link to="/weekly-review">Take a moment to reflect <Icon name="arrow" /></Link></footer>
+    <PersonalRoadmap />
+    <OverviewInsights />
+    <ExtraPractice />
+    <section className="ws-stats" aria-label="Your progress" aria-busy={loading}>
+      <Link to="/dsa" className="ws-stat"><span className="ws-stat-icon"><Icon name="code" /></span><div><span>Problems solved</span><strong>{showStat(stats?.solved)}</strong></div><Icon name="arrow" /></Link>
+      <Link to="/aptitude" className="ws-stat"><span className="ws-stat-icon"><Icon name="target" /></span><div><span>Aptitude accuracy</span><strong>{loading || error || stats?.aptitude?.accuracy == null ? '—' : `${stats.aptitude.accuracy}%`}</strong><small>{!loading && !error && stats?.aptitude?.accuracy == null ? 'Start a set to see your score' : !loading && !error ? `${stats?.aptitude?.attempted ?? 0} questions attempted` : loading ? 'Loading your progress' : 'Progress unavailable'}</small></div><Icon name="arrow" /></Link>
+      <Link to="/mock-tests" className="ws-stat"><span className="ws-stat-icon"><Icon name="check" /></span><div><span>Mock tests completed</span><strong>{showStat(stats?.mockTests)}</strong></div><Icon name="arrow" /></Link>
+      <Link to="/cs" className="ws-stat"><span className="ws-stat-icon"><Icon name="book" /></span><div><span>CS topics learned</span><strong>{showStat(stats?.csTopicsLearned)}</strong><small>{!loading && !error && !stats?.csTopicsLearned ? 'Start with one core concept' : 'Recorded learning activity'}</small></div><Icon name="arrow" /></Link>
+    </section>
+    <section className="study-library-links"><Link to="/revisions">↻ Your selected revisions </Link><Link to="/mistakes">✎ Mistake Notebook </Link><Link to="/bookmarks">☆ Your bookmarks </Link></section>
   </WorkspaceLayout>;
 }

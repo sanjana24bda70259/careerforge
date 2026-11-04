@@ -1,0 +1,45 @@
+import { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { api } from '../services/api.js';
+import { WorkspaceLayout } from './Workspace.jsx';
+import '../practiceLibrary.css';
+const labels={aptitude:'Aptitude',cs:'CS Fundamentals',interview:'Interview Practice'};
+const homes={aptitude:'/aptitude',cs:'/cs',interview:'/interviews'};
+export function PracticeLibrary({user,domain,embedded=false}) {
+  const [topics,setTopics]=useState(null),[error,setError]=useState(''),[query,setQuery]=useState(''),[category,setCategory]=useState('All'),[retry,setRetry]=useState(0);
+  useEffect(()=>{let live=true;setTopics(null);setError('');api.practiceLibrary(domain).then(d=>{if(live)setTopics(d.topics);}).catch(e=>{if(live)setError(e.message);});return()=>{live=false;};},[domain,retry]);
+  const categories=[...new Set((topics||[]).map(t=>t.category))];
+  const visible=(topics||[]).filter(t=>(category==='All'||t.category===category)&&`${t.title} ${t.category}`.toLowerCase().includes(query.toLowerCase()));
+  const content=<section className="pl-library">
+    <header className="pl-heading"><div><span className="overline">LEARN · PRACTISE · REVIEW</span><h1>{embedded?'Topic practice library':labels[domain]}</h1><p>{domain==='aptitude'?'Build accuracy with worked examples, topic tests and explained answers.':'Build understanding with guided written exercises and answer checklists.'}</p></div>{topics&&<div className="pl-total"><strong>{topics.reduce((n,t)=>n+t.questionCount,0).toLocaleString()}</strong><span>practice questions · {topics.length} topics</span></div>}</header>
+    {domain==='aptitude'&&<div className="pl-shortcuts"><Link to="/learning/aptitude/foundation">Foundation assessments </Link><Link to="/learning/aptitude/advanced">Advanced assessments </Link><Link to="/learning/aptitude/formulas">Formula hub </Link><Link to="/learning/aptitude/advanced/mocks">Timed mock tests </Link></div>}
+    {domain==='interview'&&<p className="pl-note">Placement practice contains original preparation exercises. <Link to="/learning/aptitude/advanced/mocks">Take a scored placement-style mock </Link></p>}
+    {error?<div role="alert" className="pl-empty"><p>{error}</p><button className="button" onClick={()=>setRetry(r=>r+1)}>Try again</button></div>:!topics?<p role="status">Loading your practice library…</p>:<>
+      <div className="pl-filters"><input aria-label="Search practice topics" placeholder="Search a topic…" value={query} onChange={e=>setQuery(e.target.value)}/><span>{visible.length} topics</span></div>
+      <div className="pl-layout"><nav className="pl-categories" aria-label="Practice categories">{['All',...categories].map(c=><button key={c} className={c===category?'active':''} onClick={()=>setCategory(c)}>{c}<span>{c==='All'?topics.length:topics.filter(t=>t.category===c).length}</span></button>)}</nav><div className="pl-groups">{categories.filter(c=>visible.some(t=>t.category===c)).map(c=><section key={c}><h2>{c}</h2><div className="pl-topic-grid">{visible.filter(t=>t.category===c).map(t=><Link className="pl-topic" key={t.id} to={`/practice-library/${domain}/${t.id}`}><div><span>{t.format==='written'?'WRITTEN PRACTICE':'MULTIPLE CHOICE'}</span><b>{t.title}</b></div><p>{t.questionCount} questions · {t.attempted} reviewed</p><div className="pl-meter"><i style={{width:`${Math.min(100,t.attempted/t.questionCount*100)}%`}}/></div><footer>{t.format==='written'?'Theory & answer checklists':'Worked answers & practice'}<strong></strong></footer></Link>)}</div></section>)}{!visible.length&&<p className="pl-empty">No matching topics. Try a different search.</p>}</div></div></>}
+  </section>;
+  return embedded?content:<WorkspaceLayout user={user}>{content}</WorkspaceLayout>;
+}
+export function PracticeTopicPage({user}) {
+  const {domain,topicId}=useParams();
+  return <WorkspaceLayout user={user}><PracticeTopic key={`${user?._id||user?.id}:${domain}:${topicId}`} domain={domain} topicId={topicId}/></WorkspaceLayout>;
+}
+function PracticeTopic({domain,topicId}) {
+  const [topic,setTopic]=useState(null),[answers,setAnswers]=useState({}),[review,setReview]=useState({}),[index,setIndex]=useState(0),[error,setError]=useState(''),[saving,setSaving]=useState(false),[retry,setRetry]=useState(0),[tab,setTab]=useState('practice');
+  useEffect(()=>{let live=true;setError('');api.practiceTopic(domain,topicId).then(d=>{if(!live)return;setTopic(d.topic);setAnswers(Object.fromEntries(d.responses.map(r=>[r.questionId,r.answer])));setReview(Object.fromEntries(d.responses.map(r=>[r.questionId,r])));}).catch(e=>{if(live)setError(e.message);});return()=>{live=false;};},[domain,topicId,retry]);
+  const current=topic?.questions[index],result=current&&review[current.id];
+  const change=value=>{setAnswers(a=>({...a,[current.id]:value}));setReview(r=>{const next={...r};delete next[current.id];return next;});};
+  const submit=async()=>{if(saving)return;setSaving(true);setError('');const questionId=current.id;try {const d=await api.reviewPractice(domain,topicId,[{questionId,answer:answers[questionId]}]);setReview(r=>({...r,[questionId]:d.review[0]}));}catch(e){setError(e.message);}finally{setSaving(false);}};
+  return <section className="pl-study"><Link className="back-link" to={homes[domain]||'/dashboard'}> {labels[domain]||'Learning'}</Link>{!topic?<div className="pl-empty">{error?<><p role="alert">{error}</p><button className="button" onClick={()=>setRetry(r=>r+1)}>Try again</button></>:<p>Loading questions…</p>}</div>:<>
+    <header className="pl-heading"><div><span className="overline">{topic.category}</span><h1>{topic.title}</h1><p>{topic.questions.length} questions · {Object.keys(review).length} reviewed{topic.format==='written'?' · Guided written practice':' · Multiple choice'}</p></div></header>
+    <nav className="pl-tabs" aria-label="Topic sections">{['theory','practice'].map(t=><button key={t} className={t===tab?'active':''} onClick={()=>setTab(t)}>{t==='theory'?'Theory & method':'Practice questions'}</button>)}</nav>
+    {tab==='theory'?<article className="pl-theory"><h2>Before you practise</h2>{topic.theory.split('\n\n').map((p,i)=><p key={i}>{p}</p>)}{topic.practiceNote&&<p>{topic.practiceNote}</p>}<button className="button" onClick={()=>setTab('practice')}>Start practising </button></article>:<div className="pl-study-layout">
+      <aside className="pl-navigator"><b>QUESTION MAP</b><div>{topic.questions.map((q,i)=><button aria-label={`Question ${i+1}${review[q.id]?' reviewed':''}`} aria-current={i===index?'step':undefined} className={`${i===index?'active':''} ${review[q.id]?'reviewed':''}`} key={q.id} onClick={()=>{setIndex(i);setError('');}}>{i+1}</button>)}</div><p>Green = reviewed<br/>Checked answers are saved to your account.</p></aside>
+      <article className="pl-question"><span className="overline">QUESTION {index+1} OF {topic.questions.length}</span><h2>{current.prompt}</h2>{current.setContext&&<pre>{JSON.stringify(current.setContext,null,2)}</pre>}
+        {topic.format==='written'?<label className="pl-written">Your response<textarea aria-label="Your written answer" disabled={saving} value={answers[current.id]||''} maxLength={10000} onChange={e=>change(e.target.value)} placeholder="Explain your reasoning, give an example, and state any assumptions."/><small>At least 20 characters. Saved when you choose “Save & review”.</small></label>:<fieldset disabled={saving} className="pl-options"><legend className="sr-only">Choose an answer</legend>{current.options.map((o,i)=><label key={i} className={answers[current.id]===i?'selected':''}><input type="radio" name={current.id} checked={answers[current.id]===i} onChange={()=>change(i)}/><span>{String.fromCharCode(65+i)}</span>{o}</label>)}</fieldset>}
+        {error&&<p role="alert" className="api-error">{error}</p>}<button className="button" disabled={saving||(topic.format==='written'?(answers[current.id]||'').trim().length<20:!Number.isInteger(answers[current.id]))} onClick={()=>void submit()}>{saving?'Saving…':topic.format==='written'?'Save & review':'Check answer'}</button>
+        {result&&<section className={`pl-feedback ${result.correct===false?'incorrect':''}`} aria-live="polite"><h3>{result.correct===null?'Answer saved · self-review':result.correct?'Correct answer':'Review the method'}</h3>{Number.isInteger(result.correctAnswer)&&<p><b>Correct answer:</b> {current.options[result.correctAnswer]}</p>}{result.explanation.split('\n\n').map((p,i)=><p key={i}>{p}</p>)}{topic.format==='written'&&<small>This checklist is for self-review; no automated correctness score is assigned.</small>}</section>}
+        <footer className="pl-question-nav"><button className="button secondary" disabled={index===0} onClick={()=>{setIndex(i=>i-1);setError('');}}> Previous</button><span>{index+1} / {topic.questions.length}</span><button className="button secondary" disabled={index===topic.questions.length-1} onClick={()=>{setIndex(i=>i+1);setError('');}}>Next </button></footer>
+      </article></div>}
+  </>}</section>;
+}

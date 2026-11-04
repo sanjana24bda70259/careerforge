@@ -65,6 +65,7 @@ router.get('/roadmap', async (req, res, next) => {
     ]);
     const solvedQuestions = allProblemProgress.filter(item => item.status === 'solved');
     const progressByTopic = new Map(progress.map(item => [item.topicId, item]));
+    const questionProgress = new Map(allProblemProgress.map(item => [item.problemId, item]));
     const solvedByTopic = new Map();
     for (const solved of solvedQuestions) {
       const [, topicId] = solved.problemId.split(':');
@@ -79,6 +80,13 @@ router.get('/roadmap', async (req, res, next) => {
       return {
         ...topic,
         questionCount,
+        questions: questionsForTopic(topic.id).map(question => ({
+          id: question.id, title: question.title, difficulty: question.difficulty,
+          subcategory: question.subcategory || question.tags?.slice(1).join(' · ') || 'Fundamentals',
+          visualizationId: question.visualizationId || null,
+          original: question.source === 'CareerForge',
+          status: questionProgress.get(dsaPracticeProgressId(topic.id, question.id))?.status || 'not_started'
+        })),
         progress: {
           ...(saved || { status: claimedSkills.has(topic.id) ? 'needs_practice' : 'not_started', mastery: 0 }),
           status: problemsSolved > 0 ? 'in_progress' : (saved?.status || (claimedSkills.has(topic.id) ? 'needs_practice' : 'not_started')),

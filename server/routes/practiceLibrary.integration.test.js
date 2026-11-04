@@ -1,0 +1,41 @@
+import '../config/env.js';
+import assert from 'node:assert/strict';
+import { before,after,test } from 'node:test';
+import mongoose from 'mongoose';
+import express from 'express';
+import jwt from 'jsonwebtoken';
+import library from './practiceLibrary.js';
+import { requireAuth } from '../middleware/auth.js';
+import { User } from '../models/User.js';
+import { PracticeResponse } from '../models/PracticeResponse.js';
+import { practiceTopic } from '../services/practiceCatalog.js';
+const dbName=`careerforge_test_library_${process.pid}_${Date.now()}`;
+let server,origin,token,otherToken;
+before(async()=>{
+  process.env.JWT_SECRET='isolated-practice-library-test';
+  await mongoose.connect(process.env.MONGODB_URI||'mongodb://127.0.0.1:27017',{dbName,serverSelectionTimeoutMS:5000});
+  await Promise.all([User.init(),PracticeResponse.init()]);
+  const users=await User.create([{email:'one@library.test',passwordHash:'test'},{email:'two@library.test',passwordHash:'test'}]);
+  [token,otherToken]=users.map(u=>jwt.sign({sub:u.id},process.env.JWT_SECRET));
+  const app=express();app.use(express.json());app.use('/library',requireAuth,library);app.use((err,req,res,next)=>res.status(500).json({message:err.message}));
+  server=await new Promise(resolve=>{const s=app.listen(0,'127.0.0.1',()=>resolve(s));});origin=`http://127.0.0.1:${server.address().port}/library`;
+});
+after(async()=>{if(server)await new Promise(resolve=>server.close(resolve));if(mongoose.connection.readyState===1&&mongoose.connection.name===dbName&&dbName.startsWith('careerforge_test_library_'))await mongoose.connection.dropDatabase();await mongoose.disconnect();});
+async function request(path,body,auth=token){const r=await fetch(origin+path,{method:body?'POST':'GET',headers:{'Content-Type':'application/json',...(auth?{Authorization:`Bearer ${auth}`}:{})},body:body?JSON.stringify(body):undefined});return {status:r.status,...await r.json()};}
+test('library reviews persist per user, with no answer leak or invented written score',async()=>{
+  assert.equal((await request('/aptitude',undefined,null)).status,401);
+  const q=practiceTopic('aptitude','percentages').questions[0];
+  const before=await request('/aptitude/percentages');assert.equal(before.status,200);
+  assert.equal(before.data.topic.questions[0].correctAnswer,undefined);assert.equal(before.data.topic.questions[0].explanation,undefined);
+  assert.equal((await request('/aptitude/percentages/review',{answers:[{questionId:q.id,answer:q.correctAnswer}]})).data.review[0].correct,true);
+  assert.equal((await request('/aptitude/percentages')).data.responses.length,1);
+  assert.equal((await request('/aptitude/percentages',undefined,otherToken)).data.responses.length,0);
+  assert.equal((await request('/aptitude')).data.topics.find(t=>t.id==='percentages').attempted,1);
+  await request('/aptitude/percentages/review',{answers:[{questionId:q.id,answer:(q.correctAnswer+1)%4}]});
+  const after=await request('/aptitude/percentages');assert.equal(after.data.responses.length,1);assert.equal(after.data.responses[0].correct,false);
+  assert.equal((await request('/aptitude/percentages/review',{answers:[{questionId:'invalid',answer:0}]})).status,400);
+  assert.equal((await request('/cs/missing')).status,404);
+  const w=practiceTopic('cs','java').questions[0];
+  const r=await request('/cs/java/review',{answers:[{questionId:w.id,answer:'Java copies the value of a reference when passing it to a method.'}]});
+  assert.equal(r.data.review[0].correct,null);assert.equal((await request('/cs/java')).data.responses[0].correct,null);
+});

@@ -1,15 +1,24 @@
+import { endSession, getToken } from './session.js';
+
 const request = async (path, options = {}) => {
-  const token = localStorage.getItem('careerforge_token');
+  const isPublicAuth = path === '/auth/login' || path === '/auth/register';
+  const token = isPublicAuth ? null : getToken();
   let response;
   try {
-    response = await fetch(`/api${path}`, { ...options, headers: { Accept: 'application/json', 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}), ...options.headers } });
+    response = await fetch(`/api${path}`, { ...options, headers: { Accept: 'application/json', 'Content-Type': 'application/json', 'X-Timezone': Intl.DateTimeFormat().resolvedOptions().timeZone, ...(token ? { Authorization: `Bearer ${token}` } : {}), ...options.headers } });
   } catch {
     throw new Error('Cannot reach the API. Start the CareerForge server and check the API URL.');
   }
 
+  if (response.status === 401 && !isPublicAuth) {
+    endSession(token);
+    throw new Error('Your session has expired. Please sign in again.');
+  }
   const contentType = response.headers.get('content-type') || '';
   const body = await response.text();
   if (!contentType.includes('application/json')) {
+    if (response.status >= 500) throw new Error('The CareerForge API is unavailable. Start the API server, then retry.');
+    if (response.status === 429) throw new Error('Too many requests. Please wait a few minutes and try again.');
     const received = contentType || 'an empty response';
     throw new Error(`API request to ${path} failed (${response.status}). Expected JSON but received ${received}.`);
   }
@@ -21,14 +30,36 @@ const request = async (path, options = {}) => {
     throw new Error(`API request to ${path} failed (${response.status}). The server returned invalid JSON.`);
   }
   if (!payload) throw new Error(`API request to ${path} failed (${response.status}). The server returned an empty JSON response.`);
-  if (response.status === 401) {
-    localStorage.removeItem('careerforge_token');
-    localStorage.removeItem('careerforge_user');
-  }
   if (!response.ok || !payload.success) throw new Error(payload.message || payload.error || `API request failed with status ${response.status}.`);
   return payload.data;
 };
 export const api = {
+  practiceLibrary: domain => request(`/practice-library/${encodeURIComponent(domain)}`),
+  practiceTopic: (domain, topic) => request(`/practice-library/${encodeURIComponent(domain)}/${encodeURIComponent(topic)}`),
+  reviewPractice: (domain, topic, answers) => request(`/practice-library/${encodeURIComponent(domain)}/${encodeURIComponent(topic)}/review`, { method: 'POST', body: JSON.stringify({ answers }) }),
+  workspaceOverview: () => request('/workspace/overview'),
+  workspacePreferences: body => request('/workspace/preferences', { method: 'PATCH', body: JSON.stringify(body) }),
+  schedule: (from, to) => request(`/workspace/schedule?from=${from}&to=${to}`),
+  createSchedule: body => request('/workspace/schedule', { method: 'POST', body: JSON.stringify(body) }),
+  updateSchedule: (id, body) => request(`/workspace/schedule/${id}`, { method: 'PATCH', body: JSON.stringify(body) }),
+  schedulePlan: startTime => request('/workspace/schedule/import-plan', { method: 'POST', body: JSON.stringify({ startTime }) }),
+  workspaceEntries: (type, archived = false) => request(`/workspace/entries?type=${type}&archived=${archived}`),
+  createWorkspaceEntry: body => request('/workspace/entries', { method: 'POST', body: JSON.stringify(body) }),
+  updateWorkspaceEntry: (id, body) => request(`/workspace/entries/${id}`, { method: 'PATCH', body: JSON.stringify(body) }),
+  startFocus: domain => request('/workspace/focus/start', { method: 'POST', body: JSON.stringify({ domain }) }),
+  stopFocus: () => request('/workspace/focus/stop', { method: 'POST' }),
+  readNotifications: keys => request('/workspace/notifications/read', { method: 'POST', body: JSON.stringify({ keys }) }),
+  workspaceHealth: () => request('/workspace/health'),
+  personalRoadmap: () => request('/dashboard/roadmap'),
+  personalizedSuggestions: () => request('/dashboard/suggestions'),
+  acknowledgeDay: () => request('/dashboard/today-plan/acknowledge', { method: 'POST' }),
+  learningItems: (collection = '') => request(`/learning-items?collection=${encodeURIComponent(collection)}`),
+  learningItem: key => request(`/learning-items/${encodeURIComponent(key)}`),
+  saveLearningItem: (key, body) => request(`/learning-items/${encodeURIComponent(key)}`, { method: 'PUT', body: JSON.stringify(body) }),
+  saveLearningMistake: (key, body) => request(`/learning-items/${encodeURIComponent(key)}/mistake`, { method: 'POST', body: JSON.stringify(body) }),
+  answerLearningItem: (key, answer) => request(`/learning-items/${encodeURIComponent(key)}/answer`, { method: 'POST', body: JSON.stringify({ answer }) }),
+  revealLearningItem: key => request(`/learning-items/${encodeURIComponent(key)}/reveal`, { method: 'POST' }),
+  reviewLearningItem: (key, recalled) => request(`/learning-items/${encodeURIComponent(key)}/review`, { method: 'POST', body: JSON.stringify({ recalled }) }),
   register: (body) => request('/auth/register', { method: 'POST', body: JSON.stringify(body) }),
   login: (body) => request('/auth/login', { method: 'POST', body: JSON.stringify(body) }),
   me: () => request('/auth/me'),

@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "node server.js",
     "start": "node server.js",
-    "sync:leetcode": "node scripts/syncLeetCode.js"
+    "sync:leetcode": "node scripts/syncLeetCode.js",
+    "test": "node --test middleware/*.test.js services/*.test.js",
+    "test:integration": "node --test routes/*.integration.test.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

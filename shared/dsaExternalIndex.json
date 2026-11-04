@@ -1,0 +1,2252 @@
+[
+  {
+    "problem": "Contains Duplicate",
+    "link": "contains-duplicate/",
+    "video": "3OamzN90kPg"
+  },
+  {
+    "problem": "Valid Anagram",
+    "link": "valid-anagram/",
+    "video": "9UtInBqnCgA"
+  },
+  {
+    "problem": "Concatenation of Array",
+    "link": "concatenation-of-array/",
+    "video": "68isPRHgcFQ"
+  },
+  {
+    "problem": "Replace Elements With Greatest Element On Right Side",
+    "link": "replace-elements-with-greatest-element-on-right-side/",
+    "video": "ZHjKhUjcsaU"
+  },
+  {
+    "problem": "Is Subsequence",
+    "link": "is-subsequence/",
+    "video": "99RVfqklbCE"
+  },
+  {
+    "problem": "Length of Last Word",
+    "link": "length-of-last-word/",
+    "video": "KT9rltZTybQ"
+  },
+  {
+    "problem": "Two Sum",
+    "link": "two-sum/",
+    "video": "KLlXCFG5TnA"
+  },
+  {
+    "problem": "Longest Common Prefix",
+    "link": "longest-common-prefix/",
+    "video": "0sWShKIJoo4"
+  },
+  {
+    "problem": "Group Anagrams",
+    "link": "group-anagrams/",
+    "video": "vzdNOK2oB2E"
+  },
+  {
+    "problem": "Pascals Triangle",
+    "link": "pascals-triangle/",
+    "video": "nPVEaB3AjUM"
+  },
+  {
+    "problem": "Remove Element",
+    "link": "remove-element/",
+    "video": "Pcd1ii9P9ZI"
+  },
+  {
+    "problem": "Unique Email Addresses",
+    "link": "unique-email-addresses/",
+    "video": "TC_xLIWl7qY"
+  },
+  {
+    "problem": "Isomorphic Strings",
+    "link": "isomorphic-strings/",
+    "video": "7yF-U1hLEqQ"
+  },
+  {
+    "problem": "Can Place Flowers",
+    "link": "can-place-flowers/",
+    "video": "ZGxqqjljpUI"
+  },
+  {
+    "problem": "Majority Element",
+    "link": "majority-element/",
+    "video": "7pnhv842keE"
+  },
+  {
+    "problem": "Next Greater Element I",
+    "link": "next-greater-element-i/",
+    "video": "68a1Dc_qVq4"
+  },
+  {
+    "problem": "Find Pivot Index",
+    "link": "find-pivot-index/",
+    "video": "u89i60lYx8U"
+  },
+  {
+    "problem": "Range Sum Query - Immutable",
+    "link": "range-sum-query-immutable/",
+    "video": "2pndAmo_sMA"
+  },
+  {
+    "problem": "Find All Numbers Disappeared in An Array",
+    "link": "find-all-numbers-disappeared-in-an-array/",
+    "video": "8i-f24YFWC4"
+  },
+  {
+    "problem": "Maximum Number of Balloons",
+    "link": "maximum-number-of-balloons/",
+    "video": "G9xeB2-7PqY"
+  },
+  {
+    "problem": "Word Pattern",
+    "link": "word-pattern/",
+    "video": "W_akoecmCbM"
+  },
+  {
+    "problem": "Design HashSet",
+    "link": "design-hashset/",
+    "video": "VymjPQUXjL8"
+  },
+  {
+    "problem": "Design HashMap",
+    "link": "design-hashmap/",
+    "video": "cNWsgbKwwoU"
+  },
+  {
+    "problem": "Sort an Array",
+    "link": "sort-an-array/",
+    "video": "MsYZSinhuFo"
+  },
+  {
+    "problem": "Top K Frequent Elements",
+    "link": "top-k-frequent-elements/",
+    "video": "YPTqKIgVk-k"
+  },
+  {
+    "problem": "Product of Array Except Self",
+    "link": "product-of-array-except-self/",
+    "video": "bNvIQI2wAjk"
+  },
+  {
+    "problem": "Valid Sudoku",
+    "link": "valid-sudoku/",
+    "video": "TjFXEUCMqI8"
+  },
+  {
+    "problem": "Encode and Decode Strings",
+    "link": "encode-and-decode-strings/",
+    "video": "B1k_sxOSgv8"
+  },
+  {
+    "problem": "Longest Consecutive Sequence",
+    "link": "longest-consecutive-sequence/",
+    "video": "P6RZZMu_maU"
+  },
+  {
+    "problem": "Sort Colors",
+    "link": "sort-colors/",
+    "video": "4xbWSRZHqac"
+  },
+  {
+    "problem": "Encode and Decode TinyURL",
+    "link": "encode-and-decode-tinyurl/",
+    "video": "VyBOaboQLGc"
+  },
+  {
+    "problem": "Brick Wall",
+    "link": "brick-wall/",
+    "video": "Kkmv2h48ekw"
+  },
+  {
+    "problem": "Best Time to Buy And Sell Stock II",
+    "link": "best-time-to-buy-and-sell-stock-ii/",
+    "video": "3SJ3pUkPQMc"
+  },
+  {
+    "problem": "Subarray Sum Equals K",
+    "link": "subarray-sum-equals-k/",
+    "video": "fFVZt-6sgyo"
+  },
+  {
+    "problem": "Unique Length 3 Palindromic Subsequences",
+    "link": "unique-length-3-palindromic-subsequences/",
+    "video": "3THUt0vAFLU"
+  },
+  {
+    "problem": "Minimum Number of Swaps to Make The String Balanced",
+    "link": "minimum-number-of-swaps-to-make-the-string-balanced/",
+    "video": "3YDBT9ZrfaU"
+  },
+  {
+    "problem": "Number of Pairs of Interchangeable Rectangles",
+    "link": "number-of-pairs-of-interchangeable-rectangles/",
+    "video": "lEQ8ZlLOuyQ"
+  },
+  {
+    "problem": "Maximum Product of The Length of Two Palindromic Subsequences",
+    "link": "maximum-product-of-the-length-of-two-palindromic-subsequences/",
+    "video": "aoHbYlO8vDg"
+  },
+  {
+    "problem": "Grid Game",
+    "link": "grid-game/",
+    "video": "N4wDSOw65hI"
+  },
+  {
+    "problem": "Find All Anagrams in a String",
+    "link": "find-all-anagrams-in-a-string/",
+    "video": "G8xtZy0fDKg"
+  },
+  {
+    "problem": "Find The Index of The First Occurrence in a String",
+    "link": "find-the-index-of-the-first-occurrence-in-a-string/",
+    "video": "JoF0Z7nVSrA"
+  },
+  {
+    "problem": "Wiggle Sort",
+    "link": "wiggle-sort/",
+    "video": "vGsyTE4s34w"
+  },
+  {
+    "problem": "Largest Number",
+    "link": "largest-number/",
+    "video": "WDx6Y4i4xJ8"
+  },
+  {
+    "problem": "Continuous Subarray Sum",
+    "link": "continuous-subarray-sum/",
+    "video": "OKcrLfR-8mE"
+  },
+  {
+    "problem": "Push Dominoes",
+    "link": "push-dominoes/",
+    "video": "evUFsOb_iLY"
+  },
+  {
+    "problem": "Repeated DNA Sequences",
+    "link": "repeated-dna-sequences/",
+    "video": "FzTYfsmtOso"
+  },
+  {
+    "problem": "Insert Delete Get Random O(1)",
+    "link": "insert-delete-getrandom-o1/",
+    "video": "j4KwhBziOpg"
+  },
+  {
+    "problem": "Check if a String Contains all Binary Codes of Size K",
+    "link": "check-if-a-string-contains-all-binary-codes-of-size-k/",
+    "video": "qU32rTy_kOM"
+  },
+  {
+    "problem": "Range Sum Query 2D Immutable",
+    "link": "range-sum-query-2d-immutable/",
+    "video": "KE8MQuwE2yA"
+  },
+  {
+    "problem": "Non Decreasing Array",
+    "link": "non-decreasing-array/",
+    "video": "RegQckCegDk"
+  },
+  {
+    "problem": "First Missing Positive",
+    "link": "first-missing-positive/",
+    "video": "8g78yfzMlao"
+  },
+  {
+    "problem": "Sign of An Array",
+    "link": "sign-of-the-product-of-an-array/",
+    "video": "ILDLM86jNow"
+  },
+  {
+    "problem": "Find the Difference of Two Arrays",
+    "link": "find-the-difference-of-two-arrays/",
+    "video": "a4wqKR-znBE"
+  },
+  {
+    "problem": "Design Parking System",
+    "link": "design-parking-system/",
+    "video": "d5zCHesOrSk"
+  },
+  {
+    "problem": "Number of Zero-Filled Subarrays",
+    "link": "number-of-zero-filled-subarrays/",
+    "video": "G-EWVGCcL_w"
+  },
+  {
+    "problem": "Optimal Partition of String",
+    "link": "optimal-partition-of-string/",
+    "video": "CKZPdiXiQf0"
+  },
+  {
+    "problem": "Design Underground System",
+    "link": "design-underground-system/",
+    "video": "W5QOLqXskZM"
+  },
+  {
+    "problem": "Minimum Penalty for a Shop",
+    "link": "minimum-penalty-for-a-shop/",
+    "video": "0d7ShRoOFVE"
+  },
+  {
+    "problem": "Text Justification",
+    "link": "text-justification/",
+    "video": "TzMl4Z7pVh8"
+  },
+  {
+    "problem": "Naming a Company",
+    "link": "naming-a-company/",
+    "video": "NrHpgTScOcY"
+  },
+  {
+    "problem": "Valid Palindrome",
+    "link": "valid-palindrome/",
+    "video": "jJXJ16kPFWg"
+  },
+  {
+    "problem": "Valid Palindrome II",
+    "link": "valid-palindrome-ii/",
+    "video": "JrxRYBwG6EI"
+  },
+  {
+    "problem": "Minimum Difference Between Highest And Lowest of K Scores",
+    "link": "minimum-difference-between-highest-and-lowest-of-k-scores/",
+    "video": "JU5XdBZZtlk"
+  },
+  {
+    "problem": "Merge Strings Alternately",
+    "link": "merge-strings-alternately/",
+    "video": "LECWOvTo-Sc"
+  },
+  {
+    "problem": "Reverse String",
+    "link": "reverse-string/",
+    "video": "_d0T_2Lk2qA"
+  },
+  {
+    "problem": "Merge Sorted Array",
+    "link": "merge-sorted-array/",
+    "video": "P1Ic85RarKY"
+  },
+  {
+    "problem": "Move Zeroes",
+    "link": "move-zeroes/",
+    "video": "aayNRwUN3Do"
+  },
+  {
+    "problem": "Remove Duplicates From Sorted Array",
+    "link": "remove-duplicates-from-sorted-array/",
+    "video": "DEJAZBq0FDA"
+  },
+  {
+    "problem": "Remove Duplicates From Sorted Array II",
+    "link": "remove-duplicates-from-sorted-array-ii/",
+    "video": "ycAq8iqh0TI"
+  },
+  {
+    "problem": "Two Sum II Input Array Is Sorted",
+    "link": "two-sum-ii-input-array-is-sorted/",
+    "video": "cQ1Oz4ckceM"
+  },
+  {
+    "problem": "3Sum",
+    "link": "3sum/",
+    "video": "jzZsG8n2R9A"
+  },
+  {
+    "problem": "4Sum",
+    "link": "4sum/",
+    "video": "EYeR-_1NRlQ"
+  },
+  {
+    "problem": "Container With Most Water",
+    "link": "container-with-most-water/",
+    "video": "UuiTKBwPgAo"
+  },
+  {
+    "problem": "Number of Subsequences That Satisfy The Given Sum Condition",
+    "link": "number-of-subsequences-that-satisfy-the-given-sum-condition/",
+    "video": "xCsIkPLS4Ls"
+  },
+  {
+    "problem": "Rotate Array",
+    "link": "rotate-array/",
+    "video": "BHr381Guz3Y"
+  },
+  {
+    "problem": "Array With Elements Not Equal to Average of Neighbors",
+    "link": "array-with-elements-not-equal-to-average-of-neighbors/",
+    "video": "Wmb3YdVYfqM"
+  },
+  {
+    "problem": "Boats to Save People",
+    "link": "boats-to-save-people/",
+    "video": "XbaxWuHIWUs"
+  },
+  {
+    "problem": "Trapping Rain Water",
+    "link": "trapping-rain-water/",
+    "video": "ZI2z5pq0TqA"
+  },
+  {
+    "problem": "Best Time to Buy And Sell Stock",
+    "link": "best-time-to-buy-and-sell-stock/",
+    "video": "1pkOgXD63yU"
+  },
+  {
+    "problem": "Contains Duplicate II",
+    "link": "contains-duplicate-ii/",
+    "video": "ypn0aZ0nrL4"
+  },
+  {
+    "problem": "Number of Sub Arrays of Size K and Avg Greater than or Equal to Threshold",
+    "link": "number-of-sub-arrays-of-size-k-and-average-greater-than-or-equal-to-threshold/",
+    "video": "D8B4tKxMTnY"
+  },
+  {
+    "problem": "Longest Substring Without Repeating Characters",
+    "link": "longest-substring-without-repeating-characters/",
+    "video": "wiGpQwVHdE0"
+  },
+  {
+    "problem": "Longest Repeating Character Replacement",
+    "link": "longest-repeating-character-replacement/",
+    "video": "gqXU1UyA8pk"
+  },
+  {
+    "problem": "Permutation In String",
+    "link": "permutation-in-string/",
+    "video": "UbyhOgBN834"
+  },
+  {
+    "problem": "Frequency of The Most Frequent Element",
+    "link": "frequency-of-the-most-frequent-element/",
+    "video": "vgBrQ0NM5vE"
+  },
+  {
+    "problem": "Fruits into Basket",
+    "link": "fruit-into-baskets/",
+    "video": "yYtaV0G3mWQ"
+  },
+  {
+    "problem": "Maximum Number of Vowels in a Substring of Given Length",
+    "link": "maximum-number-of-vowels-in-a-substring-of-given-length/",
+    "video": "kEfPSzgL-Ss"
+  },
+  {
+    "problem": "Minimum Number of Flips to Make The Binary String Alternating",
+    "link": "minimum-number-of-flips-to-make-the-binary-string-alternating/",
+    "video": "MOeuK6gaC2A"
+  },
+  {
+    "problem": "Minimum Size Subarray Sum",
+    "link": "minimum-size-subarray-sum/",
+    "video": "aYqYMIqZx5s"
+  },
+  {
+    "problem": "Find K Closest Elements",
+    "link": "find-k-closest-elements/",
+    "video": "o-YDQzHoaKM"
+  },
+  {
+    "problem": "Minimum Operations to Reduce X to Zero",
+    "link": "minimum-operations-to-reduce-x-to-zero/",
+    "video": "xumn16n7njs"
+  },
+  {
+    "problem": "Minimum Window Substring",
+    "link": "minimum-window-substring/",
+    "video": "jSto0O4AJbM"
+  },
+  {
+    "problem": "Sliding Window Maximum",
+    "link": "sliding-window-maximum/",
+    "video": "DfljaUwZsOk"
+  },
+  {
+    "problem": "Valid Parentheses",
+    "link": "valid-parentheses/",
+    "video": "WTzjTskDFMg"
+  },
+  {
+    "problem": "Baseball Game",
+    "link": "baseball-game/",
+    "video": "Id_tqGdsZQI"
+  },
+  {
+    "problem": "Implement Stack Using Queues",
+    "link": "implement-stack-using-queues/",
+    "video": "rW4vm0-DLYc"
+  },
+  {
+    "problem": "Min Stack",
+    "link": "min-stack/",
+    "video": "qkLl7nAwDPo"
+  },
+  {
+    "problem": "Evaluate Reverse Polish Notation",
+    "link": "evaluate-reverse-polish-notation/",
+    "video": "iu0082c4HDE"
+  },
+  {
+    "problem": "Removing Stars From a String",
+    "link": "removing-stars-from-a-string/",
+    "video": "pRyFZIaKegA"
+  },
+  {
+    "problem": "Validate Stack Sequences",
+    "link": "validate-stack-sequences/",
+    "video": "mzua0r94kb8"
+  },
+  {
+    "problem": "Generate Parentheses",
+    "link": "generate-parentheses/",
+    "video": "s9fokUqJ76A"
+  },
+  {
+    "problem": "Asteroid Collision",
+    "link": "asteroid-collision/",
+    "video": "LN7KjRszjk4"
+  },
+  {
+    "problem": "Daily Temperatures",
+    "link": "daily-temperatures/",
+    "video": "cTBiBSnjO3c"
+  },
+  {
+    "problem": "Online Stock Span",
+    "link": "online-stock-span/",
+    "video": "slYh0ZNEqSw"
+  },
+  {
+    "problem": "Car Fleet",
+    "link": "car-fleet/",
+    "video": "Pr6T-3yB9RM"
+  },
+  {
+    "problem": "Simplify Path",
+    "link": "simplify-path/",
+    "video": "qYlHrAKJfyA"
+  },
+  {
+    "problem": "Decode String",
+    "link": "decode-string/",
+    "video": "qB0zZpBJlh8"
+  },
+  {
+    "problem": "Remove K Digits",
+    "link": "remove-k-digits/",
+    "video": "cFabMOnJaq0"
+  },
+  {
+    "problem": "Remove All Adjacent Duplicates In String II",
+    "link": "remove-all-adjacent-duplicates-in-string-ii/",
+    "video": "w6LcypDgC4w"
+  },
+  {
+    "problem": "132 Pattern",
+    "link": "132-pattern/",
+    "video": "q5ANAl8Z458"
+  },
+  {
+    "problem": "Maximum Frequency Stack",
+    "link": "maximum-frequency-stack/",
+    "video": "Z6idIicFDOE"
+  },
+  {
+    "problem": "Largest Rectangle In Histogram",
+    "link": "largest-rectangle-in-histogram/",
+    "video": "zx5Sw9130L0"
+  },
+  {
+    "problem": "Binary Search",
+    "link": "binary-search/",
+    "video": "s4DPM8ct1pI"
+  },
+  {
+    "problem": "Search Insert Position",
+    "link": "search-insert-position/",
+    "video": "K-RYzDZkzCI"
+  },
+  {
+    "problem": "Guess Number Higher Or Lower",
+    "link": "guess-number-higher-or-lower/",
+    "video": "xW4QsTtaCa4"
+  },
+  {
+    "problem": "Arranging Coins",
+    "link": "arranging-coins/",
+    "video": "5rHz_6s2Buw"
+  },
+  {
+    "problem": "Squares of a Sorted Array",
+    "link": "squares-of-a-sorted-array/",
+    "video": "FPCZsG_AkUg"
+  },
+  {
+    "problem": "Valid Perfect Square",
+    "link": "valid-perfect-square/",
+    "video": "Cg_wWPHJ2Sk"
+  },
+  {
+    "problem": "Sqrt(x) ",
+    "link": "sqrtx/",
+    "video": "zdMhGxRWutQ"
+  },
+  {
+    "problem": "Single Element in a Sorted Array",
+    "link": "single-element-in-a-sorted-array/",
+    "video": "HGtqdzyUJ3k"
+  },
+  {
+    "problem": "Capacity to Ship Packages",
+    "link": "capacity-to-ship-packages-within-d-days/",
+    "video": "ER_oLmdc-nw"
+  },
+  {
+    "problem": "Find Peak Element",
+    "link": "find-peak-element/",
+    "video": "kMzJy9es7Hc"
+  },
+  {
+    "problem": "Successful Pairs of Spells and Potions",
+    "link": "successful-pairs-of-spells-and-potions/",
+    "video": "OKnm5oyAhWg"
+  },
+  {
+    "problem": "Search a 2D Matrix",
+    "link": "search-a-2d-matrix/",
+    "video": "Ber2pi2C0j0"
+  },
+  {
+    "problem": "Koko Eating Bananas",
+    "link": "koko-eating-bananas/",
+    "video": "U2SozAs9RzA"
+  },
+  {
+    "problem": "Minimize the Maximum Difference of Pairs",
+    "link": "minimize-the-maximum-difference-of-pairs/",
+    "video": "lf1Pxg7IrzQ"
+  },
+  {
+    "problem": "Find Minimum In Rotated Sorted Array",
+    "link": "find-minimum-in-rotated-sorted-array/",
+    "video": "nIVW4P8b1VA"
+  },
+  {
+    "problem": "Search In Rotated Sorted Array",
+    "link": "search-in-rotated-sorted-array/",
+    "video": "U8XENwh8Oy8"
+  },
+  {
+    "problem": "Search In Rotated Sorted Array II",
+    "link": "search-in-rotated-sorted-array-ii/",
+    "video": "oUnF7o88_Xc"
+  },
+  {
+    "problem": "Time Based Key Value Store",
+    "link": "time-based-key-value-store/",
+    "video": "fu2cD_6E8Hw"
+  },
+  {
+    "problem": "Find First And Last Position of Element In Sorted Array",
+    "link": "find-first-and-last-position-of-element-in-sorted-array/",
+    "video": "4sQL7R5ySUU"
+  },
+  {
+    "problem": "Maximum Number of Removable Characters",
+    "link": "maximum-number-of-removable-characters/",
+    "video": "NMP3nRPyX5g"
+  },
+  {
+    "problem": "Populating Next Right Pointers In Each Node",
+    "link": "populating-next-right-pointers-in-each-node/",
+    "video": "U4hFQCa1Cq0"
+  },
+  {
+    "problem": "Search Suggestions System",
+    "link": "search-suggestions-system/",
+    "video": "D4T2N0yAr20"
+  },
+  {
+    "problem": "Split Array Largest Sum",
+    "link": "split-array-largest-sum/",
+    "video": "YUF3_eBdzsk"
+  },
+  {
+    "problem": "Median of Two Sorted Arrays",
+    "link": "median-of-two-sorted-arrays/",
+    "video": "q6IEA26hvXc"
+  },
+  {
+    "problem": "Reverse Linked List",
+    "link": "reverse-linked-list/",
+    "video": "G0_I-ZF0S38"
+  },
+  {
+    "problem": "Merge Two Sorted Lists",
+    "link": "merge-two-sorted-lists/",
+    "video": "XIdigk956u0"
+  },
+  {
+    "problem": "Palindrome Linked List",
+    "link": "palindrome-linked-list/",
+    "video": "yOzXms1J6Nk"
+  },
+  {
+    "problem": "Remove Linked List Elements",
+    "link": "remove-linked-list-elements/",
+    "video": "JI71sxtHTng"
+  },
+  {
+    "problem": "Remove Duplicates From Sorted List",
+    "link": "remove-duplicates-from-sorted-list/",
+    "video": "p10f-VpO4nE"
+  },
+  {
+    "problem": "Middle of the Linked List",
+    "link": "middle-of-the-linked-list/",
+    "video": "A2_ldqM4QcY"
+  },
+  {
+    "problem": "Intersection of Two Linked Lists",
+    "link": "intersection-of-two-linked-lists/",
+    "video": "D0X0BONOQhI"
+  },
+  {
+    "problem": "Reorder List",
+    "link": "reorder-list/",
+    "video": "S5bfdUTrKLM"
+  },
+  {
+    "problem": "Maximum Twin Sum Of A Linked List",
+    "link": "maximum-twin-sum-of-a-linked-list/",
+    "video": "doj95MelfSA"
+  },
+  {
+    "problem": "Remove Nth Node From End of List",
+    "link": "remove-nth-node-from-end-of-list/",
+    "video": "XVuQxVej6y8"
+  },
+  {
+    "problem": "Swapping Nodes in a Linked List",
+    "link": "swapping-nodes-in-a-linked-list/",
+    "video": "4LsrgMyQIjQ"
+  },
+  {
+    "problem": "LFU Cache",
+    "link": "lfu-cache/",
+    "video": "bLEIHn-DgoA"
+  },
+  {
+    "problem": "Copy List With Random Pointer",
+    "link": "copy-list-with-random-pointer/",
+    "video": "5Y2EiZST97Y"
+  },
+  {
+    "problem": "Design Linked List",
+    "link": "design-linked-list/",
+    "video": "Wf4QhpdVFQo"
+  },
+  {
+    "problem": "Design Browser History",
+    "link": "design-browser-history/",
+    "video": "i1G-kKnBu8k"
+  },
+  {
+    "problem": "Add Two Numbers",
+    "link": "add-two-numbers/",
+    "video": "wgFPrzTjm7s"
+  },
+  {
+    "problem": "Linked List Cycle",
+    "link": "linked-list-cycle/",
+    "video": "gBTe7lFR3vc"
+  },
+  {
+    "problem": "Find The Duplicate Number",
+    "link": "find-the-duplicate-number/",
+    "video": "wjYnzkAhcNk"
+  },
+  {
+    "problem": "Swap Nodes In Pairs",
+    "link": "swap-nodes-in-pairs/",
+    "video": "o811TZLAWOo"
+  },
+  {
+    "problem": "Sort List",
+    "link": "sort-list/",
+    "video": "TGveA1oFhrc"
+  },
+  {
+    "problem": "Partition List",
+    "link": "partition-list/",
+    "video": "KT1iUciJr4g"
+  },
+  {
+    "problem": "Rotate List",
+    "link": "rotate-list/",
+    "video": "UcGtPs2LE_c"
+  },
+  {
+    "problem": "Reverse Linked List II",
+    "link": "reverse-linked-list-ii/",
+    "video": "RF_M9tX4Eag"
+  },
+  {
+    "problem": "Design Circular Queue",
+    "link": "design-circular-queue/",
+    "video": "aBbsfn863oA"
+  },
+  {
+    "problem": "Insertion Sort List",
+    "link": "insertion-sort-list/",
+    "video": "Kk6mXAzqX3Y"
+  },
+  {
+    "problem": "Split Linked List in Parts",
+    "link": "split-linked-list-in-parts/",
+    "video": "-OTlqdrxrVI"
+  },
+  {
+    "problem": "LRU Cache",
+    "link": "lru-cache/",
+    "video": "7ABFKPK2hD4"
+  },
+  {
+    "problem": "Merge K Sorted Lists",
+    "link": "merge-k-sorted-lists/",
+    "video": "q5a5OiGbT6Q"
+  },
+  {
+    "problem": "Reverse Nodes In K Group",
+    "link": "reverse-nodes-in-k-group/",
+    "video": "1UOPsfP85V4"
+  },
+  {
+    "problem": "Binary Tree Inorder Traversal",
+    "link": "binary-tree-inorder-traversal/",
+    "video": "g_S5WuasWUE"
+  },
+  {
+    "problem": "Binary Tree Preorder Traversal",
+    "link": "binary-tree-preorder-traversal/",
+    "video": "afTpieEZXck"
+  },
+  {
+    "problem": "Binary Tree Postorder Traversal",
+    "link": "binary-tree-postorder-traversal/",
+    "video": "QhszUQhGGlA"
+  },
+  {
+    "problem": "Invert Binary Tree",
+    "link": "invert-binary-tree/",
+    "video": "OnSn2XEQ4MY"
+  },
+  {
+    "problem": "Maximum Depth of Binary Tree",
+    "link": "maximum-depth-of-binary-tree/",
+    "video": "hTM3phVI6YQ"
+  },
+  {
+    "problem": "Diameter of Binary Tree",
+    "link": "diameter-of-binary-tree/",
+    "video": "bkxqA8Rfv04"
+  },
+  {
+    "problem": "Balanced Binary Tree",
+    "link": "balanced-binary-tree/",
+    "video": "QfJsau0ItOY"
+  },
+  {
+    "problem": "Same Tree",
+    "link": "same-tree/",
+    "video": "vRbbcKXCxOw"
+  },
+  {
+    "problem": "Subtree of Another Tree",
+    "link": "subtree-of-another-tree/",
+    "video": "E36O5SWp-LE"
+  },
+  {
+    "problem": "Convert Sorted Array to Binary Search Tree",
+    "link": "convert-sorted-array-to-binary-search-tree/",
+    "video": "0K0uCMYq5ng"
+  },
+  {
+    "problem": "Merge Two Binary Trees",
+    "link": "merge-two-binary-trees/",
+    "video": "QHH6rIK3dDQ"
+  },
+  {
+    "problem": "Path Sum",
+    "link": "path-sum/",
+    "video": "LSKQyOz_P8I"
+  },
+  {
+    "problem": "Construct String From Binary Tree",
+    "link": "construct-string-from-binary-tree/",
+    "video": "b1WpYxnuebQ"
+  },
+  {
+    "problem": "Lowest Common Ancestor of a Binary Search Tree",
+    "link": "lowest-common-ancestor-of-a-binary-search-tree/",
+    "video": "gs2LMfuOR9k"
+  },
+  {
+    "problem": "Insert into a Binary Search Tree",
+    "link": "insert-into-a-binary-search-tree/",
+    "video": "Cpg8f79luEA"
+  },
+  {
+    "problem": "Delete Node in a BST",
+    "link": "delete-node-in-a-bst/",
+    "video": "LFzAoJJt92M"
+  },
+  {
+    "problem": "Binary Tree Level Order Traversal",
+    "link": "binary-tree-level-order-traversal/",
+    "video": "6ZnyEApgFYg"
+  },
+  {
+    "problem": "Binary Tree Right Side View",
+    "link": "binary-tree-right-side-view/",
+    "video": "d4zLyf32e3I"
+  },
+  {
+    "problem": "Minimum Distance between BST Nodes",
+    "link": "minimum-distance-between-bst-nodes/",
+    "video": "joxx4hTYwcw"
+  },
+  {
+    "problem": "Symmetric Tree ",
+    "link": "symmetric-tree/",
+    "video": "Mao9uzxwvmc"
+  },
+  {
+    "problem": "Minimum Time to Collect All Apples in a Tree",
+    "link": "minimum-time-to-collect-all-apples-in-a-tree/",
+    "video": "Xdt5Z583auM"
+  },
+  {
+    "problem": "Binary Tree Zigzag Level Order Traversal",
+    "link": "binary-tree-zigzag-level-order-traversal/",
+    "video": "igbboQbiwqw"
+  },
+  {
+    "problem": "Construct Quad Tree",
+    "link": "construct-quad-tree/",
+    "video": "UQ-1sBMV0v4"
+  },
+  {
+    "problem": "Find Duplicate Subtrees",
+    "link": "find-duplicate-subtrees/",
+    "video": "kn0Z5_qPPzY"
+  },
+  {
+    "problem": "Check Completeness of a Binary Tree",
+    "link": "check-completeness-of-a-binary-tree/",
+    "video": "olbiZ-EOSig"
+  },
+  {
+    "problem": "Construct Binary Tree from Inorder and Postorder Traversal",
+    "link": "construct-binary-tree-from-inorder-and-postorder-traversal/",
+    "video": "vm63HuIU7kw"
+  },
+  {
+    "problem": "Maximum Width of Binary Tree ",
+    "link": "maximum-width-of-binary-tree/",
+    "video": "FPzLE2L7uHs"
+  },
+  {
+    "problem": "Time Needed to Inform All Employees ",
+    "link": "time-needed-to-inform-all-employees/",
+    "video": "zdBYi0p4L5Q"
+  },
+  {
+    "problem": "Count Good Nodes In Binary Tree",
+    "link": "count-good-nodes-in-binary-tree/",
+    "video": "7cp5imvDzl4"
+  },
+  {
+    "problem": "Validate Binary Search Tree",
+    "link": "validate-binary-search-tree/",
+    "video": "s6ATEkipzow"
+  },
+  {
+    "problem": "Kth Smallest Element In a Bst",
+    "link": "kth-smallest-element-in-a-bst/",
+    "video": "5LUXSvjmGCw"
+  },
+  {
+    "problem": "Construct Binary Tree From Preorder And Inorder Traversal",
+    "link": "construct-binary-tree-from-preorder-and-inorder-traversal/",
+    "video": "ihj4IQGZ2zc"
+  },
+  {
+    "problem": "Unique Binary Search Trees",
+    "link": "unique-binary-search-trees/",
+    "video": "Ox0TenN3Zpg"
+  },
+  {
+    "problem": "Unique Binary Search Trees II",
+    "link": "unique-binary-search-trees-ii/",
+    "video": "m907FlQa2Yc"
+  },
+  {
+    "problem": "Sum Root to Leaf Numbers",
+    "link": "sum-root-to-leaf-numbers/",
+    "video": "Jk16lZGFWxE"
+  },
+  {
+    "problem": "House Robber III",
+    "link": "house-robber-iii/",
+    "video": "nHR8ytpzz7c"
+  },
+  {
+    "problem": "Flip Equivalent Binary Trees",
+    "link": "flip-equivalent-binary-trees/",
+    "video": "izRDc1il9Pk"
+  },
+  {
+    "problem": "Operations On Tree",
+    "link": "operations-on-tree/",
+    "video": "qK4PtjrVD0U"
+  },
+  {
+    "problem": "All Possible Full Binary Trees",
+    "link": "all-possible-full-binary-trees/",
+    "video": "nZtrZPTTCAo"
+  },
+  {
+    "problem": "Find Bottom Left Tree Value",
+    "link": "find-bottom-left-tree-value/",
+    "video": "u_by_cTsNJA"
+  },
+  {
+    "problem": "Trim a Binary Search Tree",
+    "link": "trim-a-binary-search-tree/",
+    "video": "jwt5mTjEXGc"
+  },
+  {
+    "problem": "Binary Search Tree Iterator",
+    "link": "binary-search-tree-iterator/",
+    "video": "RXy5RzGF5wo"
+  },
+  {
+    "problem": "Convert Bst to Greater Tree",
+    "link": "convert-bst-to-greater-tree/",
+    "video": "7vVEJwVvAlI"
+  },
+  {
+    "problem": "Binary Tree Maximum Path Sum",
+    "link": "binary-tree-maximum-path-sum/",
+    "video": "Hr5cWUld4vU"
+  },
+  {
+    "problem": "Serialize And Deserialize Binary Tree",
+    "link": "serialize-and-deserialize-binary-tree/",
+    "video": "u4JAi2JJhI8"
+  },
+  {
+    "problem": "Implement Trie Prefix Tree",
+    "link": "implement-trie-prefix-tree/",
+    "video": "oobqoCJlHA0"
+  },
+  {
+    "problem": "Design Add And Search Words Data Structure",
+    "link": "design-add-and-search-words-data-structure/",
+    "video": "BTf05gs_8iU"
+  },
+  {
+    "problem": "Extra Characters in a String",
+    "link": "extra-characters-in-a-string/",
+    "video": "ONstwO1cD7c"
+  },
+  {
+    "problem": "Word Search II",
+    "link": "word-search-ii/",
+    "video": "asbcE9mZz_U"
+  },
+  {
+    "problem": "Kth Largest Element In a Stream",
+    "link": "kth-largest-element-in-a-stream/",
+    "video": "hOjcdrqMoQ8"
+  },
+  {
+    "problem": "Last Stone Weight",
+    "link": "last-stone-weight/",
+    "video": "B-QCq79-Vfw"
+  },
+  {
+    "problem": "K Closest Points to Origin",
+    "link": "k-closest-points-to-origin/",
+    "video": "rI2EBUEMfTk"
+  },
+  {
+    "problem": "Kth Largest Element In An Array",
+    "link": "kth-largest-element-in-an-array/",
+    "video": "XEmy13g1Qxc"
+  },
+  {
+    "problem": "Task Scheduler",
+    "link": "task-scheduler/",
+    "video": "s8p8ukTyA2I"
+  },
+  {
+    "problem": "Design Twitter",
+    "link": "design-twitter/",
+    "video": "pNichitDD2E"
+  },
+  {
+    "problem": "Minimize Deviation in Array",
+    "link": "minimize-deviation-in-array/",
+    "video": "boHNFptxo2A"
+  },
+  {
+    "problem": "Maximum Subsequence Score",
+    "link": "maximum-subsequence-score/",
+    "video": "ax1DKi5lJwk"
+  },
+  {
+    "problem": "Single Threaded Cpu",
+    "link": "single-threaded-cpu/",
+    "video": "RR1n-d4oYqE"
+  },
+  {
+    "problem": "Seat Reservation Manager",
+    "link": "seat-reservation-manager/",
+    "video": "ahobllKXEEY"
+  },
+  {
+    "problem": "Process Tasks Using Servers",
+    "link": "process-tasks-using-servers/",
+    "video": "XKA22PecuMQ"
+  },
+  {
+    "problem": "Find The Kth Largest Integer In The Array",
+    "link": "find-the-kth-largest-integer-in-the-array/",
+    "video": "lRCaNiqO3xI"
+  },
+  {
+    "problem": "Reorganize String",
+    "link": "reorganize-string/",
+    "video": "2g_b1aYTHeg"
+  },
+  {
+    "problem": "Longest Happy String",
+    "link": "longest-happy-string/",
+    "video": "8u-H6O_XQKE"
+  },
+  {
+    "problem": "Car Pooling",
+    "link": "car-pooling/",
+    "video": "08sn_w4LWEE"
+  },
+  {
+    "problem": "Find Median From Data Stream",
+    "link": "find-median-from-data-stream/",
+    "video": "itmhHWaHupI"
+  },
+  {
+    "problem": "Maximum Performance of a Team",
+    "link": "maximum-performance-of-a-team/",
+    "video": "Y7UTvogADH0"
+  },
+  {
+    "problem": "IPO",
+    "link": "ipo/",
+    "video": "1IUzNJ6TPEM"
+  },
+  {
+    "problem": "Subsets",
+    "link": "subsets/",
+    "video": "REOH22Xwdkk"
+  },
+  {
+    "problem": "Combination Sum",
+    "link": "combination-sum/",
+    "video": "GBKI9VSKdGg"
+  },
+  {
+    "problem": "Combinations",
+    "link": "combinations/",
+    "video": "q0s6m7AiM7o"
+  },
+  {
+    "problem": "Permutations",
+    "link": "permutations/",
+    "video": "s7AvT7cGdSo"
+  },
+  {
+    "problem": "Subsets II",
+    "link": "subsets-ii/",
+    "video": "Vn2v6ajA7U0"
+  },
+  {
+    "problem": "Combination Sum II",
+    "link": "combination-sum-ii/",
+    "video": "rSA3t6BDDwg"
+  },
+  {
+    "problem": "Permutations II",
+    "link": "permutations-ii/",
+    "video": "qhBVWf0YafA"
+  },
+  {
+    "problem": "Word Search",
+    "link": "word-search/",
+    "video": "pfiQ_PS1g8E"
+  },
+  {
+    "problem": "Palindrome Partitioning",
+    "link": "palindrome-partitioning/",
+    "video": "3jvWodd7ht0"
+  },
+  {
+    "problem": "Restore IP Addresses",
+    "link": "restore-ip-addresses/",
+    "video": "61tN4YEdiTM"
+  },
+  {
+    "problem": "Letter Combinations of a Phone Number",
+    "link": "letter-combinations-of-a-phone-number/",
+    "video": "0snEunUacZY"
+  },
+  {
+    "problem": "Matchsticks to Square",
+    "link": "matchsticks-to-square/",
+    "video": "hUe0cUKV-YY"
+  },
+  {
+    "problem": "Splitting a String Into Descending Consecutive Values",
+    "link": "splitting-a-string-into-descending-consecutive-values/",
+    "video": "eDtMmysldaw"
+  },
+  {
+    "problem": "Find Unique Binary String",
+    "link": "find-unique-binary-string/",
+    "video": "aHqn4Dynd1k"
+  },
+  {
+    "problem": "Maximum Length of a Concatenated String With Unique Characters",
+    "link": "maximum-length-of-a-concatenated-string-with-unique-characters/",
+    "video": "d4SPuvkaeoo"
+  },
+  {
+    "problem": "Partition to K Equal Sum Subsets",
+    "link": "partition-to-k-equal-sum-subsets/",
+    "video": "mBk4I0X46oI"
+  },
+  {
+    "problem": "N Queens",
+    "link": "n-queens/",
+    "video": "Ph95IHmRp5M"
+  },
+  {
+    "problem": "N Queens II",
+    "link": "n-queens-ii/",
+    "video": "nalYyLZgvCY"
+  },
+  {
+    "problem": "Island Perimeter",
+    "link": "island-perimeter/",
+    "video": "fISIuAFRM2s"
+  },
+  {
+    "problem": "Verifying An Alien Dictionary",
+    "link": "verifying-an-alien-dictionary/",
+    "video": "OVgPAJIyX6o"
+  },
+  {
+    "problem": "Number of Islands",
+    "link": "number-of-islands/",
+    "video": "pV2kpPD66nE"
+  },
+  {
+    "problem": "Clone Graph",
+    "link": "clone-graph/",
+    "video": "mQeF6bN8hMk"
+  },
+  {
+    "problem": "Max Area of Island",
+    "link": "max-area-of-island/",
+    "video": "iJGr1OtmH0c"
+  },
+  {
+    "problem": "Count Sub Islands",
+    "link": "count-sub-islands/",
+    "video": "mLpW3qfbNJ8"
+  },
+  {
+    "problem": "Pacific Atlantic Water Flow",
+    "link": "pacific-atlantic-water-flow/",
+    "video": "s-VkcjHqkGI"
+  },
+  {
+    "problem": "Surrounded Regions",
+    "link": "surrounded-regions/",
+    "video": "9z2BunfoZ5Y"
+  },
+  {
+    "problem": "Reorder Routes to Make All Paths Lead to The City Zero",
+    "link": "reorder-routes-to-make-all-paths-lead-to-the-city-zero/",
+    "video": "m17yOR5_PpI"
+  },
+  {
+    "problem": "Rotting Oranges",
+    "link": "rotting-oranges/",
+    "video": "y704fEOx0s0"
+  },
+  {
+    "problem": "Walls And Gates",
+    "link": "walls-and-gates/",
+    "video": "e69C6xhiSQE"
+  },
+  {
+    "problem": "Snakes And Ladders",
+    "link": "snakes-and-ladders/",
+    "video": "6lH4nO3JfLk"
+  },
+  {
+    "problem": "Open The Lock",
+    "link": "open-the-lock/",
+    "video": "Pzg3bCDY87w"
+  },
+  {
+    "problem": "Find Eventual Safe States",
+    "link": "find-eventual-safe-states/",
+    "video": "Re_v0j0CRsg"
+  },
+  {
+    "problem": "Course Schedule",
+    "link": "course-schedule/",
+    "video": "EgI5nU9etnU"
+  },
+  {
+    "problem": "Course Schedule II",
+    "link": "course-schedule-ii/",
+    "video": "Akt3glAwyfY"
+  },
+  {
+    "problem": "Course Schedule IV",
+    "link": "course-schedule-iv/",
+    "video": "cEW05ofxhn0"
+  },
+  {
+    "problem": "Check if Move Is Legal",
+    "link": "check-if-move-is-legal/",
+    "video": "KxK33AcQZpQ"
+  },
+  {
+    "problem": "Shortest Bridge",
+    "link": "shortest-bridge/",
+    "video": "gkINMhbbIbU"
+  },
+  {
+    "problem": "Shortest Path in Binary Matrix",
+    "link": "shortest-path-in-binary-matrix/",
+    "video": "YnxUdAO7TAo"
+  },
+  {
+    "problem": "Redundant Connection",
+    "link": "redundant-connection/",
+    "video": "FXWRE67PLL0"
+  },
+  {
+    "problem": "Number of Connected Components In An Undirected Graph",
+    "link": "number-of-connected-components-in-an-undirected-graph/",
+    "video": "8f1XPm4WOUc"
+  },
+  {
+    "problem": "Graph Valid Tree",
+    "link": "graph-valid-tree/",
+    "video": "bXsUuownnoQ"
+  },
+  {
+    "problem": "Accounts Merge",
+    "link": "accounts-merge/",
+    "video": "6st4IxEF-90"
+  },
+  {
+    "problem": "Find Closest Node to Given Two Nodes",
+    "link": "find-closest-node-to-given-two-nodes/",
+    "video": "AZA8orksO4w"
+  },
+  {
+    "problem": "As Far from Land as Possible",
+    "link": "as-far-from-land-as-possible/",
+    "video": "fjxb1hQfrZk"
+  },
+  {
+    "problem": "Shortest Path with Alternating Colors",
+    "link": "shortest-path-with-alternating-colors/",
+    "video": "69rcy6lb-HQ"
+  },
+  {
+    "problem": "Minimum Fuel Cost to Report to the Capital",
+    "link": "minimum-fuel-cost-to-report-to-the-capital/",
+    "video": "I3lnDUIzIG4"
+  },
+  {
+    "problem": "Minimum Score of a Path Between Two Cities",
+    "link": "minimum-score-of-a-path-between-two-cities/",
+    "video": "K7-mXA0irhY"
+  },
+  {
+    "problem": "Number of Closed Islands",
+    "link": "number-of-closed-islands/",
+    "video": "X8k48xek8g8"
+  },
+  {
+    "problem": "Number of Enclaves",
+    "link": "number-of-enclaves/",
+    "video": "gf0zsh1FIgE"
+  },
+  {
+    "problem": "Minimum Number of Vertices to Reach all Nodes",
+    "link": "minimum-number-of-vertices-to-reach-all-nodes/",
+    "video": "TLzcum7vrTc"
+  },
+  {
+    "problem": "Is Graph Bipartite?",
+    "link": "is-graph-bipartite/",
+    "video": "mev55LTubBY"
+  },
+  {
+    "problem": "Evaluate Division",
+    "link": "evaluate-division/",
+    "video": "Uei1fwDoyKk"
+  },
+  {
+    "problem": "Detonate the Maximum Bombs",
+    "link": "detonate-the-maximum-bombs/",
+    "video": "8NPbAvVXKR4"
+  },
+  {
+    "problem": "Largest Color Value in a Directed Graph",
+    "link": "largest-color-value-in-a-directed-graph/",
+    "video": "xLoDjKczUSk"
+  },
+  {
+    "problem": "Minimum Number of Days to Eat N Oranges",
+    "link": "minimum-number-of-days-to-eat-n-oranges/",
+    "video": "LziQ6Qx9sks"
+  },
+  {
+    "problem": "Word Ladder",
+    "link": "word-ladder/",
+    "video": "h9iTnkgv05E"
+  },
+  {
+    "problem": "Path with Minimum Effort",
+    "link": "path-with-minimum-effort/",
+    "video": "XQlxCCx2vI4"
+  },
+  {
+    "problem": "Reconstruct Itinerary",
+    "link": "reconstruct-itinerary/",
+    "video": "ZyB_gQ8vqGA"
+  },
+  {
+    "problem": "Min Cost to Connect All Points",
+    "link": "min-cost-to-connect-all-points/",
+    "video": "f7JOBJIC-NA"
+  },
+  {
+    "problem": "Network Delay Time",
+    "link": "network-delay-time/",
+    "video": "EaphyqKU4PQ"
+  },
+  {
+    "problem": "Path with Maximum Probability",
+    "link": "path-with-maximum-probability/",
+    "video": "kPsDTGcrzGM"
+  },
+  {
+    "problem": "Swim In Rising Water",
+    "link": "swim-in-rising-water/",
+    "video": "amvrKlMLuGY"
+  },
+  {
+    "problem": "Alien Dictionary",
+    "link": "alien-dictionary/",
+    "video": "6kTZYvNNyps"
+  },
+  {
+    "problem": "Cheapest Flights Within K Stops",
+    "link": "cheapest-flights-within-k-stops/",
+    "video": "5eIK3zUdYmE"
+  },
+  {
+    "problem": "Number of Good Paths",
+    "link": "number-of-good-paths/",
+    "video": "rv2GBYQm7xM"
+  },
+  {
+    "problem": "Remove Max Number of Edges to Keep Graph Fully Traversable",
+    "link": "remove-max-number-of-edges-to-keep-graph-fully-traversable/",
+    "video": "booGwg5wYm4"
+  },
+  {
+    "problem": "Find Critical and Pseudo Critical Edges in Minimum Spanning Tree",
+    "link": "find-critical-and-pseudo-critical-edges-in-minimum-spanning-tree/",
+    "video": "83JnUxrLKJU"
+  },
+  {
+    "problem": "Climbing Stairs",
+    "link": "climbing-stairs/",
+    "video": "Y0lT9Fck7qI"
+  },
+  {
+    "problem": "Min Cost Climbing Stairs",
+    "link": "min-cost-climbing-stairs/",
+    "video": "ktmzAZWkEZ0"
+  },
+  {
+    "problem": "House Robber",
+    "link": "house-robber/",
+    "video": "73r3KWiEvyk"
+  },
+  {
+    "problem": "House Robber II",
+    "link": "house-robber-ii/",
+    "video": "rWAJCfYYOvM"
+  },
+  {
+    "problem": "Longest Palindromic Substring",
+    "link": "longest-palindromic-substring/",
+    "video": "XYQecbcd6_c"
+  },
+  {
+    "problem": "Palindromic Substrings",
+    "link": "palindromic-substrings/",
+    "video": "4RACzI5-du8"
+  },
+  {
+    "problem": "Decode Ways",
+    "link": "decode-ways/",
+    "video": "6aEyTjOwlJU"
+  },
+  {
+    "problem": "Coin Change",
+    "link": "coin-change/",
+    "video": "H9bfqozjoqs"
+  },
+  {
+    "problem": "Maximum Product Subarray",
+    "link": "maximum-product-subarray/",
+    "video": "lXVy6YWFcRM"
+  },
+  {
+    "problem": "Word Break",
+    "link": "word-break/",
+    "video": "Sx9NNgInc3A"
+  },
+  {
+    "problem": "Longest Increasing Subsequence",
+    "link": "longest-increasing-subsequence/",
+    "video": "cjWnW0hdF1Y"
+  },
+  {
+    "problem": "Partition Equal Subset Sum",
+    "link": "partition-equal-subset-sum/",
+    "video": "IsvocB5BJhw"
+  },
+  {
+    "problem": "Triangle",
+    "link": "triangle/",
+    "video": "OM1MTokvxs4"
+  },
+  {
+    "problem": "Delete And Earn",
+    "link": "delete-and-earn/",
+    "video": "7FCemBxvGw0"
+  },
+  {
+    "problem": "Paint House",
+    "link": "paint-house/",
+    "video": "-w67-4tnH5U"
+  },
+  {
+    "problem": "Combination Sum IV",
+    "link": "combination-sum-iv/",
+    "video": "dw2nMCxG0ik"
+  },
+  {
+    "problem": "Perfect Squares",
+    "link": "perfect-squares/",
+    "video": "HLZLwjzIVGo"
+  },
+  {
+    "problem": "Check if There is a Valid Partition For The Array",
+    "link": "check-if-there-is-a-valid-partition-for-the-array/",
+    "video": "OxXPiwWFdTI"
+  },
+  {
+    "problem": "Maximum Subarray Min Product",
+    "link": "maximum-subarray-min-product/",
+    "video": "YLesLbNkyjA"
+  },
+  {
+    "problem": "Minimum Cost For Tickets",
+    "link": "minimum-cost-for-tickets/",
+    "video": "4pY1bsBpIY4"
+  },
+  {
+    "problem": "Integer Break",
+    "link": "integer-break/",
+    "video": "in6QbUPMJ3I"
+  },
+  {
+    "problem": "Number of Longest Increasing Subsequence",
+    "link": "number-of-longest-increasing-subsequence/",
+    "video": "Tuc-rjJbsXU"
+  },
+  {
+    "problem": "Stickers to Spell Word",
+    "link": "stickers-to-spell-word/",
+    "video": "hsomLb6mUdI"
+  },
+  {
+    "problem": "N-th Tribonacci Number",
+    "link": "n-th-tribonacci-number/",
+    "video": "3lpNp5Ojvrw"
+  },
+  {
+    "problem": "Uncrossed Lines",
+    "link": "uncrossed-lines/",
+    "video": "mnJF4vJ7GyE"
+  },
+  {
+    "problem": "Solving Questions With Brainpower",
+    "link": "solving-questions-with-brainpower/",
+    "video": "D7TD_ArkfkA"
+  },
+  {
+    "problem": "Count Ways to Build Good Strings",
+    "link": "count-ways-to-build-good-strings/",
+    "video": "JKpVHG2mhbk"
+  },
+  {
+    "problem": "New 21 Game",
+    "link": "new-21-game/",
+    "video": "zKi4LzjK27k"
+  },
+  {
+    "problem": "Best Team with no Conflicts",
+    "link": "best-team-with-no-conflicts/",
+    "video": "7kURH3btcV4"
+  },
+  {
+    "problem": "Stone Game III",
+    "link": "stone-game-iii/",
+    "video": "HsLG5QW9CFQ"
+  },
+  {
+    "problem": "Concatenated Words",
+    "link": "concatenated-words/",
+    "video": "iHp7fjw1R28"
+  },
+  {
+    "problem": "Maximize Score after N Operations",
+    "link": "maximize-score-after-n-operations/",
+    "video": "RRQVDqp5RSE"
+  },
+  {
+    "problem": "Find the Longest Valid Obstacle Course at Each Position",
+    "link": "find-the-longest-valid-obstacle-course-at-each-position/",
+    "video": "Xq9VT7p0lic"
+  },
+  {
+    "problem": "Count all Valid Pickup and Delivery Options",
+    "link": "count-all-valid-pickup-and-delivery-options/",
+    "video": "OpgslsirW8s"
+  },
+  {
+    "problem": "Unique Paths",
+    "link": "unique-paths/",
+    "video": "IlEsdxuD4lY"
+  },
+  {
+    "problem": "Unique Paths II",
+    "link": "unique-paths-ii/",
+    "video": "d3UOz7zdE4I"
+  },
+  {
+    "problem": "Longest Common Subsequence",
+    "link": "longest-common-subsequence/",
+    "video": "Ua0GhsJSlWM"
+  },
+  {
+    "problem": "Longest Palindromic Subsequence",
+    "link": "longest-palindromic-subsequence/",
+    "video": "bUr8cNWI09Q"
+  },
+  {
+    "problem": "Last Stone Weight II",
+    "link": "last-stone-weight-ii/",
+    "video": "gdXkkmzvR3c"
+  },
+  {
+    "problem": "Best Time to Buy And Sell Stock With Cooldown",
+    "link": "best-time-to-buy-and-sell-stock-with-cooldown/",
+    "video": "I7j0F7AHpb8"
+  },
+  {
+    "problem": "Coin Change II",
+    "link": "coin-change-ii/",
+    "video": "Mjy4hd2xgrs"
+  },
+  {
+    "problem": "Target Sum",
+    "link": "target-sum/",
+    "video": "g0npyaQtAQM"
+  },
+  {
+    "problem": "Interleaving String",
+    "link": "interleaving-string/",
+    "video": "3Rw3p9LrgvE"
+  },
+  {
+    "problem": "Stone Game",
+    "link": "stone-game/",
+    "video": "uhgdXOlGYqE"
+  },
+  {
+    "problem": "Minimum Path Sum",
+    "link": "minimum-path-sum/",
+    "video": "pGMsrvt0fpk"
+  },
+  {
+    "problem": "Longest Increasing Path In a Matrix",
+    "link": "longest-increasing-path-in-a-matrix/",
+    "video": "wCc_nd-GiEc"
+  },
+  {
+    "problem": "Maximal Square",
+    "link": "maximal-square/",
+    "video": "6X7Ha2PrDmM"
+  },
+  {
+    "problem": "Ones and Zeroes",
+    "link": "ones-and-zeroes/",
+    "video": "miZ3qV04b1g"
+  },
+  {
+    "problem": "Maximum Alternating Subsequence Sum",
+    "link": "maximum-alternating-subsequence-sum/",
+    "video": "4v42XOuU1XA"
+  },
+  {
+    "problem": "Distinct Subsequences",
+    "link": "distinct-subsequences/",
+    "video": "-RDzMJ33nx8"
+  },
+  {
+    "problem": "Edit Distance",
+    "link": "edit-distance/",
+    "video": "XYi2-LPrwm4"
+  },
+  {
+    "problem": "Count Vowels Permutation",
+    "link": "count-vowels-permutation/",
+    "video": "VUVpTZVa7Ls"
+  },
+  {
+    "problem": "Burst Balloons",
+    "link": "burst-balloons/",
+    "video": "VFskby7lUbw"
+  },
+  {
+    "problem": "Number of Ways to Rearrange Sticks With K Sticks Visible",
+    "link": "number-of-ways-to-rearrange-sticks-with-k-sticks-visible/",
+    "video": "O761YBjGxGA"
+  },
+  {
+    "problem": "Regular Expression Matching",
+    "link": "regular-expression-matching/",
+    "video": "HAA8mgxlov8"
+  },
+  {
+    "problem": "Stone Game II",
+    "link": "stone-game-ii/",
+    "video": "I-z-u0zfQtg"
+  },
+  {
+    "problem": "Flip String to Monotone Increasing",
+    "link": "flip-string-to-monotone-increasing/",
+    "video": "tMq9z5k3umQ"
+  },
+  {
+    "problem": "Maximum Value of K Coins from Piles",
+    "link": "maximum-value-of-k-coins-from-piles/",
+    "video": "ZRdEd_eun8g"
+  },
+  {
+    "problem": "Number of Music Playlists",
+    "link": "number-of-music-playlists/",
+    "video": "gk4qzZSmyrs"
+  },
+  {
+    "problem": "Number of Ways to Form a Target String Given a Dictionary",
+    "link": "number-of-ways-to-form-a-target-string-given-a-dictionary/",
+    "video": "_GF-0T-YjW8"
+  },
+  {
+    "problem": "Profitable Schemes",
+    "link": "profitable-schemes/",
+    "video": "CcLKQLKvOl8"
+  },
+  {
+    "problem": "Minimum Cost to Cut a Stick",
+    "link": "minimum-cost-to-cut-a-stick/",
+    "video": "EVxTO5I0d7w"
+  },
+  {
+    "problem": "Maximum Subarray",
+    "link": "maximum-subarray/",
+    "video": "5WZl3MMT0Eg"
+  },
+  {
+    "problem": "Maximum Sum Circular Subarray",
+    "link": "maximum-sum-circular-subarray/",
+    "video": "fxT9KjakYPM"
+  },
+  {
+    "problem": "Longest Turbulent Array",
+    "link": "longest-turbulent-subarray/",
+    "video": "V_iHUhR8Dek"
+  },
+  {
+    "problem": "Jump Game",
+    "link": "jump-game/",
+    "video": "Yan0cv2cLy8"
+  },
+  {
+    "problem": "Jump Game II",
+    "link": "jump-game-ii/",
+    "video": "dJ7sWiOoK7g"
+  },
+  {
+    "problem": "Jump Game VII",
+    "link": "jump-game-vii/",
+    "video": "v1HpZUnQ4Yo"
+  },
+  {
+    "problem": "Gas Station",
+    "link": "gas-station/",
+    "video": "lJwbPZGo05A"
+  },
+  {
+    "problem": "Hand of Straights",
+    "link": "hand-of-straights/",
+    "video": "amnrMCVd2YI"
+  },
+  {
+    "problem": "Minimize Maximum of Array",
+    "link": "minimize-maximum-of-array/",
+    "video": "AeHMvcKuR0Y"
+  },
+  {
+    "problem": "Dota2 Senate",
+    "link": "dota2-senate/",
+    "video": "zZA5KskfMuQ"
+  },
+  {
+    "problem": "Maximum Points You Can Obtain From Cards",
+    "link": "maximum-points-you-can-obtain-from-cards/",
+    "video": "TsA4vbtfCvo"
+  },
+  {
+    "problem": "Merge Triplets to Form Target Triplet",
+    "link": "merge-triplets-to-form-target-triplet/",
+    "video": "kShkQLQZ9K4"
+  },
+  {
+    "problem": "Partition Labels",
+    "link": "partition-labels/",
+    "video": "B7m8UmZE-vw"
+  },
+  {
+    "problem": "Valid Parenthesis String",
+    "link": "valid-parenthesis-string/",
+    "video": "QhPdNS143Qg"
+  },
+  {
+    "problem": "Eliminate Maximum Number of Monsters",
+    "link": "eliminate-maximum-number-of-monsters/",
+    "video": "6QQRayzOTD4"
+  },
+  {
+    "problem": "Two City Scheduling",
+    "link": "two-city-scheduling/",
+    "video": "d-B_gk_gJtQ"
+  },
+  {
+    "problem": "Maximum Length of Pair Chain",
+    "link": "maximum-length-of-pair-chain/",
+    "video": "LcNNorqMVTw"
+  },
+  {
+    "problem": "Minimum Deletions to Make Character Frequencies Unique",
+    "link": "minimum-deletions-to-make-character-frequencies-unique/",
+    "video": "h8AZEN49gTc"
+  },
+  {
+    "problem": "Candy",
+    "link": "candy/",
+    "video": "1IzCRCcK17A"
+  },
+  {
+    "problem": "Insert Interval",
+    "link": "insert-interval/",
+    "video": "A8NUOmlwOlM"
+  },
+  {
+    "problem": "Merge Intervals",
+    "link": "merge-intervals/",
+    "video": "44H3cEC2fFM"
+  },
+  {
+    "problem": "Non Overlapping Intervals",
+    "link": "non-overlapping-intervals/",
+    "video": "nONCGxWoUfM"
+  },
+  {
+    "problem": "Meeting Rooms",
+    "link": "meeting-rooms/",
+    "video": "PaJxqZVPhbg"
+  },
+  {
+    "problem": "Meeting Rooms II",
+    "link": "meeting-rooms-ii/",
+    "video": "FdzJmTCVyJU"
+  },
+  {
+    "problem": "Remove Covered Intervals",
+    "link": "remove-covered-intervals/",
+    "video": "nhAsMabiVkM"
+  },
+  {
+    "problem": "Minimum Interval to Include Each Query",
+    "link": "minimum-interval-to-include-each-query/",
+    "video": "5hQ5WWW5awQ"
+  },
+  {
+    "problem": "Data Stream as Disjoint Intervals",
+    "link": "data-stream-as-disjoint-intervals/",
+    "video": "FavoZjPIWpo"
+  },
+  {
+    "problem": "Excel Sheet Column Title",
+    "link": "excel-sheet-column-title/",
+    "video": "X_vJDpCCuoA"
+  },
+  {
+    "problem": "Greatest Common Divisor of Strings",
+    "link": "greatest-common-divisor-of-strings/",
+    "video": "i5I_wrbUdzM"
+  },
+  {
+    "problem": "Count Odd Numbers in an Interval Range",
+    "link": "count-odd-numbers-in-an-interval-range/",
+    "video": "wrIWye928JQ"
+  },
+  {
+    "problem": "Matrix Diagonal Sum",
+    "link": "matrix-diagonal-sum/",
+    "video": "WliTu6gIK7o"
+  },
+  {
+    "problem": "Maximum Points on a Line",
+    "link": "max-points-on-a-line/",
+    "video": "Bb9lOXUOnFw"
+  },
+  {
+    "problem": "Rotate Image",
+    "link": "rotate-image/",
+    "video": "fMSJSS7eO1w"
+  },
+  {
+    "problem": "Spiral Matrix",
+    "link": "spiral-matrix/",
+    "video": "BJnMZNwUk1M"
+  },
+  {
+    "problem": "Spiral Matrix II ",
+    "link": "spiral-matrix-ii/",
+    "video": "RvLrWFBJ9fM"
+  },
+  {
+    "problem": "Set Matrix Zeroes",
+    "link": "set-matrix-zeroes/",
+    "video": "T41rL0L3Pnw"
+  },
+  {
+    "problem": "Happy Number",
+    "link": "happy-number/",
+    "video": "ljz85bxOYJ0"
+  },
+  {
+    "problem": "Plus One",
+    "link": "plus-one/",
+    "video": "jIaA8boiG1s"
+  },
+  {
+    "problem": "Palindrome Number",
+    "link": "palindrome-number/",
+    "video": "yubRKwixN-U"
+  },
+  {
+    "problem": "Ugly Number",
+    "link": "ugly-number/",
+    "video": "M0Zay1Qr9ws"
+  },
+  {
+    "problem": "Shift 2D Grid",
+    "link": "shift-2d-grid/",
+    "video": "nJYFh4Dl-as"
+  },
+  {
+    "problem": "Roman to Integer",
+    "link": "roman-to-integer/",
+    "video": "3jdxYj3DD98"
+  },
+  {
+    "problem": "Integer to Roman",
+    "link": "integer-to-roman/",
+    "video": "ohBNdSJyLh8"
+  },
+  {
+    "problem": "Pow(x, n)",
+    "link": "powx-n/",
+    "video": "g9YQyYi4IQQ"
+  },
+  {
+    "problem": "Multiply Strings",
+    "link": "multiply-strings/",
+    "video": "1vZswirL8Y8"
+  },
+  {
+    "problem": "Detect Squares",
+    "link": "detect-squares/",
+    "video": "bahebearrDc"
+  },
+  {
+    "problem": "Robot Bounded In Circle",
+    "link": "robot-bounded-in-circle/",
+    "video": "nKv2LnC_g6E"
+  },
+  {
+    "problem": "Zigzag Conversion",
+    "link": "zigzag-conversion/",
+    "video": "Q2Tw6gcVEwc"
+  },
+  {
+    "problem": "Find Missing Observations",
+    "link": "find-missing-observations/",
+    "video": "86yKkaNi3sU"
+  },
+  {
+    "problem": "Single Number",
+    "link": "single-number/",
+    "video": "qMPX1AOa83k"
+  },
+  {
+    "problem": "Number of 1 Bits",
+    "link": "number-of-1-bits/",
+    "video": "5Km3utixwZs"
+  },
+  {
+    "problem": "Counting Bits",
+    "link": "counting-bits/",
+    "video": "RyBM56RIWrM"
+  },
+  {
+    "problem": "Reverse Bits",
+    "link": "reverse-bits/",
+    "video": "UcoN6UjAI64"
+  },
+  {
+    "problem": "Missing Number",
+    "link": "missing-number/",
+    "video": "WnPLSRLSANE"
+  },
+  {
+    "problem": "Shuffle the Array",
+    "link": "shuffle-the-array/",
+    "video": "IvIKD_EU8BY"
+  },
+  {
+    "problem": "Add to Array-Form of Integer",
+    "link": "add-to-array-form-of-integer/",
+    "video": "eBTZQt1TWfk"
+  },
+  {
+    "problem": "Sum of Two Integers",
+    "link": "sum-of-two-integers/",
+    "video": "gVUrDV4tZfY"
+  },
+  {
+    "problem": "Reverse Integer",
+    "link": "reverse-integer/",
+    "video": "HAgLH58IgJQ"
+  },
+  {
+    "problem": "Add Binary",
+    "link": "add-binary/",
+    "video": "keuWJ47xG8g"
+  },
+  {
+    "problem": "Create Hello World Function",
+    "link": "create-hello-world-function/",
+    "video": "P9Ldx1eTlRc"
+  },
+  {
+    "problem": "Counter",
+    "link": "counter/",
+    "video": "yEGQQAG5V68"
+  },
+  {
+    "problem": "Counter II",
+    "link": "counter-ii/",
+    "video": "UXNXKGFZD08"
+  },
+  {
+    "problem": "Apply Transform over each Element in Array",
+    "link": "apply-transform-over-each-element-in-array/",
+    "video": "7FhJHA5jlYk"
+  },
+  {
+    "problem": "Filter Elements from Array",
+    "link": "filter-elements-from-array/",
+    "video": "w1o81gbEEJU"
+  },
+  {
+    "problem": "Array Reduce Transformation",
+    "link": "array-reduce-transformation/",
+    "video": "KmTbYfpGxdM"
+  },
+  {
+    "problem": "Function Composition",
+    "link": "function-composition/",
+    "video": "mIFw1H7Ljco"
+  },
+  {
+    "problem": "Allow One Function Call",
+    "link": "allow-one-function-call/",
+    "video": "m_SWhM9iX3s"
+  },
+  {
+    "problem": "Memoize",
+    "link": "memoize/",
+    "video": "oFXyzJt9VeU"
+  },
+  {
+    "problem": "Curry",
+    "link": "curry/",
+    "video": "pi4kqMWQXxA"
+  },
+  {
+    "problem": "Sleep",
+    "link": "sleep/",
+    "video": "P0D9Z6H7O00"
+  },
+  {
+    "problem": "Promise Time Limit",
+    "link": "promise-time-limit/",
+    "video": "hfH57rdZhOk"
+  },
+  {
+    "problem": "Promise Pool",
+    "link": "promise-pool/",
+    "video": "DB8pAAg-9xw"
+  },
+  {
+    "problem": "Cache With Time Limit",
+    "link": "cache-with-time-limit/",
+    "video": "w772gtNK0Gw"
+  },
+  {
+    "problem": "Debounce",
+    "link": "debounce/",
+    "video": "1sxSpnxNx5w"
+  },
+  {
+    "problem": "Throttle",
+    "link": "throttle/",
+    "video": "zyGZV_fIQWk"
+  },
+  {
+    "problem": "JSON Deep Equal",
+    "link": "json-deep-equal/",
+    "video": "4JVZ-mVqJPg"
+  },
+  {
+    "problem": "Convert Object to JSON String",
+    "link": "convert-object-to-json-string/",
+    "video": "f94fUbHU-FY"
+  },
+  {
+    "problem": "Array of Objects to Matrix",
+    "link": "array-of-objects-to-matrix/",
+    "video": "LJwgAMHGcI0"
+  },
+  {
+    "problem": "Difference Between Two Objects",
+    "link": "differences-between-two-objects/",
+    "video": "gH7oZs1WZfg"
+  },
+  {
+    "problem": "Chunk Array",
+    "link": "chunk-array/",
+    "video": "VUN-O3B9ceY"
+  },
+  {
+    "problem": "Flatten Deeply Nested Array",
+    "link": "flatten-deeply-nested-array/",
+    "video": "_DetLPKtFNk"
+  },
+  {
+    "problem": "Array Prototype Last",
+    "link": "array-prototype-last/",
+    "video": "3JdtfMBrUqc"
+  },
+  {
+    "problem": "Group By",
+    "link": "group-by/",
+    "video": "zs9axOyYHRE"
+  },
+  {
+    "problem": "Check if Object Instance of Class",
+    "link": "check-if-object-instance-of-class/",
+    "video": "meIo-Q07Ba8"
+  },
+  {
+    "problem": "Call Function with Custom Context",
+    "link": "call-function-with-custom-context/",
+    "video": "du_GH-Ooa8E"
+  },
+  {
+    "problem": "Event Emitter",
+    "link": "event-emitter/",
+    "video": "M69bjWFarU0"
+  },
+  {
+    "problem": "Array Wrapper",
+    "link": "array-wrapper/",
+    "video": "XoGjPdPTAVA"
+  },
+  {
+    "problem": "Generate Fibonacci Sequence",
+    "link": "generate-fibonacci-sequence/",
+    "video": "T643rQ70Jlk"
+  },
+  {
+    "problem": "Nested Array Generator",
+    "link": "nested-array-generator/",
+    "video": "yo-J1jQaZYU"
+  }
+]

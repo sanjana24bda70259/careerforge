@@ -21,6 +21,11 @@ import placementRoutes from './routes/placement.js';
 import adminRoutes from './routes/admin.js';
 import productRoutes from './routes/product.js';
 import mistakesRoutes from './routes/mistakes.js';
+import learningItemsRoutes from './routes/learningItems.js';
+import workspaceRoutes from './routes/workspace.js';
+import practiceLibraryRoutes from './routes/practiceLibrary.js';
+
+import siteReviewRoutes from './routes/siteReviews.js';
 
 const app = express();
 app.locals.databaseReady = false;
@@ -38,6 +43,7 @@ app.get('/api/health', (_, res) => res.status(app.locals.databaseReady ? 200 : 5
   data: { status: app.locals.databaseReady ? 'ok' : 'degraded' },
   message: app.locals.databaseReady ? 'API and database are available.' : 'API is running, but MongoDB is unavailable.'
 }));
+app.use('/api/site-reviews', requireDatabase, siteReviewRoutes);
 app.use('/api/auth', requireDatabase, authRoutes);
 app.use('/api/profile', requireDatabase, profileRoutes);
 app.use('/api/dashboard', requireDatabase, dashboardRoutes);
@@ -52,6 +58,9 @@ app.use('/api/copilot', requireDatabase, requireAuth, aiRoutes);
 app.use('/api/skills', requireDatabase, requireAuth, skillsRoutes);
 app.use('/api/placement', requireDatabase, requireAuth, placementRoutes);
 app.use('/api/mistakes', requireDatabase, requireAuth, mistakesRoutes);
+app.use('/api/learning-items', requireDatabase, requireAuth, learningItemsRoutes);
+app.use('/api/workspace', requireDatabase, requireAuth, workspaceRoutes);
+app.use('/api/practice-library', requireDatabase, requireAuth, practiceLibraryRoutes);
 app.use('/api/admin', requireDatabase, requireAuth, adminRoutes);
 app.use('/api', requireDatabase, requireAuth, productRoutes);
 app.use('/api', (_, res) => res.status(404).json({ success: false, error: 'Route not found', message: 'The requested API route does not exist.' }));
