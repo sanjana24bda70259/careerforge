@@ -23,6 +23,8 @@ import './aptitude.css';
 import './auth.css';
 import { PracticeLibrary, PracticeTopicPage } from './components/PracticeLibrary.jsx';
 import { HomePage } from './components/HomePage.jsx';
+import { BrandIntro } from './components/BrandIntro.jsx';
+import { OnboardingWizard } from './components/OnboardingWizard.jsx';
 
 const knownSkills = ['Java', 'Arrays', 'Strings', 'HashMap', 'Linked List', 'Binary Search', 'Recursion', 'Trees', 'Graphs', 'Dynamic Programming', 'SQL', 'HTML/CSS'];
 function Layout({ user, children }) { return <WorkspaceLayout user={user}>{children}</WorkspaceLayout>; }
@@ -242,7 +244,8 @@ export default function App() { return <AppRoutes session={useSession()} />; }
 export function AppRoutes({ session }) {
   const { user, setUser, checking, error, retry } = session;
   const location = useLocation();
-  const publicPage = location.pathname === '/' || location.pathname === '/login' || location.pathname === '/register';
+  const publicPage = ['/', '/login', '/register', '/forgot-password', '/reset-password'].includes(location.pathname);
+  const needsOnboarding = user?.onboardingCompleted === false;
 
   if (checking || error) return <main className="session-page"><section className="session-card" aria-live="polite">
     <div className="home-brand"><span>cf<span></span></span>CareerForge.</div>
@@ -250,10 +253,15 @@ export function AppRoutes({ session }) {
     <h1>{checking ? 'Checking your session…' : 'Let’s reconnect.'}</h1>
     {checking ? <p>Opening your preparation space.</p> : <><p role="alert">{error}</p><p>Your saved session is still here. Try again when your connection is ready.</p><Button onClick={() => void retry()}>Try again </Button></>}
   </section></main>;
-  if (publicPage) return user ? <Navigate to="/dashboard" replace /> : <HomePage authMode={location.pathname === '/register' ? 'register' : 'login'} setUser={setUser} />;
-  const secure = Component => <Protected user={user}><Component user={user} /></Protected>;
+  if (publicPage) {
+    if (user) return <Navigate to={needsOnboarding ? '/onboarding' : '/dashboard'} replace />;
+    const home = <HomePage authMode={location.pathname === '/register' ? 'register' : location.pathname === '/forgot-password' ? 'forgot-password' : location.pathname === '/reset-password' ? 'reset-password' : 'login'} setUser={setUser} />;
+    return location.pathname === '/' ? <BrandIntro>{home}</BrandIntro> : home;
+  }
+  if (needsOnboarding && location.pathname !== '/onboarding') return <Navigate to="/onboarding" replace />;
+  const secure = Component => <Protected user={user}><Component user={user} setUser={setUser} /></Protected>;
   return <WorkspaceProvider user={user}>{user && !publicPage && <DailyBriefing userId={user.id} />}<Routes>
-    <Route path="/onboarding" element={<Protected user={user}><Onboarding user={user} setUser={setUser} /></Protected>} />
+    <Route path="/onboarding" element={<Protected user={user}>{needsOnboarding ? <OnboardingWizard user={user} setUser={setUser} /> : <Navigate to="/dashboard" replace />}</Protected>} />
     <Route path="/dashboard" element={secure(Dashboard)} />
     <Route path="/profile" element={secure(ProfilePage)} />
     <Route path="/progress" element={secure(ProgressPage)} />

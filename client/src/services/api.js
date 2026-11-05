@@ -1,7 +1,7 @@
 import { endSession, getToken } from './session.js';
 
 const request = async (path, options = {}) => {
-  const isPublicAuth = path === '/auth/login' || path === '/auth/register';
+  const isPublicAuth = ['/auth/login', '/auth/register', '/auth/forgot-password', '/auth/reset-password'].includes(path);
   const token = isPublicAuth ? null : getToken();
   let response;
   try {
@@ -62,6 +62,8 @@ export const api = {
   reviewLearningItem: (key, recalled) => request(`/learning-items/${encodeURIComponent(key)}/review`, { method: 'POST', body: JSON.stringify({ recalled }) }),
   register: (body) => request('/auth/register', { method: 'POST', body: JSON.stringify(body) }),
   login: (body) => request('/auth/login', { method: 'POST', body: JSON.stringify(body) }),
+  forgotPassword: (body) => request('/auth/forgot-password', { method: 'POST', body: JSON.stringify(body) }),
+  resetPassword: (body) => request('/auth/reset-password', { method: 'POST', body: JSON.stringify(body) }),
   me: () => request('/auth/me'),
   profile: (body) => request('/profile', { method: 'PUT', body: JSON.stringify(body) }),
   dashboard: () => request('/dashboard'),

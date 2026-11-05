@@ -33,6 +33,7 @@ app.use(helmet());
 app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:5173' }));
 app.use(express.json({ limit: '100kb' }));
 app.use('/api', rateLimit({ windowMs: 15 * 60 * 1000, max: 250, standardHeaders: true, legacyHeaders: false }));
+const passwordResetLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 5, standardHeaders: true, legacyHeaders: false, message: { success: false, error: 'Too many reset attempts', message: 'Please wait a few minutes before requesting another reset link.' } });
 app.get('/', (_, res) => res.json({
   success: true,
   data: { service: 'CareerForge API', apiHealth: '/api/health', frontend: process.env.CLIENT_URL || 'http://localhost:5173' },
@@ -44,6 +45,8 @@ app.get('/api/health', (_, res) => res.status(app.locals.databaseReady ? 200 : 5
   message: app.locals.databaseReady ? 'API and database are available.' : 'API is running, but MongoDB is unavailable.'
 }));
 app.use('/api/site-reviews', requireDatabase, siteReviewRoutes);
+app.use('/api/auth/forgot-password', passwordResetLimiter);
+app.use('/api/auth/reset-password', passwordResetLimiter);
 app.use('/api/auth', requireDatabase, authRoutes);
 app.use('/api/profile', requireDatabase, profileRoutes);
 app.use('/api/dashboard', requireDatabase, dashboardRoutes);
@@ -67,10 +70,10 @@ app.use('/api', (_, res) => res.status(404).json({ success: false, error: 'Route
 app.use((error, _, res, __) => {
   console.error(error);
   const malformedJson = error instanceof SyntaxError && 'body' in error;
-  res.status(malformedJson ? 400 : 500).json({
+  res.status(malformedJson ? 400 : error.status || 500).json({
     success: false,
     error: malformedJson ? 'Invalid JSON request body' : 'Internal server error',
-    message: malformedJson ? 'The request body must contain valid JSON.' : 'Something went wrong while processing the request.'
+    message: malformedJson ? 'The request body must contain valid JSON.' : error.status === 503 ? 'Password reset email is temporarily unavailable. Please try again later.' : 'Something went wrong while processing the request.'
   });
 });
 

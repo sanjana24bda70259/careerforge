@@ -9,6 +9,8 @@ const profileSchema = new mongoose.Schema({
   targetRole: { type: String, trim: true, maxlength: 100 },
   preferredLanguage: { type: String, trim: true, maxlength: 50 },
   studyGoal: { type: String, trim: true, maxlength: 240 },
+  experienceLevel: { type: String, trim: true, maxlength: 50 },
+  targetCompanies: [{ type: String, trim: true, maxlength: 80 }],
   weeklyStudyHours: { type: Number, min: 1, max: 80 },
   skills: [{ type: String, trim: true, maxlength: 60 }],
   problemsSolved: { type: Number, default: 0, min: 0 }
@@ -17,7 +19,11 @@ const profileSchema = new mongoose.Schema({
 const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true, lowercase: true, trim: true },
   passwordHash: { type: String, required: true, select: false },
+  passwordResetTokenHash: { type: String, select: false },
+  passwordResetExpiresAt: { type: Date, select: false },
   oauthAccounts: [{ provider: { type: String, enum: ['google', 'github'] }, subject: String }],
+  // Existing accounts remain complete; newly registered users explicitly start as false.
+  onboardingCompleted: { type: Boolean, default: true },
   role: { type: String, enum: ['student', 'admin'], default: 'student' },
   profile: { type: profileSchema, default: () => ({}) }
 }, { timestamps: true });

@@ -7,5 +7,10 @@
     "server": "npm run dev --prefix server",
     "client": "npm run dev --prefix client"
   },
-  "devDependencies": { "concurrently": "^9.1.2" }
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "dependencies": {
+    "nodemailer": "^10.3.1"
+  }
 }
